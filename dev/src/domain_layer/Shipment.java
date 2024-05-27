@@ -24,8 +24,8 @@ public class Shipment {
         this.driver = driver;
         this.driver.assignJob();
     }
-    public void add(Site site) {
-    
+    public void addSite(Site site) {
+
     }
     public int getShipmentId() {
         return shipmentId;
