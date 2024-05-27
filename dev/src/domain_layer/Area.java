@@ -1,11 +1,12 @@
 package domain_layer;
 
 import java.util.List;
+import java.util.Set;
 
 public class Area {
-    private String areaName;
-    private List<Site> sites;
-    public Area(String areaName, List<Site> sites){
+    private final String areaName;
+    private final Set<Site> sites;
+    public Area(String areaName, Set<Site> sites){
         this.areaName = areaName;
         this.sites = sites;
     }
@@ -13,9 +14,7 @@ public class Area {
         return areaName;
     }
     public void addSite(Site s) throws Exception {
-        if(sites.contains(s))
-            sites.add(s);
-        else
+        if(!sites.add(s))
             throw new Exception("The site is already in the area.");
     }
     public boolean contains(Site site){
