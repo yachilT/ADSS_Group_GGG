@@ -28,5 +28,9 @@ public class Driver {
     public void finishJob() {
         available = false;
     }
+
+    public String getName() {
+        return driverName;
+    }
 }
 
