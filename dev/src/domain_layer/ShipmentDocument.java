@@ -1,9 +1,5 @@
 package domain_layer;
 
-import java.sql.Time;
-import java.util.Date;
-import java.util.Map;
-
 public class ShipmentDocument {
     private int id;
     private String shipmentDate;
@@ -21,10 +17,21 @@ public class ShipmentDocument {
 
     public ShipmentDocument(Shipment shipment) {
         this.id = shipment.getShipmentId();
-        this.shipmentDate = shipment.getShipmentDate().toString();
+        this.shipmentDate = shipment.getDepartureDateTime().toString();
         this.departureTime = shipment.getDepartureTime().toString();
         this.truckNumber = shipment.getTruck().getTruckNumber();
         this.driverName = shipment.getDriver().getName();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ShipmentDocument other) {
+            return this.id == other.id;
+        }
+        return false;
+    }
 }

@@ -3,26 +3,26 @@ package domain_layer;
 import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class Shipment {
     private int shipmentId;
-    private Date shipmentDate;
-    private Time departureTime;
-
+    private Date departureDateTime;
     private Truck truck;
     private Driver driver;
     private Map<Site, Float> weights;
     private Map<Site, DestinationDocument> destinations;
-    public Shipment(int shipmentId, Date shipmentDate, Time departureTime, Map<Site, DestinationDocument> destinations, Truck truck, Driver driver){
+    public Shipment(int shipmentId, Date departureDateTime, Map<Site, DestinationDocument> destinations, Truck truck, Driver driver){
         this.shipmentId = shipmentId;
-        this.shipmentDate = shipmentDate;
-        this.departureTime = departureTime;
+        this.departureDateTime = departureDateTime;
         this.weights = new HashMap<>();
         this.destinations = new HashMap<>();
+
         this.truck = truck;
+        this.truck.assignDelivery();
+
         this.driver = driver;
+        this.driver.assignJob();
     }
     public void add(Site site) {
     
@@ -31,13 +31,10 @@ public class Shipment {
         return shipmentId;
     }
 
-    public Date getShipmentDate() {
-        return shipmentDate;
+    public Date getDepartureDateTime() {
+        return departureDateTime;
     }
 
-    public Time getDepartureTime() {
-        return departureTime;
-    }
 
     public Truck getTruck() {
         return truck;
@@ -45,6 +42,5 @@ public class Shipment {
 
     public Driver getDriver() {
         return driver;
->>>>>>> c12eb78be8a793ecbe030537a0031fafbcb4ece3
     }
 }
