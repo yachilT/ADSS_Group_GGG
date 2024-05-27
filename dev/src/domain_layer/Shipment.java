@@ -24,8 +24,8 @@ public class Shipment {
         this.truck = truck;
         this.driver = driver;
     }
-    public void add(Site site) {
-    
+    public void addSite(Site site) {
+
     }
     public int getShipmentId() {
         return shipmentId;
@@ -45,6 +45,5 @@ public class Shipment {
 
     public Driver getDriver() {
         return driver;
->>>>>>> c12eb78be8a793ecbe030537a0031fafbcb4ece3
     }
 }
