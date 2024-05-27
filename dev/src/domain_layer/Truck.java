@@ -31,4 +31,8 @@ public class Truck {
     public void finishDelivery() {
         available = false;
     }
+
+    public int getTruckNumber() {
+        return truckNumber;
+    }
 }

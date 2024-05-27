@@ -7,4 +7,8 @@ public class ProductAmount {
         this.productName = productName;
         this. amount = amount;
     }
+
+    public String getProductName() {
+        return getProductName();
+    }
 }
