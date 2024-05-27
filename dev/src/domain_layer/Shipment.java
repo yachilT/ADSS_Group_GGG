@@ -20,6 +20,6 @@ public class Shipment {
         this.destinations = new HashMap<>();
     }
     public void add(Site site){
-
+        
     }
 }
