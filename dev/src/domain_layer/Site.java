@@ -9,4 +9,16 @@ public class Site {
         this.contactName = contactName;
         this.contactNumber = contactNumber;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
 }
