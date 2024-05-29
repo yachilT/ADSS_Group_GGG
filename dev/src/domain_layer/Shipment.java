@@ -1,28 +1,39 @@
 package domain_layer;
-
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class Shipment {
+    private final List<Destination> destinations;
     private int shipmentId;
-    private Date departureDateTime;
+    private LocalDateTime departureDateTime;
     private Truck truck;
     private Driver driver;
-    private Map<Site, Float> weights;
-    private Map<Site, DestinationDocument> destinations;
-    public Shipment(int shipmentId, Date departureDateTime, Map<Site, DestinationDocument> destinations, Truck truck, Driver driver){
+    public Shipment(int shipmentId, LocalDateTime departureDateTime, List<Destination> destinations, Truck truck, Driver driver){
         this.shipmentId = shipmentId;
         this.departureDateTime = departureDateTime;
-        this.weights = new HashMap<>();
-        this.destinations = new HashMap<>();
+        this.destinations = destinations;
 
         this.truck = truck;
         this.truck.assignDelivery();
 
         this.driver = driver;
         this.driver.assignJob();
+    }
+
+    public void changeTruck(Truck truck) {
+        this.truck.finishDelivery();
+        this.truck = truck;
+        this.truck.assignDelivery();
+    }
+
+    public void removeDestination(int destinationIndex) {
+        if (destinations.size() <= destinationIndex)
+            throw new NoSuchElementException("Couldn't find destination to remove");
+        destinations.remove(destinationIndex);
     }
     public void addSite(Site site) {
 
@@ -31,8 +42,12 @@ public class Shipment {
         return shipmentId;
     }
 
-    public Date getDepartureDateTime() {
+    public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
+    }
+
+    public Destination getCurrentDestination(int currentDstIndex) {
+        return destinations.get(currentDstIndex);
     }
 
 
@@ -42,5 +57,17 @@ public class Shipment {
 
     public Driver getDriver() {
         return driver;
+    }
+
+    public void changeDestination(int indexToChange, Destination dst) {
+        if (destinations.size() <= indexToChange)
+            throw new NoSuchElementException("Couldn't find destination to change");
+        if (destinations.contains(dst))
+            throw new IllegalArgumentException("Destination already exists in the shipment");
+        destinations.set(indexToChange, dst);
+    }
+
+    public void productsToRemain(List<ProductAmount> products, int currentDstIndex) {
+        this.destinations.get(currentDstIndex).getProducts().removeIf(productAmount -> !products.contains(productAmount));
     }
 }

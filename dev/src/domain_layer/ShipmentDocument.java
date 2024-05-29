@@ -1,5 +1,5 @@
 package domain_layer;
-
+import java.time.LocalDateTime;
 public class ShipmentDocument {
     private int id;
     private String shipmentDate;
@@ -17,8 +17,8 @@ public class ShipmentDocument {
 
     public ShipmentDocument(Shipment shipment) {
         this.id = shipment.getShipmentId();
-        this.shipmentDate = shipment.getDepartureDateTime().toString();
-        this.departureTime = shipment.getDepartureTime().toString();
+        this.shipmentDate = shipment.getDepartureDateTime().toLocalDate().toString();
+        this.departureTime = shipment.getDepartureDateTime().toLocalTime().toString();
         this.truckNumber = shipment.getTruck().getTruckNumber();
         this.driverName = shipment.getDriver().getName();
     }
