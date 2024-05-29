@@ -10,9 +10,6 @@ public class Area {
         this.areaName = areaName;
         this.sites = sites;
     }
-    public String getAreaName(){
-        return areaName;
-    }
     public void addSite(Site s) throws Exception {
         if(!sites.add(s))
             throw new Exception("The site is already in the area.");
@@ -20,4 +17,7 @@ public class Area {
     public boolean contains(Site site){
         return sites.contains(site);
     }
+
+    public Set<Site> getSites() { return sites; }
+    public String getAreaName() { return areaName; }
 }

@@ -2,6 +2,7 @@ package domain_layer;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class AreaFacade {
@@ -25,5 +26,14 @@ public class AreaFacade {
             throw new Exception("site already found in an area.");
         area.addSite(site);
         areas.add(area);
+    }
+    public List<Area> getAreas(){
+        return areas.stream().toList();
+    }
+    public List<Site> getSites(){
+        Set<Site> sites = new HashSet<>();
+        for(Area a: areas)
+            sites.addAll(a.getSites());
+        return sites.stream().toList();
     }
 }
