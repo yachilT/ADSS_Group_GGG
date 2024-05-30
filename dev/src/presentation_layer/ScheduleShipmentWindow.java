@@ -1,10 +1,7 @@
 package presentation_layer;
 
 
-import service_layer.AreaToSend;
-import service_layer.DestinationToSend;
-import service_layer.ProductToSend;
-import service_layer.SiteToSend;
+import service_layer.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +17,8 @@ public class ScheduleShipmentWindow extends Window {
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
+        Response response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+        
 
     }
     public void close(){
@@ -35,7 +34,7 @@ public class ScheduleShipmentWindow extends Window {
             int i = 1;
             for (SiteToSend s : sites)
                 System.out.println(i++ + ". " + s.getAdress());
-            int originIndex = scanner.nextInt();
+            int originIndex = scanner.nextInt() - 1;
             origin = (0 <= originIndex & originIndex < sites.size()) ? sites.get(originIndex) : null;
             if(origin == null)
                 invalidError();
@@ -57,8 +56,27 @@ public class ScheduleShipmentWindow extends Window {
         }
         return area;
     }
-    private List<DestinationToSend> chooseDestinations(AreaToSend area,Scanner scanner) {
-
+    private List<DestinationToSend> chooseDestinations(List<SiteToSend> sites,Scanner scanner) {
+        List<DestinationToSend> destinations = new LinkedList<>();
+        int destIndex = -1;
+        while(!(destIndex == 0 | sites.size() == 0)) {
+            int index = 1;
+            System.out.println("Choose destination or enter 0 for exit.");
+            for (SiteToSend s : sites) {
+                System.out.println(index++ + ". " + s.getAdress());
+                destIndex = scanner.nextInt();
+                if(destIndex == 0 | sites.size() == 0)
+                    break;
+                destIndex--;
+                if(destIndex >= sites.size())
+                    invalidError();
+                else{
+                    SiteToSend site = sites.remove(destIndex);
+                    destinations.add(createDestination(site, scanner));
+                }
+            }
+        }
+        return destinations;
     }
     private DestinationToSend createDestination(SiteToSend site, Scanner scanner) {
         List<ProductToSend> products = new LinkedList<>();
@@ -69,13 +87,13 @@ public class ScheduleShipmentWindow extends Window {
             productName = scanner.nextLine();
             System.out.println("Enter Amount of product " + productName);
             productAmount = scanner.nextInt();
-           if(!(productName.equals("X") & productAmount <= 0))
+           if(!(productName.equals("0") & productAmount <= 0))
                products.add(new ProductToSend(productName, productAmount));
            else
             invalidError();
         }
         do{
-            System.out.println("Please enter product or type X for exist");
+            System.out.println("Please enter product or type 0 for exist");
             productName = scanner.nextLine();
             System.out.println("Enter Amount of product " + productName);
             productAmount = scanner.nextInt();
@@ -85,7 +103,7 @@ public class ScheduleShipmentWindow extends Window {
             if(productAmount >= 1)  products.add(new ProductToSend(productName, productAmount));
             else invalidError();
         }
-        while(productName.equals("X"));
+        while(productName.equals("0"));
         return new DestinationToSend(site, products);
     }
     private void invalidError(){
