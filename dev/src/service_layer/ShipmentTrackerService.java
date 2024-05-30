@@ -19,7 +19,7 @@ public class ShipmentTrackerService {
         this.truckFacade = truckFacade;
     }
 
-    public Response trackShipment(int shipmentId){
+    public Response<Object> trackShipment(int shipmentId){
         try {
             shipmentTrackers.add(new ShipmentTracker(shipmentScheduler.getShipment(shipmentId)));
         }
@@ -28,19 +28,19 @@ public class ShipmentTrackerService {
         }
     }
 
-    public Response changeTruck() {
+    public Response<Object> changeTruck() {
 
     }
 
-    public Response removeDestination(SiteToSend site) {
+    public Response<Object> removeDestination(SiteToSend site) {
 
     }
 
-    public Response changeDestination(SiteToSend oldSite, SiteToSend newSite) {
+    public Response<Object> changeDestination(SiteToSend oldSite, SiteToSend newSite) {
 
     }
 
-    public Response productsToRemain(List<ProductToSend> remainingProducts) {
+    public Response<Object> productsToRemain(List<ProductToSend> remainingProducts) {
 
     }
 
