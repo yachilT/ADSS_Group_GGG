@@ -6,7 +6,7 @@ import java.util.List;
 public class TruckFacade {
     private final List<Truck> trucks;
 
-    private TruckFacade() {
+    public TruckFacade() {
         trucks = new ArrayList<>();
     }
 

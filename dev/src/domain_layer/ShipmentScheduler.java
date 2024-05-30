@@ -11,8 +11,7 @@ public class ShipmentScheduler {
     private AreaFacade areaFacade;
     private final DriverFacade driverFacade;
     private final TruckFacade truckFacade;
-    public ShipmentScheduler(AreaFacade areaFacade, DriverFacade driverFacade, TruckFacade truckFacade){
-        this.areaFacade = areaFacade;
+    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade){
         this.driverFacade = driverFacade;
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();

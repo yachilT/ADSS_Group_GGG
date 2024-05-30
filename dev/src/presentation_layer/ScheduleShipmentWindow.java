@@ -17,9 +17,14 @@ public class ScheduleShipmentWindow extends Window {
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
-        Response response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
-        
-
+        Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+        if(response.isError()) {
+            System.out.println(response.getErrorMessage());
+            return new MainMenuWindow();
+        }
+        else{
+            return new ShipmentTrackerWindow(response.getObject());
+        }
     }
     public void close(){
 
