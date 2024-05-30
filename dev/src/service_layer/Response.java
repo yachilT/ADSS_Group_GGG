@@ -1,6 +1,6 @@
 package service_layer;
 
-public class Response<T> {
+public class  Response<T> {
     T object;
     String errorMessage;
 
