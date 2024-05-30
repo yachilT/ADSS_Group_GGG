@@ -7,6 +7,7 @@ import domain_layer.Site;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class ShipmentSchedulerService {
@@ -18,28 +19,28 @@ public class ShipmentSchedulerService {
         this.areaFacade = areaFacade;
     }
 
-    public void scheduleShipment(SiteToSend originToSend, List<DestinationToSend> sitesToSend) {
+    public Response<Integer> scheduleShipment(SiteToSend originToSend, List<DestinationToSend> sitesToSend) {
         List<Site> originList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(originToSend.getAdress())).toList();
         if (originList.size() != 1) {
-            // return Error
+            return new Response<>("Error: Origin not found");
         }
 
         List<Destination> dsts = new ArrayList<>();
         for (DestinationToSend dst : sitesToSend) {
             List<Site> dstList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(dst.getAdress())).toList();
             if (dstList.size() != 1) {
-                // return Error
+                return new Response<>("Error: Destination not found");
             }
             dsts.add(new Destination(dstList.get(0), dst.getProducts().stream().map(ProductToSend::toProductAmount).toList()));
         }
 
 
         try {
-            shipmentScheduler.scheduleShipment(originList.get(0), dsts);
-        } catch (Exception e) {
-
+            return new shipmentScheduler.scheduleShipment(originList.get(0), dsts);
+        } catch (NoSuchElementException e) {
+            return new Response<>("Error: " + e.getMessage());
         }
-
+        return new Response<>();
     }
 
 }
