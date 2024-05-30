@@ -8,8 +8,8 @@ public class ShipmentTracker {
 
     private int currentDstIndex;
 
-    public ShipmentTracker(Shipment shipment) {
-        this.shipment = shipment;
+    public ShipmentTracker(int shipmentId, ShipmentScheduler scheduler) {
+        this.shipment = scheduler.getShipment(shipmentId);
     }
 
     public void changeTruck(TruckFacade truckFacade) throws NoSuchElementException {

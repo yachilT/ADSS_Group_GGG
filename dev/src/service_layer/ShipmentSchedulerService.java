@@ -36,11 +36,9 @@ public class ShipmentSchedulerService {
 
 
         try {
-            return new shipmentScheduler.scheduleShipment(originList.get(0), dsts);
+            return new Response<>(shipmentScheduler.scheduleShipment(originList.get(0), dsts));
         } catch (NoSuchElementException e) {
             return new Response<>("Error: " + e.getMessage());
         }
-        return new Response<>();
     }
-
 }

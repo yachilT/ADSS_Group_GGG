@@ -17,11 +17,13 @@ public class ShipmentScheduler {
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
     }
-    public Shipment scheduleShipment(Site origin, List<Destination> destinations) throws NoSuchElementException {
+    public int scheduleShipment(Site origin, List<Destination> destinations) throws NoSuchElementException {
         Pair<Driver, Truck> pair = findTruckAndDriver();
         Driver driver = pair.first;
         Truck truck = pair.second;
-        return new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver);
+        Shipment shipment = new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver);
+        this.shipments.add(shipment);
+        return shipment.getShipmentId();
     }
     private Pair<Driver,Truck> findTruckAndDriver() throws  NoSuchElementException{
         for(Truck truck : truckFacade.getAvailableTrucks()){
@@ -32,6 +34,11 @@ public class ShipmentScheduler {
         }
         throw new NoSuchElementException("No trucks and driver available.");
     }
+
+    public Shipment getShipment(int shipmentId) {
+        return shipments.stream().filter(s -> s.getShipmentId() == shipmentId).findFirst().orElseThrow(NoSuchElementException::new);
+    }
+
     private class Pair<D,B> {
         D first;
         B second;
