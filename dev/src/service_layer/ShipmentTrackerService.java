@@ -47,7 +47,10 @@ public class ShipmentTrackerService {
     }
 
     public Response<Boolean> hasNext(int shipmentId) {
-        shipmentTrackers.getOrDefault()
+        shipmentTrackers.getOrDefault();
+    }
+    public Response<String> updateWeight(int shipmentId, float newWeight) {
+        return null;
     }
 
 
