@@ -1,5 +1,6 @@
 package service_layer;
 
+import domain_layer.ProductAmount;
 import domain_layer.Site;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public class DestinationToSend extends SiteToSend {
     }
 
 
+    public List<ProductToSend> getProducts() {
+        return products;
+    }
 }

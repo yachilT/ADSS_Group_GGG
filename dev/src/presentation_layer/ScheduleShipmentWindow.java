@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class ScheduleShipmentWindow extends Window
+public class ScheduleShipmentWindow extends Window {
     public ScheduleShipmentWindow(){
         super();
     }

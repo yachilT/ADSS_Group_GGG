@@ -7,14 +7,17 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Shipment {
+    private final Site origin;
     private final List<Destination> destinations;
     private int shipmentId;
     private LocalDateTime departureDateTime;
     private Truck truck;
     private Driver driver;
-    public Shipment(int shipmentId, LocalDateTime departureDateTime, List<Destination> destinations, Truck truck, Driver driver){
+    public Shipment(int shipmentId, LocalDateTime departureDateTime, Site origin, List<Destination> destinations, Truck truck, Driver driver){
         this.shipmentId = shipmentId;
         this.departureDateTime = departureDateTime;
+
+        this.origin = origin;
         this.destinations = destinations;
 
         this.truck = truck;
@@ -34,9 +37,6 @@ public class Shipment {
         if (destinations.size() <= destinationIndex)
             throw new NoSuchElementException("Couldn't find destination to remove");
         destinations.remove(destinationIndex);
-    }
-    public void addSite(Site site) {
-
     }
     public int getShipmentId() {
         return shipmentId;

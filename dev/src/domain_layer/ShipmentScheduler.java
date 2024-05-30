@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class ShipmentScheduler {
     int shipmentIds;
@@ -16,20 +17,20 @@ public class ShipmentScheduler {
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
     }
-    public Shipment scheduleShipment(List<Destination> destinations) throws Exception {
+    public Shipment scheduleShipment(Site origin, List<Destination> destinations) throws NoSuchElementException {
         Pair<Driver, Truck> pair = findTruckAndDriver();
         Driver driver = pair.first;
         Truck truck = pair.second;
-        return new Shipment(shipmentIds++, LocalDateTime.now(), destinations, truck, driver);
+        return new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver);
     }
-    private Pair<Driver,Truck> findTruckAndDriver() throws  Exception{
+    private Pair<Driver,Truck> findTruckAndDriver() throws  NoSuchElementException{
         for(Truck truck : truckFacade.getAvailableTrucks()){
             for(Driver driver : driverFacade.getAvailableDrivers()){
                 if(truck.isCompatible(driver))
                     return new Pair<>(driver, truck);
             }
         }
-        throw new Exception("No trucks and driver available.");
+        throw new NoSuchElementException("No trucks and driver available.");
     }
     private class Pair<D,B> {
         D first;
