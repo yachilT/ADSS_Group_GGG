@@ -26,8 +26,4 @@ public class AreaService {
         return sites;
 
     }
-
-    public List<SiteToSend> getSitesOf(AreaToSend area) {
-
-    }
 }

@@ -19,6 +19,6 @@ public class AreaToSend {
     }
 
     public List<SiteToSend> getSites() {
-        return sites;
+        return sites.stream().toList();
     }
 }
