@@ -4,24 +4,21 @@ import domain_layer.ShipmentScheduler;
 import domain_layer.ShipmentTracker;
 import domain_layer.TruckFacade;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ShipmentTrackerService {
-    private List<ShipmentTracker> shipmentTrackers;
+    private Map<Integer, ShipmentTracker> shipmentTrackers;
     private ShipmentScheduler shipmentScheduler;
     private TruckFacade truckFacade;
     public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade){
         this.shipmentScheduler = scheduler;
-        this.shipmentTrackers = new ArrayList<>();
+        this.shipmentTrackers = new HashMap<>();
         this.truckFacade = truckFacade;
     }
 
     public Response<Object> trackShipment(int shipmentId){
         try {
-            shipmentTrackers.add(new ShipmentTracker(shipmentScheduler.getShipment(shipmentId)));
+            shipmentTrackers.put(shipmentId, new ShipmentTracker(shipmentScheduler.getShipment(shipmentId)));
             return new Response<>();
         }
         catch (NoSuchElementException e){
@@ -46,7 +43,11 @@ public class ShipmentTrackerService {
     }
 
     public Response<DestinationToSend> nextDestination(int shipmentId) {
-        
+        shipmentTrackers.
+    }
+
+    public Response<Boolean> hasNext(int shipmentId) {
+        shipmentTrackers.getOrDefault()
     }
 
 
