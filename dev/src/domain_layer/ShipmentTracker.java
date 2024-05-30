@@ -1,9 +1,10 @@
 package domain_layer;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class ShipmentTracker {
+public class ShipmentTracker implements Iterator<Destination> {
     private Shipment shipment;
 
     private int currentDstIndex;
@@ -33,4 +34,13 @@ public class ShipmentTracker {
     }
 
 
+    @Override
+    public boolean hasNext() {
+        return currentDstIndex < shipment.getDestinationsSize();
+    }
+
+    @Override
+    public Destination next() {
+        return shipment.getCurrentDestination(currentDstIndex++);
+    }
 }

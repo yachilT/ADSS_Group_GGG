@@ -22,9 +22,10 @@ public class ShipmentTrackerService {
     public Response<Object> trackShipment(int shipmentId){
         try {
             shipmentTrackers.add(new ShipmentTracker(shipmentScheduler.getShipment(shipmentId)));
+            return new Response<>();
         }
         catch (NoSuchElementException e){
-            //return response error
+            return
         }
     }
 
@@ -42,6 +43,10 @@ public class ShipmentTrackerService {
 
     public Response<Object> productsToRemain(List<ProductToSend> remainingProducts) {
 
+    }
+
+    public Response<DestinationToSend> nextDestination(int shipmentId) {
+        
     }
 
 

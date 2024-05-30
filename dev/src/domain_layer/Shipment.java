@@ -1,10 +1,7 @@
 package domain_layer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Shipment {
     private final Site origin;
@@ -69,5 +66,9 @@ public class Shipment {
 
     public void productsToRemain(List<ProductAmount> products, int currentDstIndex) {
         this.destinations.get(currentDstIndex).getProducts().removeIf(productAmount -> !products.contains(productAmount));
+    }
+
+    public int getDestinationsSize() {
+        return destinations.size();
     }
 }
