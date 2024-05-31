@@ -1,7 +1,7 @@
-package DomainLayer.Barnches;
+package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
 
 public enum PartOfDay {
     Morning,
-    noon,
+    Noon,
     Evening
 }

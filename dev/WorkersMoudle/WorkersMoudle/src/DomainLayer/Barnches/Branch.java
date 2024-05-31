@@ -1,9 +1,15 @@
-package DomainLayer.Barnches;
+package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
 
-import DomainLayer.Employees.Employee;
 import DomainLayer.Pair;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees.Employee;
 
-import java.util.*;
+
+
+
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Branch {
     int id;
@@ -48,7 +54,7 @@ public class Branch {
         }
     }
 
-    public void addEmployeeToShift(Employee employee, Pair<DayOfTheWeek,PartOfDay> key) throws Exception {
+    public void addEmployeeToShift(Employee employee, Pair<DayOfTheWeek, PartOfDay> key) throws Exception {
         if(employee == null ){
             throw new Exception("Employee is null");
         }//also check if the key is legal!

@@ -1,9 +1,11 @@
 package WorkersMoudle.WorkersMoudle.src.ServiceLayer.EmployeeServices;
 
 
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees.EmployeeController;
 import WorkersMoudle.WorkersMoudle.src.Pair;
 
-import java.time.DayOfWeek;
 
 import java.util.List;
 
@@ -11,28 +13,53 @@ import java.util.List;
 
 public class EmployeeService {
 
+    private EmployeeController employeeController;
+
     // Method to sign up a new employee
-    public void signUp(Long id, String password) {
+    public void signUp(Integer id, String password) {
         // Implementation goes here
     }
 
     // Method to log in an existing employee
-    public void login(Long id, String password) {
-        // Implementation goes here
+    public void login(Integer id, String password) {
+        try {
+            employeeController.login(id, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to log out an existing employee
+    public void logout(Integer id) {
+        try {
+            employeeController.logout(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Method to enter time out for an employee
-    public void enterTimeOut(Long id, List<Pair<DayOfWeek, Integer>> times) {
+    public void enterTimeOut(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> times) {
         // Implementation goes here
+        try {
+            employeeController.enterTimeOut(id, times);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Method to exchange shifts between two employees
-    public void exchangeShift(Long id1, Long id2, Long shiftId) {
+    public void exchangeShift(Integer id1, Integer id2, Integer shiftId) {
         // Implementation goes here
     }
 
     // Method to enter shift preferences for an employee
-    public void enterPreferences(Long id, List<Long> shiftPreferences) {
-        // Implementation goes here
+    public void enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) {
+        try {
+            employeeController.enterPreferences(id, shiftPreferences);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
