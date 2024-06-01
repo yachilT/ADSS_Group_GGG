@@ -11,4 +11,8 @@ public class ProductAmount {
     public String getProductName() {
         return getProductName();
     }
+
+    public int getAmount() {
+        return amount;
+    }
 }

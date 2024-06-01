@@ -41,11 +41,21 @@ public class Destination {
         return weight;
     }
 
+    public void setWeight(float weight) {
+        if (this.weight != -1) throw new IllegalStateException("Weight already set.");
+        if (weight < 0) throw new IllegalArgumentException("Weight must be negative.");
+        this.weight = weight;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Destination other) {
             return this.site.equals(other.site) && other.products.equals(this.products);
         }
         return false;
+    }
+
+    public Site getSite() {
+        return site;
     }
 }

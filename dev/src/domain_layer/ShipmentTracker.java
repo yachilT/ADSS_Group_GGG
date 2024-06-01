@@ -13,11 +13,12 @@ public class ShipmentTracker implements Iterator<Destination> {
         this.shipment = shipment;
     }
 
-    public void changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
+    public Truck changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
         List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver()) && t.isOverweight(shipment.getCurrentDestination(currentDstIndex).getWeight())).toList();
         if (relevantTrucks.isEmpty())
                 throw new NoSuchElementException("No relevant trucks available.");
         shipment.changeTruck(relevantTrucks.get(0));
+        return shipment.getTruck();
     }
 
     public void removeDestination() {
@@ -36,11 +37,15 @@ public class ShipmentTracker implements Iterator<Destination> {
 
     @Override
     public boolean hasNext() {
-        return currentDstIndex < shipment.getDestinationsSize();
+        return currentDstIndex + 1 < shipment.getDestinationsSize();
     }
 
     @Override
     public Destination next() {
-        return shipment.getCurrentDestination(currentDstIndex++);
+        return shipment.getCurrentDestination(++currentDstIndex);
+    }
+
+    public Destination getCurrentDestination() {
+        return shipment.getCurrentDestination(currentDstIndex);
     }
 }

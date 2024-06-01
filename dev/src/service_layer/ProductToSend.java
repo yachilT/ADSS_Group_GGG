@@ -10,6 +10,11 @@ public class ProductToSend {
         this.amount = amount;
     }
 
+    public ProductToSend(ProductAmount productAmount){
+        this.productName = productAmount.getProductName();
+        this.amount = productAmount.getAmount();
+    }
+
     public ProductAmount toProductAmount(){
         return new ProductAmount(productName, amount);
     }

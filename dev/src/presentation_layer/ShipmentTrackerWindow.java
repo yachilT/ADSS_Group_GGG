@@ -14,7 +14,7 @@ public class ShipmentTrackerWindow extends Window {
     @Override
     public Window run(Controller controller) {
         controller.shipmentTrackerService.trackShipment(shipmentId);
-        Response<Boolean> hasNext = controller.shipmentTrackerService.hasNext();
+        Response<Boolean> hasNext = controller.shipmentTrackerService.hasNext(shipmentId);
         while(!hasNext.isError() && hasNext.getObject()) {
             Response<DestinationToSend> response;
             if((response = controller.shipmentTrackerService.nextDestination(shipmentId)).isError()){

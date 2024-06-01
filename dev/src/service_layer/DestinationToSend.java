@@ -1,5 +1,6 @@
 package service_layer;
 
+import domain_layer.Destination;
 import domain_layer.ProductAmount;
 import domain_layer.Site;
 
@@ -13,8 +14,17 @@ public class DestinationToSend extends SiteToSend {
         this.products = products;
     }
 
+    public DestinationToSend(Destination dst) {
+        super(dst.getSite());
+        this.products = dst.getProducts().stream().map(ProductToSend::new).toList();
+    }
+
 
     public List<ProductToSend> getProducts() {
         return products;
+    }
+
+    public Destination toDestination() {
+        return null;
     }
 }

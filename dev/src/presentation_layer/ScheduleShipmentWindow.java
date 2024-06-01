@@ -16,6 +16,7 @@ public class ScheduleShipmentWindow extends Window {
     public Window run(Controller controller){
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
+
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
         if(response.isError()) {
@@ -53,7 +54,7 @@ public class ScheduleShipmentWindow extends Window {
             int i = 1;
             for(AreaToSend a: areas)
                 System.out.println(i++ + ". " + a.getAreaName());
-            int areaIndex = scanner.nextInt();
+            int areaIndex = scanner.nextInt() - 1;
             area = (0 <= areaIndex & areaIndex < areas.size()) ? areas.get(areaIndex) : null;
             if(area == null)
                 invalidError();

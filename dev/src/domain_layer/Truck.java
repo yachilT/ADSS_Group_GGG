@@ -35,4 +35,16 @@ public class Truck {
     public int getTruckNumber() {
         return truckNumber;
     }
+
+    public String getModel() {
+        return model;
+    }
+
+    public float getEmptyWeight() {
+        return emptyWeight;
+    }
+
+    public float getMaxWeight() {
+        return maxWeight;
+    }
 }

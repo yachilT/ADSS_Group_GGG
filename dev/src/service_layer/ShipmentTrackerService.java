@@ -1,5 +1,6 @@
 package service_layer;
 
+import domain_layer.Destination;
 import domain_layer.ShipmentScheduler;
 import domain_layer.ShipmentTracker;
 import domain_layer.TruckFacade;
@@ -22,36 +23,82 @@ public class ShipmentTrackerService {
             return new Response<>();
         }
         catch (NoSuchElementException e){
-            return
+            return new Response<>(e.getMessage());
         }
     }
 
-    public Response<Object> changeTruck() {
-
-    }
-
-    public Response<Object> removeDestination(SiteToSend site) {
-
-    }
-
-    public Response<Object> changeDestination(SiteToSend oldSite, SiteToSend newSite) {
-
-    }
-
-    public Response<Object> productsToRemain(List<ProductToSend> remainingProducts) {
-
-    }
-
     public Response<DestinationToSend> nextDestination(int shipmentId) {
-        shipmentTrackers.
+
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        if (!tracker.hasNext()) {
+            return new Response<>("Error: No more destinations");
+        }
+
+        return new Response<>(new DestinationToSend(tracker.next()));
     }
 
     public Response<Boolean> hasNext(int shipmentId) {
-        shipmentTrackers.getOrDefault();
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        return new Response<>(tracker.hasNext());
     }
     public Response<String> updateWeight(int shipmentId, float newWeight) {
-        return null;
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        tracker.getCurrentDestination().setWeight(newWeight);
+        return new Response<>();
     }
+
+    public Response<TruckToSend> changeTruck(int shipmentId) {
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        try {
+            return new Response<>(new TruckToSend(tracker.changeTruck(truckFacade)));
+        }
+        catch (NoSuchElementException e){
+            return new Response<>(e.getMessage());
+        }
+    }
+
+    public Response<Object> removeDestination(int shipmentId) {
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        tracker.removeDestination();
+        return new Response<>();
+
+    }
+
+    public Response<Object> changeDestination(int shipmentId, DestinationToSend newDst) {
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+
+        tracker.ChangeDestination(newDst.toDestination());
+        return new Response<>();
+    }
+
+    public Response<Object> productsToRemain(int shipmentId, List<ProductToSend> remainingProducts) {
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+
+        tracker.productsToRemain(remainingProducts.stream().map(ProductToSend::toProductAmount).toList());
+        return new Response<>();
+    }
+
 
 
 }
