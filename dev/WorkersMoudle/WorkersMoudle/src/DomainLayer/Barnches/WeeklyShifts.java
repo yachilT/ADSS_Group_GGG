@@ -1,8 +1,8 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
+package DomainLayer.Barnches;
 
 import DomainLayer.Pair;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
+
+import java.util.*;
 
 import java.util.*;
 

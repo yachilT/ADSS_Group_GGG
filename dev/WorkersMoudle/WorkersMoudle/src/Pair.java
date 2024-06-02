@@ -1,4 +1,3 @@
-package WorkersMoudle.WorkersMoudle.src;
 
 public class Pair<K, V> {
     private final K key;

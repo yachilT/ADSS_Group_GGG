@@ -1,8 +1,8 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
+package DomainLayer.Barnches;
 
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees.Employee;
 
 import java.util.ArrayList;
 import java.util.List;

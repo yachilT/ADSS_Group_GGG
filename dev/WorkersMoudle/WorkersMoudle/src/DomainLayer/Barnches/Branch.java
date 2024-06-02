@@ -1,7 +1,7 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
+package DomainLayer.Barnches;
 
+import DomainLayer.Employees.Employee;
 import DomainLayer.Pair;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees.Employee;
 
 
 

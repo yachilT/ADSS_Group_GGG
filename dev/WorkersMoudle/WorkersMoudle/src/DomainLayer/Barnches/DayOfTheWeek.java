@@ -1,4 +1,4 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
+package DomainLayer.Barnches;
 
 public enum DayOfTheWeek {
     Sunday,

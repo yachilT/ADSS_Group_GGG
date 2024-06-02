@@ -1,4 +1,4 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer.HRManegerServices;
+package ServiceLayer.HRManegerServices;
 
 import java.util.Date;
 import java.util.List;

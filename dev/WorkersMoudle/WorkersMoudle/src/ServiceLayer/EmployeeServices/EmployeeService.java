@@ -1,10 +1,10 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer.EmployeeServices;
+package ServiceLayer.EmployeeServices;
 
 
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees.EmployeeController;
-import WorkersMoudle.WorkersMoudle.src.Pair;
+import DomainLayer.Barnches.DayOfTheWeek;
+import DomainLayer.Barnches.PartOfDay;
+import DomainLayer.Employees.EmployeeController;
+import DomainLayer.Pair;
 
 
 import java.util.List;

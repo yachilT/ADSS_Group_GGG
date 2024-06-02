@@ -1,6 +1,6 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer.BranchManegerServices;
+package ServiceLayer.BranchManegerServices;
 
-import WorkersMoudle.WorkersMoudle.src.ServiceLayer.EmployeeServices.EmployeeToSend;
+import ServiceLayer.EmployeeServices.EmployeeToSend;
 
 import java.util.Date;
 import java.util.List;

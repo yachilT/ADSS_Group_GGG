@@ -1,13 +1,13 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees;
+package DomainLayer.Employees;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import DomainLayer.Employees.Role;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
-import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.Shift;
-import WorkersMoudle.WorkersMoudle.src.Pair;
+import DomainLayer.Barnches.DayOfTheWeek;
+import DomainLayer.Barnches.PartOfDay;
+import DomainLayer.Barnches.Shift;
+import DomainLayer.Pair;
 
 public class Employee {
 

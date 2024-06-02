@@ -1,4 +1,4 @@
-package WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees;
+package DomainLayer.Employees;
 
 public class BranchManager extends Employee {
 }

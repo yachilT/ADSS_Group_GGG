@@ -1,7 +1,7 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer;
+package ServiceLayer;
 
-import WorkersMoudle.WorkersMoudle.src.ServiceLayer.EmployeeServices.EmployeeService;
-import WorkersMoudle.WorkersMoudle.src.ServiceLayer.HRManegerServices.HRManagerService;
+import ServiceLayer.EmployeeServices.EmployeeService;
+import ServiceLayer.HRManegerServices.HRManagerService;
 import WorkersMoudle.WorkersMoudle.src.ServiceLayer.BranchManegerServices.BranchManagerService;
 
 public class ServiceManager {

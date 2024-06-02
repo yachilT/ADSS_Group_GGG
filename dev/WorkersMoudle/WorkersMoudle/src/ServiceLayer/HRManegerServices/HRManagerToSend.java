@@ -1,4 +1,4 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer.HRManegerServices;
+package ServiceLayer.HRManegerServices;
 
 import WorkersMoudle.WorkersMoudle.src.ServiceLayer.BranchManegerServices.BranchManagerToSend;
 

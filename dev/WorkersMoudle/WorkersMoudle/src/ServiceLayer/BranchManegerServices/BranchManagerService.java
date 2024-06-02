@@ -1,6 +1,6 @@
-package WorkersMoudle.WorkersMoudle.src.ServiceLayer.BranchManegerServices;
+package ServiceLayer.BranchManegerServices;
 
-import WorkersMoudle.WorkersMoudle.src.Pair;
+import DomainLayer.Pair;
 
 import java.util.Date;
 import java.util.List;
