@@ -10,6 +10,7 @@ public class DestinationDocument {
     final private String contactName;
     final private String contactNumber;
     private List<ProductAmount> products;
+
     public DestinationDocument(Destination dst, int destinationDocId, int shipmentDocumentId) {
         this.destinationDocId = destinationDocId;
         this.shipmentDocumentId = shipmentDocumentId;

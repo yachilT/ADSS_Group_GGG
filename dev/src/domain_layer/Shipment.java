@@ -71,4 +71,5 @@ public class Shipment {
     public int getDestinationsSize() {
         return destinations.size();
     }
+
 }

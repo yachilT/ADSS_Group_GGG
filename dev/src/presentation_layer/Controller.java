@@ -10,6 +10,7 @@ public class Controller {
     public AreaService areaService;
     public ShipmentSchedulerService shipmentSchedulerService;
     public ShipmentTrackerService shipmentTrackerService;
+    public ShipmentHistoryService shipmentHistoryService;
     public Controller(){
         scanner = new Scanner(System.in);
 
