@@ -12,7 +12,7 @@ public class MainMenuWindow extends Window{
         open = true;
         while(open){
             System.out.println("Main Menu:\n" + "1 - Schedule shipment.\n" + "2 - Show shipment's history.\n" + "0 - Exist");
-            String input = scanner.nextLine();
+            String input = scanner.next();
             switch(input){
                 case "1":
                     return new ScheduleShipmentWindow();

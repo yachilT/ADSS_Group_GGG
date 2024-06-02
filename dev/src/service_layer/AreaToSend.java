@@ -2,6 +2,7 @@ package service_layer;
 import domain_layer.Area;
 import domain_layer.Site;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,6 @@ public class AreaToSend {
     }
 
     public List<SiteToSend> getSites() {
-        return sites.stream().toList();
+        return new ArrayList<>(sites);
     }
 }

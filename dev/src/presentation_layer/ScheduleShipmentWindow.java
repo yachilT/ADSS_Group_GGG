@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 
 public class ScheduleShipmentWindow extends Window {
@@ -19,6 +20,7 @@ public class ScheduleShipmentWindow extends Window {
 
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+
         if(response.isError()) {
             System.out.println(response.getErrorMessage());
             return new MainMenuWindow();
@@ -66,50 +68,38 @@ public class ScheduleShipmentWindow extends Window {
         List<DestinationToSend> destinations = new LinkedList<>();
         int destIndex = -1;
         while(!(destIndex == 0 | sites.size() == 0)) {
-            int index = 1;
             System.out.println("Choose destination or enter 0 for exit.");
-            for (SiteToSend s : sites) {
-                System.out.println(index++ + ". " + s.getAdress());
-                destIndex = scanner.nextInt();
-                if(destIndex == 0 | sites.size() == 0)
-                    break;
-                destIndex--;
-                if(destIndex >= sites.size())
-                    invalidError();
-                else{
-                    SiteToSend site = sites.remove(destIndex);
-                    destinations.add(createDestination(site, scanner));
-                }
-            }
+            IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + s.getAdress()));
+            destIndex = scanner.nextInt();
+            if(destIndex-- == 0 | sites.size() == 0) break;
+
+            if(destIndex >= sites.size())
+                invalidError();
+            else
+                destinations.add(createDestination(sites.remove(destIndex), scanner));
         }
         return destinations;
     }
+
     private DestinationToSend createDestination(SiteToSend site, Scanner scanner) {
         List<ProductToSend> products = new LinkedList<>();
         String productName = "";
         int productAmount = -1;
-        while(products.isEmpty()) {
-            System.out.println("Please enter product");
-            productName = scanner.nextLine();
-            System.out.println("Enter Amount of product " + productName);
-            productAmount = scanner.nextInt();
-           if(!(productName.equals("0") & productAmount <= 0))
-               products.add(new ProductToSend(productName, productAmount));
-           else
-            invalidError();
-        }
-        do{
-            System.out.println("Please enter product or type 0 for exist");
-            productName = scanner.nextLine();
-            System.out.println("Enter Amount of product " + productName);
-            productAmount = scanner.nextInt();
 
-            if(productName.equals("X")) break;
+        do{
+            System.out.println(products.isEmpty() ? "Please enter product" : "Please enter product or type 0 for exist");
+            productName = scanner.next();
+
+            if(productName.equals("0") && products.size() == 0) { System.out.println("Error: No Products Selected"); continue; }
+            else if(productName.equals("0")) {break;}
+
+            System.out.println("Enter Amount of product " + productName);
+            productAmount = scanner.nextInt();
 
             if(productAmount >= 1)  products.add(new ProductToSend(productName, productAmount));
             else invalidError();
         }
-        while(productName.equals("0"));
+        while(!productName.equals("0"));
         return new DestinationToSend(site, products);
     }
     private void invalidError(){

@@ -29,6 +29,7 @@ public class ShipmentTrackerWindow extends Window {
             }
         }
         System.out.println("Shipment Ended");
+        // hasNext in the end returns a document object.
         return new MainMenuWindow();
     }
 

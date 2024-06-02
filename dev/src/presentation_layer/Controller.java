@@ -39,6 +39,7 @@ public class Controller {
         Window window = new MainMenuWindow();
         while(window != null)
             window = window.run(this);
+        System.out.println("End system, goodbye!");
     }
 
 }
