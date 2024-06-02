@@ -1,6 +1,8 @@
-package DomainLayer.Barnches;
+package WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches;
 
 import DomainLayer.Pair;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
 
 import java.util.*;
 
@@ -44,7 +46,7 @@ public class WeeklyShifts {
     }
 
     // Method to get a shift
-    public Shift getShift(Pair<DayOfTheWeek,PartOfDay> pair) {
+    public Shift getShift(Pair<DayOfTheWeek, PartOfDay> pair) {
         Pair<DayOfTheWeek, PartOfDay> key = new Pair<>(pair.getKey(), pair.getValue());
         return shifts.get(key);
     }

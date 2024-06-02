@@ -1,7 +1,13 @@
-package DomainLayer.Employees;
+package WorkersMoudle.WorkersMoudle.src.DomainLayer.Employees;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import DomainLayer.Employees.Role;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.DayOfTheWeek;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.PartOfDay;
+import WorkersMoudle.WorkersMoudle.src.DomainLayer.Barnches.Shift;
+import WorkersMoudle.WorkersMoudle.src.Pair;
 
 public class Employee {
 
@@ -9,39 +15,30 @@ public class Employee {
     private String name;
     private String password;
     private List<Role> roles;
-    private boolean loggedIn;
     private int bankAccountNumber;
     private double salary;
     private Date dateJoined;
     private int branchId;
     private Date dateLeft;
 
+    private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
+    private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
+
     public Employee(){}
 
-    public Employee(int id, String name, List<Role> roles, boolean loggedIn, int bankAccountNumber, double salary, int branchId) {
-        this.id = id;
-        this.name = name;
-        this.password = null;
-        this.roles = roles;
-        this.loggedIn = loggedIn;
-        this.bankAccountNumber = bankAccountNumber;
-        this.salary = salary;
-        this.dateJoined = Date.from(java.time.Instant.now());
-        this.branchId = branchId;
-        this.dateLeft = null;
-    }
-
-    public Employee(int id, String name, String password, List<Role> roles, boolean loggedIn, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft) {
+    public Employee(int id, String name, String password, List<Role> roles,
+                    int bankAccountNumber, double salary, int branchId, Date dateLeft) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.roles = roles;
-        this.loggedIn = loggedIn;
         this.bankAccountNumber = bankAccountNumber;
         this.salary = salary;
-        this.dateJoined = dateJoined;
+        this.dateJoined = new Date(System.currentTimeMillis());
         this.branchId = branchId;
         this.dateLeft = dateLeft;
+        shiftPreferences = new ArrayList<>();
+        shiftCantWork = new ArrayList<>();
     }
 
     //getters and setters
@@ -61,12 +58,8 @@ public class Employee {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public boolean checkPassword(String password) {
+        return password.equals(this.password);
     }
 
     public List<Role> getRoles() {
@@ -75,14 +68,6 @@ public class Employee {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
-    }
-
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
     }
 
     public int getBankAccountNumber() {
@@ -124,4 +109,36 @@ public class Employee {
     public void setDateLeft(Date dateLeft) {
         this.dateLeft = dateLeft;
     }
+
+    public List<Pair<DayOfTheWeek, PartOfDay>> getShiftPreferences() {
+        return shiftPreferences;
+    }
+
+    public List<Pair<DayOfTheWeek, PartOfDay>> getShiftCantWork() {
+        return shiftCantWork;
+    }
+
+    public void addShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) {
+        shiftPreferences.add(shift);
+    }
+
+    public void addShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) {
+        shiftCantWork.add(shift);
+    }
+
+    public void removeShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
+        if (!shiftPreferences.contains(shift)) {
+            throw new Exception("Shift not found in preferences");
+        }
+        shiftPreferences.remove(shift);
+    }
+
+    public void removeShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
+        if (!shiftCantWork.contains(shift)) {
+            throw new Exception("Shift not found in cant work shifts");
+        }
+        shiftCantWork.remove(shift);
+    }
+
 }
+
