@@ -2,7 +2,7 @@ package ServiceLayer;
 
 import ServiceLayer.EmployeeServices.EmployeeService;
 import ServiceLayer.HRManegerServices.HRManagerService;
-import WorkersMoudle.WorkersMoudle.src.ServiceLayer.BranchManegerServices.BranchManagerService;
+import ServiceLayer.BranchManegerServices.BranchManagerService;
 
 public class ServiceManager {
     private EmployeeService employeeService;
