@@ -69,7 +69,7 @@ public class ScheduleShipmentWindow extends Window {
         int destIndex = -1;
         while(!(destIndex == 0 | sites.size() == 0)) {
             System.out.println("Choose destination or enter 0 for exit.");
-            IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + s.getAdress()));
+            IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + sites.get(index).getAdress()));
             destIndex = scanner.nextInt();
             if(destIndex-- == 0 | sites.size() == 0) break;
 
