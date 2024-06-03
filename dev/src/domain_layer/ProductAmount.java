@@ -1,18 +1,26 @@
 package domain_layer;
 
 public class ProductAmount {
-    private String productName;
-    private int amount;
+    private final String productName;
+    private final int amount;
     public ProductAmount(String productName,int amount ){
         this.productName = productName;
         this. amount = amount;
     }
 
     public String getProductName() {
-        return getProductName();
+        return productName;
     }
 
     public int getAmount() {
         return amount;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ProductAmount productAmount)) {
+            return false;
+        }
+        return productAmount.productName.equals(productName) && productAmount.amount == amount;
     }
 }

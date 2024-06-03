@@ -34,7 +34,11 @@ public class Controller {
         TruckFacade truckFacade = new TruckFacade();
         ShipmentScheduler shipmentScheduler = new ShipmentScheduler(new DriverFacade(),truckFacade);
         shipmentSchedulerService = new ShipmentSchedulerService(shipmentScheduler, areaFacade);
-        shipmentTrackerService = new ShipmentTrackerService(shipmentScheduler, truckFacade);
+
+        ShipmentHistory shipmentHistory = new ShipmentHistory();
+        shipmentHistoryService = new ShipmentHistoryService(shipmentHistory);
+
+        shipmentTrackerService = new ShipmentTrackerService(shipmentScheduler, truckFacade, shipmentHistory);
     }
     public void run(){
         Window window = new MainMenuWindow();

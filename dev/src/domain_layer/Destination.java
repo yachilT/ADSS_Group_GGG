@@ -43,7 +43,7 @@ public class Destination {
 
     public void setWeight(float weight) {
         if (this.weight != -1) throw new IllegalStateException("Weight already set.");
-        if (weight < 0) throw new IllegalArgumentException("Weight must be negative.");
+        if (weight < 0) throw new IllegalArgumentException("Weight must be Positive.");
         this.weight = weight;
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ShipmentTracker implements Iterator<Destination> {
-    private Shipment shipment;
+    private final Shipment shipment;
 
     private int currentDstIndex;
 
@@ -45,7 +45,8 @@ public class ShipmentTracker implements Iterator<Destination> {
         return shipment.getCurrentDestination(++currentDstIndex);
     }
 
-    public Destination getCurrentDestination() {
-        return shipment.getCurrentDestination(currentDstIndex);
+
+    public void setWeight(float newWeight) {
+        shipment.setWeightForDst(currentDstIndex, newWeight);
     }
 }
