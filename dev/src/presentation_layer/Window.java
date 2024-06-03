@@ -7,6 +7,4 @@ public abstract class Window {
         this.open = false;
     }
     public abstract Window run(Controller controller);
-    public abstract void close();
-    public abstract void open();
 }

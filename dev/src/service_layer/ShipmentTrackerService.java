@@ -47,7 +47,7 @@ public class ShipmentTrackerService {
         }
         return new Response<>(tracker.hasNext());
     }
-    public Response<String> updateWeight(int shipmentId, float newWeight) {
+    public Response<Object> updateWeight(int shipmentId, float newWeight) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");

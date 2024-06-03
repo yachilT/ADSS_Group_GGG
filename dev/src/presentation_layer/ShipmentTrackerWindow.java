@@ -22,26 +22,16 @@ public class ShipmentTrackerWindow extends Window {
                 return new MainMenuWindow();
             }
             DestinationToSend nextDestination = response.getObject();
-            Response<String> r = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
-            if(r.isError()){
-                System.out.println(r.getErrorMessage());
-                return new MainMenuWindow();
-            }
+            Response<Object> res = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
+            if(res.isError() && res.getErrorMessage().equals("Overweight!"))
+                handleOverWeight(controller);
+
         }
         System.out.println("Shipment Ended");
         // hasNext in the end returns a document object.
         return new MainMenuWindow();
     }
 
-    @Override
-    public void close() {
-
-    }
-
-    @Override
-    public void open() {
-
-    }
     private float reachedDestination(Scanner scanner, DestinationToSend nextDestination) {
         float newWeight = -1;
         System.out.println("Reached destination: " + nextDestination.getAdress());
@@ -53,5 +43,16 @@ public class ShipmentTrackerWindow extends Window {
 
         }
         return newWeight;
+    }
+    private void handleOverWeight(Controller controller){
+        do {
+            System.out.println("Please choose one of the following options to address the overweight issue:\n" +
+                    "\n" +
+                    "1. Replace truck.\n" +
+                    "2. Change destination.\n" +
+                    "3. Remove products.");
+            int choice = controller.scanner.nextInt();
+
+        }while(true);// fix this
     }
 }

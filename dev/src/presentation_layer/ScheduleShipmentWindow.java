@@ -29,12 +29,7 @@ public class ScheduleShipmentWindow extends Window {
             return new ShipmentTrackerWindow(response.getObject());
         }
     }
-    public void close(){
 
-    }
-    public void open(){
-
-    }
     private SiteToSend chooseOrigin(List<SiteToSend> sites, Scanner scanner){
         SiteToSend origin = null;
         while(origin == null) {
