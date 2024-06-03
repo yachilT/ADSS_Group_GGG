@@ -3,7 +3,7 @@ package domain_layer;
 import java.util.*;
 
 public class ShipmentHistory {
-    private Map<ShipmentDocument, List<DestinationDocument>> shipments;
+    private final Map<ShipmentDocument, List<DestinationDocument>> shipments;
 
     public ShipmentHistory() {
         this.shipments = new HashMap<>();

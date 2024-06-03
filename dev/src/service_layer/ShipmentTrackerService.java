@@ -1,8 +1,12 @@
 package service_layer;
 
+<<<<<<< HEAD
 import domain_layer.ShipmentScheduler;
 import domain_layer.ShipmentTracker;
 import domain_layer.TruckFacade;
+=======
+import domain_layer.*;
+>>>>>>> 1e186c27c3fe3dc8aee8b1c9a38c64ac09034577
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,10 +15,12 @@ public class ShipmentTrackerService {
     private Map<Integer, ShipmentTracker> shipmentTrackers;
     private ShipmentScheduler shipmentScheduler;
     private TruckFacade truckFacade;
-    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade){
+    private ShipmentHistory shipmentHistory;
+    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory){
         this.shipmentScheduler = scheduler;
         this.shipmentTrackers = new HashMap<>();
         this.truckFacade = truckFacade;
+        this.shipmentHistory = shipmentHistory;
     }
 
     public Response<Object> trackShipment(int shipmentId){
@@ -52,7 +58,7 @@ public class ShipmentTrackerService {
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
-        tracker.getCurrentDestination().setWeight(newWeight);
+        tracker.setWeight(newWeight);
         return new Response<>();
     }
 
