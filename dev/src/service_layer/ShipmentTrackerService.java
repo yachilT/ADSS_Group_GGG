@@ -18,7 +18,7 @@ public class ShipmentTrackerService {
 
     public Response<Object> trackShipment(int shipmentId){
         try {
-            shipmentTrackers.put(shipmentId, new ShipmentTracker(shipmentScheduler.getShipment(shipmentId)));
+            shipmentTrackers.put(shipmentId, new ShipmentTracker(shipmentScheduler.getShipment(shipmentId), shipmentHistory));
             return new Response<>();
         }
         catch (NoSuchElementException e){
@@ -46,7 +46,7 @@ public class ShipmentTrackerService {
         }
         return new Response<>(tracker.hasNext());
     }
-    public Response<String> updateWeight(int shipmentId, float newWeight) {
+    public Response<Object> updateWeight(int shipmentId, float newWeight) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
@@ -55,13 +55,14 @@ public class ShipmentTrackerService {
         return new Response<>();
     }
 
-    public Response<TruckToSend> changeTruck(int shipmentId) {
+    public Response<Object> changeTruck(int shipmentId) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
         try {
-            return new Response<>(new TruckToSend(tracker.changeTruck(truckFacade)));
+            tracker.changeTruck(truckFacade);
+            return new Response<>();
         }
         catch (NoSuchElementException e){
             return new Response<>(e.getMessage());

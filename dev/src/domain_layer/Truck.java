@@ -47,4 +47,8 @@ public class Truck {
     public float getMaxWeight() {
         return maxWeight;
     }
+
+    public int getNumber() {
+        return truckNumber;
+    }
 }

@@ -6,11 +6,12 @@ import java.util.NoSuchElementException;
 
 public class ShipmentTracker implements Iterator<Destination> {
     private final Shipment shipment;
-
+    private final ShipmentHistory shipmentHistory;
     private int currentDstIndex;
 
-    public ShipmentTracker(Shipment shipment) {
+    public ShipmentTracker(Shipment shipment, ShipmentHistory shipmentHistory) {
         this.shipment = shipment;
+        this.shipmentHistory = shipmentHistory;
     }
 
     public Truck changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
@@ -49,4 +50,14 @@ public class ShipmentTracker implements Iterator<Destination> {
     public void setWeight(float newWeight) {
         shipment.setWeightForDst(currentDstIndex, newWeight);
     }
+
+    private void tryFinishShipment() {
+        if (!hasNext()) {
+            shipment.finish();
+            shipmentHistory.add(shipment.createDocument(), shipment.createDestinationDocuments());
+        }
+
+    }
+
+
 }

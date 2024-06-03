@@ -78,4 +78,24 @@ public class Shipment {
             throw new IllegalArgumentException("Weight exceeds truck capacity");
         destinations.get(currentDstIndex).setWeight(newWeight);
     }
+
+    public void finish() {
+        truck.finishDelivery();
+        driver.finishJob();
+    }
+
+    public ShipmentDocument createDocument() {
+        return new ShipmentDocument(shipmentId,
+                origin.getAddress(), origin.getContactName(), origin.getContactNumber(),
+                departureDateTime.toLocalDate().toString(), departureDateTime.toLocalTime().toString(),
+                truck.getNumber(), driver.getName());
+    }
+
+    public List<DestinationDocument> createDestinationDocuments() {
+        List<DestinationDocument> destinationDocuments = new ArrayList<>();
+        for (int i = 0; i < destinations.size(); i++) {
+            destinationDocuments.add(destinations.get(i).createDocument(i, shipmentId));
+        }
+        return destinationDocuments;
+    }
 }

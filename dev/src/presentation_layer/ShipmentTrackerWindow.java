@@ -22,7 +22,7 @@ public class ShipmentTrackerWindow extends Window {
                 return new MainMenuWindow();
             }
             DestinationToSend nextDestination = response.getObject();
-            Response<String> r = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
+            Response<Object> r = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
             if(r.isError()){
                 System.out.println(r.getErrorMessage());
                 return new MainMenuWindow();
