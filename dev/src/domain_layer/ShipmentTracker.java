@@ -10,6 +10,7 @@ public class ShipmentTracker implements Iterator<Destination> {
     private int currentDstIndex;
 
     public ShipmentTracker(Shipment shipment) {
+        this.currentDstIndex = 0;
         this.shipment = shipment;
     }
 
@@ -48,4 +49,8 @@ public class ShipmentTracker implements Iterator<Destination> {
     public Destination getCurrentDestination() {
         return shipment.getCurrentDestination(currentDstIndex);
     }
+    public List<Destination> getRemainingDestinations(){
+        return shipment.getDestinationsFrom(currentDstIndex);
+    }
+
 }

@@ -1,11 +1,11 @@
 package service_layer;
 
-import domain_layer.Destination;
 import domain_layer.ShipmentScheduler;
 import domain_layer.ShipmentTracker;
 import domain_layer.TruckFacade;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ShipmentTrackerService {
     private Map<Integer, ShipmentTracker> shipmentTrackers;
@@ -56,7 +56,7 @@ public class ShipmentTrackerService {
         return new Response<>();
     }
 
-    public Response<TruckToSend> changeTruck(int shipmentId) {
+    public Response<Object> changeTruck(int shipmentId) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
@@ -97,6 +97,9 @@ public class ShipmentTrackerService {
 
         tracker.productsToRemain(remainingProducts.stream().map(ProductToSend::toProductAmount).toList());
         return new Response<>();
+    }
+    public List<DestinationToSend> remainingDestinations(int shipmentId){
+        return shipmentTrackers.get(shipmentId).getRemainingDestinations().stream().map(DestinationToSend::new).collect(Collectors.toList());
     }
 
 

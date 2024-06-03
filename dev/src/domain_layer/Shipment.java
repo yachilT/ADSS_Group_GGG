@@ -72,4 +72,7 @@ public class Shipment {
         return destinations.size();
     }
 
+    public List<Destination> getDestinationsFrom(int currentDstIndex) {
+        return destinations.subList(currentDstIndex, destinations.size());
+    }
 }

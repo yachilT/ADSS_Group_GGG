@@ -31,7 +31,7 @@ public class ShipmentHistoryWindow extends  Window{
             IntStream.range(0, documents.size()).forEach(index -> System.out.println((index + 1) + ". ID: " + documents.get(index).getId() + " Origin name: " + documents.get(index).getOriginContactName()));
             documentIndex = scanner.nextInt();
             if(documentIndex <= 0 || documentIndex > documents.size()) System.out.println("Error: Invalid Selection\n");
-        }while(documentIndex <= 0 || documentIndex > documents.size());
+        } while(documentIndex <= 0 || documentIndex > documents.size());
         System.out.println(documents.get(documentIndex - 1).toString());
     }
 }
