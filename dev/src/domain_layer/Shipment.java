@@ -73,6 +73,10 @@ public class Shipment {
         return destinations.size();
     }
 
+
+    public List<Destination> getDestinationsFrom(int currentDstIndex) {
+        return destinations.subList(currentDstIndex, destinations.size());
+    }
     public void setWeightForDst(int currentDstIndex, float newWeight) {
         if (truck.isOverweight(newWeight))
             throw new IllegalArgumentException("Weight exceeds truck capacity");

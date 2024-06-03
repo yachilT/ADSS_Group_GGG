@@ -1,8 +1,12 @@
 package service_layer;
 
-import domain_layer.*;
+import domain_layer.ShipmentHistory;
+import domain_layer.ShipmentScheduler;
+import domain_layer.ShipmentTracker;
+import domain_layer.TruckFacade;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ShipmentTrackerService {
     private Map<Integer, ShipmentTracker> shipmentTrackers;
@@ -97,6 +101,9 @@ public class ShipmentTrackerService {
 
         tracker.productsToRemain(remainingProducts.stream().map(ProductToSend::toProductAmount).toList());
         return new Response<>();
+    }
+    public List<DestinationToSend> remainingDestinations(int shipmentId){
+        return shipmentTrackers.get(shipmentId).getRemainingDestinations().stream().map(DestinationToSend::new).collect(Collectors.toList());
     }
 
 

@@ -18,4 +18,7 @@ public class ProductToSend {
     public ProductAmount toProductAmount(){
         return new ProductAmount(productName, amount);
     }
+    public String getProductName(){
+        return productName;
+    }
 }

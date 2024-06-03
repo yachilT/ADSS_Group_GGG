@@ -28,4 +28,5 @@ public class ShipmentHistory {
         }
         return destinations.get();
     }
+
 }
