@@ -8,6 +8,7 @@ import domain_layer.Site;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class ShipmentSchedulerService {
     private ShipmentScheduler shipmentScheduler;
@@ -30,7 +31,7 @@ public class ShipmentSchedulerService {
             if (dstList.size() != 1) {
                 return new Response<>("Error: Destination not found");
             }
-            dsts.add(new Destination(dstList.get(0), dst.getProducts().stream().map(ProductToSend::toProductAmount).toList()));
+            dsts.add(new Destination(dstList.get(0), dst.getProducts().stream().map(ProductToSend::toProductAmount).collect(Collectors.toList())));
         }
 
 

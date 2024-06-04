@@ -20,12 +20,22 @@ public class ScheduleShipmentWindow implements Window {
 
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+        System.out.println("Scheduling shipment: " + origin.getAddress() + "->");
+        destination.forEach(d -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {}
+            System.out.println(" -> " + d.getAddress());
+        }
+        );
+
 
         if(response.isError()) {
             System.out.println(response.getErrorMessage());
             return new MainMenuWindow();
         }
         else{
+            System.out.println("Shipment Scheduled successfully!");
             return new ShipmentTrackerWindow(response.getObject());
         }
     }

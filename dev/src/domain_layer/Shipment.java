@@ -75,7 +75,7 @@ public class Shipment {
 
 
     public List<Destination> getDestinationsFrom(int currentDstIndex) {
-        return destinations.subList(currentDstIndex, destinations.size());
+        return destinations.subList(currentDstIndex + 1, destinations.size());
     }
     public void setWeightForDst(int currentDstIndex, float newWeight) throws IllegalArgumentException {
         if (truck.isOverweight(newWeight))
