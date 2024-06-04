@@ -16,7 +16,7 @@ public class ShipmentTracker implements Iterator<Destination> {
     }
 
     public Truck changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
-        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver()) && t.isOverweight(shipment.getCurrentDestination(currentDstIndex).getWeight())).toList();
+        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver())).toList();
         if (relevantTrucks.isEmpty())
             throw new NoSuchElementException("No relevant trucks available.");
         shipment.changeTruck(relevantTrucks.get(0));

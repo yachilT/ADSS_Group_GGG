@@ -9,10 +9,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ShipmentTrackerService {
-    private Map<Integer, ShipmentTracker> shipmentTrackers;
-    private ShipmentScheduler shipmentScheduler;
-    private TruckFacade truckFacade;
-    private ShipmentHistory shipmentHistory;
+    private final Map<Integer, ShipmentTracker> shipmentTrackers;
+    private final ShipmentScheduler shipmentScheduler;
+    private final TruckFacade truckFacade;
+    private final ShipmentHistory shipmentHistory;
     public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory){
         this.shipmentScheduler = scheduler;
         this.shipmentTrackers = new HashMap<>();

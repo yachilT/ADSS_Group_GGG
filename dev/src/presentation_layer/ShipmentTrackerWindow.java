@@ -30,7 +30,7 @@ public class ShipmentTrackerWindow implements Window {
             DestinationToSend nextDestination = response.getObject();
 
             Response<Object> res = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
-            while(res.isError() && res.getErrorMessage().equals("Weight exceeds truck capacity"))
+            while(res.isError() && res.getErrorMessage().contains("Weight exceeds truck capacity"))
                 res = handleOverWeight(controller.shipmentTrackerService, controller.scanner, nextDestination);
 
         }
