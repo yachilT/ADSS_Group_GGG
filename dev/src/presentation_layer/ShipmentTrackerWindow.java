@@ -13,7 +13,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ShipmentTrackerWindow extends Window {
+public class ShipmentTrackerWindow implements Window {
     private int shipmentId;
     public ShipmentTrackerWindow(Integer shipmentId) {
         this.shipmentId = shipmentId;

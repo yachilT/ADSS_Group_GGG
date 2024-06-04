@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 
-public class ScheduleShipmentWindow extends Window {
+public class ScheduleShipmentWindow implements Window {
     public ScheduleShipmentWindow(){
         super();
     }

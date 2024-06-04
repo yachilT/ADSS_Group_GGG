@@ -2,7 +2,7 @@ package presentation_layer;
 
 import java.util.Scanner;
 
-public class MainMenuWindow extends Window{
+public class MainMenuWindow implements Window{
     Scanner scanner = new Scanner(System.in);
     private boolean open;
     public MainMenuWindow(){
@@ -28,9 +28,8 @@ public class MainMenuWindow extends Window{
         }
         return null;
     }
-    public void close(){
+    private void close(){
         open = false;
     }
-    public void open(){open = true;}
 
 }
