@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AreaService {
-    private AreaFacade areaFacade;
+    private final AreaFacade areaFacade;
     public AreaService(AreaFacade areaFacade){
         this.areaFacade = areaFacade;
     }

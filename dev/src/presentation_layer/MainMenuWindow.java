@@ -17,8 +17,7 @@ public class MainMenuWindow implements Window{
                 case "1":
                     return new ScheduleShipmentWindow();
                 case "2":
-                    // history window.
-                    break;
+                    return new ShipmentHistoryWindow();
                 case "0":
                     close();
                     break;
