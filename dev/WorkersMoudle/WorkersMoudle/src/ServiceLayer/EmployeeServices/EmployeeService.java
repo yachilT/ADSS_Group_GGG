@@ -21,13 +21,11 @@ public class EmployeeService {
     }
 
     // Method to log in an existing employee
-    public boolean login(Integer id, String password) {
+    public void login(Integer id, String password) {
         try {
             employeeController.login(id, password);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
@@ -60,6 +58,14 @@ public class EmployeeService {
     public void enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) {
         try {
             employeeController.enterPreferences(id, shiftPreferences);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeEmployee(Integer id) {
+        try {
+            employeeController.removeEmployee(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
