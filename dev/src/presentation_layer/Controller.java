@@ -38,7 +38,8 @@ public class Controller {
         DriverFacade driverFacade = new DriverFacade();
         driverFacade.addDriver(new Driver(0, "Rami Hen", new License(2100)));
         driverFacade.addDriver(new Driver(1, "Yossi Cohen", new License(1100)));
-        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(new DriverFacade(),truckFacade);
+
+        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,truckFacade);
         shipmentSchedulerService = new ShipmentSchedulerService(shipmentScheduler, areaFacade);
 
         ShipmentHistory shipmentHistory = new ShipmentHistory();

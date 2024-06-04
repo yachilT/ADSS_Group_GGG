@@ -10,7 +10,7 @@ public class ShipmentTracker implements Iterator<Destination> {
     private int currentDstIndex;
 
     public ShipmentTracker(Shipment shipment, ShipmentHistory shipmentHistory) {
-        this.currentDstIndex = 0;
+        this.currentDstIndex = -1;
         this.shipment = shipment;
         this.shipmentHistory = shipmentHistory;
     }
@@ -48,7 +48,7 @@ public class ShipmentTracker implements Iterator<Destination> {
     }
 
 
-    public void setWeight(float newWeight) {
+    public void setWeight(float newWeight) throws IllegalArgumentException {
         shipment.setWeightForDst(currentDstIndex, newWeight);
     }
 

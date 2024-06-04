@@ -55,7 +55,12 @@ public class ShipmentTrackerService {
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
-        tracker.setWeight(newWeight);
+
+        try {
+            tracker.setWeight(newWeight);
+        } catch (IllegalArgumentException e) {
+            return new Response<>("Error: " + e.getMessage());
+        }
         return new Response<>();
     }
 

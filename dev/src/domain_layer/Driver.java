@@ -11,6 +11,7 @@ public class Driver {
         this.id = id;
         this.driverName = driverName;
         this.driversLicense = license;
+        this.available = true;
     }
 
     public License getLicense() {

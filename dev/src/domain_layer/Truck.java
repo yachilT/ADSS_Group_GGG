@@ -20,7 +20,7 @@ public class Truck {
          return maxWeight <= driver.getLicense().allowedWeight;
     }
 
-    public boolean isOverweight(float currentWeight) { return currentWeight <= maxWeight; }
+    public boolean isOverweight(float currentWeight) { return currentWeight > maxWeight; }
 
     public boolean isAvailable() { return available; }
 

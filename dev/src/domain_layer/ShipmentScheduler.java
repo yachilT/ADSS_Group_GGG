@@ -25,6 +25,7 @@ public class ShipmentScheduler {
         return shipment.getShipmentId();
     }
     private Pair<Driver,Truck> findTruckAndDriver() throws  NoSuchElementException{
+
         for(Truck truck : truckFacade.getAvailableTrucks()){
             for(Driver driver : driverFacade.getAvailableDrivers()){
                 if(truck.isCompatible(driver))
