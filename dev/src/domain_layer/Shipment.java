@@ -1,4 +1,6 @@
 package domain_layer;
+import service_layer.SiteToSend;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -79,7 +81,7 @@ public class Shipment {
     }
     public void setWeightForDst(int currentDstIndex, float newWeight) throws IllegalArgumentException {
         if (truck.isOverweight(newWeight))
-            throw new IllegalArgumentException("Weight exceeds truck capacity");
+            throw new IllegalArgumentException("Weight exceeds truck capacity: " + truck.getMaxWeight());
         destinations.get(currentDstIndex).setWeight(newWeight);
     }
 
@@ -101,5 +103,9 @@ public class Shipment {
             destinationDocuments.add(destinations.get(i).createDocument(i, shipmentId));
         }
         return destinationDocuments;
+    }
+
+    public Site getOrigin() {
+        return origin;
     }
 }

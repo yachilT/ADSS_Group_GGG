@@ -1,9 +1,6 @@
 package service_layer;
 
-import domain_layer.ShipmentHistory;
-import domain_layer.ShipmentScheduler;
-import domain_layer.ShipmentTracker;
-import domain_layer.TruckFacade;
+import domain_layer.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,10 +17,13 @@ public class ShipmentTrackerService {
         this.shipmentHistory = shipmentHistory;
     }
 
-    public Response<Object> trackShipment(int shipmentId){
+    public Response<ShipmentToSend> trackShipment(int shipmentId){
         try {
-            shipmentTrackers.put(shipmentId, new ShipmentTracker(shipmentScheduler.getShipment(shipmentId), shipmentHistory));
-            return new Response<>();
+            Shipment shipment = shipmentScheduler.getShipment(shipmentId);
+            ShipmentTracker tracker = new ShipmentTracker(shipment, shipmentHistory);
+
+            shipmentTrackers.put(shipmentId, tracker);
+            return new Response<>(new ShipmentToSend(shipment));
         }
         catch (NoSuchElementException e){
             return new Response<>(e.getMessage());
@@ -64,14 +64,13 @@ public class ShipmentTrackerService {
         return new Response<>();
     }
 
-    public Response<Object> changeTruck(int shipmentId) {
+    public Response<TruckToSend> changeTruck(int shipmentId, float newWeight) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
         try {
-            tracker.changeTruck(truckFacade);
-            return new Response<>();
+            return new Response<>(new TruckToSend(tracker.changeTruck(truckFacade, newWeight)));
         }
         catch (NoSuchElementException e){
             return new Response<>(e.getMessage());
@@ -112,5 +111,13 @@ public class ShipmentTrackerService {
     }
 
 
-
+    public Response<Object> finishTracking(int shipmentId) {
+        ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
+        if (tracker == null) {
+            return new Response<>("Error: Shipment not found");
+        }
+        tracker.tryFinishShipment();
+        shipmentTrackers.remove(shipmentId);
+        return new Response<>();
+    }
 }

@@ -14,4 +14,20 @@ public class TruckToSend {
         this.emptyWeight = truck.getEmptyWeight();
         this.maxWeight = truck.getMaxWeight();
     }
+
+    public int getTruckNumber() {
+        return truckNumber;
+    }
+
+    public float getMaxWeight() {
+        return maxWeight;
+    }
+
+    @Override
+    public String toString() {
+        return "truckNumber: " + truckNumber +
+                ", model: '" + model + '\'' +
+                ", emptyWeight: " + emptyWeight +
+                ", maxWeight: " + maxWeight + "kg";
+    }
 }

@@ -29,4 +29,8 @@ public class ShipmentHistory {
         return destinations.get();
     }
 
+    public List<DestinationDocument> getDestinations(ShipmentDocument shipmentDoc) {
+        return shipments.get(shipmentDoc);
+    }
+
 }

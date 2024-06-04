@@ -21,4 +21,14 @@ public class SiteToSend {
     public String getAddress() {
         return address;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SiteToSend other) {
+            return this.address.equals(other.address)
+                    && this.contactName.equals(other.contactName)
+                    && this.contactNumber.equals(other.contactNumber);
+        }
+        return false;
+    }
 }

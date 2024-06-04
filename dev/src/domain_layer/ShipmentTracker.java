@@ -15,8 +15,8 @@ public class ShipmentTracker implements Iterator<Destination> {
         this.shipmentHistory = shipmentHistory;
     }
 
-    public Truck changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
-        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver())).toList();
+    public Truck changeTruck(TruckFacade truckFacade, float newWeight) throws NoSuchElementException {
+        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver()) && !t.isOverweight(newWeight)).toList();
         if (relevantTrucks.isEmpty())
             throw new NoSuchElementException("No relevant trucks available.");
         shipment.changeTruck(relevantTrucks.get(0));
@@ -52,12 +52,9 @@ public class ShipmentTracker implements Iterator<Destination> {
         shipment.setWeightForDst(currentDstIndex, newWeight);
     }
 
-    private void tryFinishShipment() {
-        if (!hasNext()) {
+    public void tryFinishShipment() {
             shipment.finish();
             shipmentHistory.add(shipment.createDocument(), shipment.createDestinationDocuments());
-        }
-
     }
 
 

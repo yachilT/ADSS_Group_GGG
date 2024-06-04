@@ -20,4 +20,11 @@ public class DestinationDocument {
         this.products = dst.getProducts();
     }
 
+    public int getId() {
+        return destinationDocId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 }

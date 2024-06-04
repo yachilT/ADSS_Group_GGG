@@ -1,5 +1,6 @@
 package service_layer;
 
+import domain_layer.DestinationDocument;
 import domain_layer.ShipmentDocument;
 import domain_layer.ShipmentHistory;
 
@@ -14,6 +15,10 @@ public class ShipmentHistoryService {
     }
     public List<ShipmentDocument> getDocuments(){
         return new ArrayList<>(shipmentHistory.getShipmentDocs());
+    }
+
+    public List<DestinationDocument> getDestinationDocuments(ShipmentDocument shipmentDoc) {
+        return shipmentHistory.getDestinations(shipmentDoc);
     }
 
 }
