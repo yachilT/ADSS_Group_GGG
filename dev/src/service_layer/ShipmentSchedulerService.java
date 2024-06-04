@@ -8,7 +8,6 @@ import domain_layer.Site;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class ShipmentSchedulerService {
     private ShipmentScheduler shipmentScheduler;
@@ -20,14 +19,14 @@ public class ShipmentSchedulerService {
     }
 
     public Response<Integer> scheduleShipment(SiteToSend originToSend, List<DestinationToSend> sitesToSend) {
-        List<Site> originList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(originToSend.getAdress())).toList();
+        List<Site> originList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(originToSend.getAddress())).toList();
         if (originList.size() != 1) {
             return new Response<>("Error: Origin not found");
         }
 
         List<Destination> dsts = new ArrayList<>();
         for (DestinationToSend dst : sitesToSend) {
-            List<Site> dstList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(dst.getAdress())).toList();
+            List<Site> dstList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(dst.getAddress())).toList();
             if (dstList.size() != 1) {
                 return new Response<>("Error: Destination not found");
             }
