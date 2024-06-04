@@ -27,7 +27,7 @@ public class Employee {
     public Employee(){}
 
     public Employee(int id, String name, String password, List<Role> roles,
-                    int bankAccountNumber, double salary, int branchId, Date dateLeft) {
+                    int bankAccountNumber, double salary, int branchId) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -36,7 +36,7 @@ public class Employee {
         this.salary = salary;
         this.dateJoined = new Date(System.currentTimeMillis());
         this.branchId = branchId;
-        this.dateLeft = dateLeft;
+        this.dateLeft = null;
         shiftPreferences = new ArrayList<>();
         shiftCantWork = new ArrayList<>();
     }
