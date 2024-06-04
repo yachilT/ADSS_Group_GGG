@@ -90,4 +90,8 @@ public class EmployeeController {
             throw new Exception("Error in setting preferences");
         }
     }
+
+    public boolean isManager(Integer id) {
+        return branchManagers.containsKey(id);
+    }
 }
