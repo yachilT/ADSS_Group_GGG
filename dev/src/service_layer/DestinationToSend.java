@@ -5,6 +5,7 @@ import domain_layer.ProductAmount;
 import domain_layer.Site;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DestinationToSend extends SiteToSend {
 
@@ -16,7 +17,7 @@ public class DestinationToSend extends SiteToSend {
 
     public DestinationToSend(Destination dst) {
         super(dst.getSite());
-        this.products = dst.getProducts().stream().map(ProductToSend::new).toList();
+        this.products = dst.getProducts().stream().map(ProductToSend::new).collect(Collectors.toList());
     }
 
 

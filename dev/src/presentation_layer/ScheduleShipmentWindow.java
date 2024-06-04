@@ -20,12 +20,22 @@ public class ScheduleShipmentWindow implements Window {
 
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+        System.out.println("Scheduling shipment: " + origin.getAddress() + "->");
+        destination.forEach(d -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {}
+            System.out.println(" -> " + d.getAddress());
+        }
+        );
+
 
         if(response.isError()) {
             System.out.println(response.getErrorMessage());
             return new MainMenuWindow();
         }
         else{
+            System.out.println("Shipment Scheduled successfully!");
             return new ShipmentTrackerWindow(response.getObject());
         }
     }
@@ -66,12 +76,12 @@ public class ScheduleShipmentWindow implements Window {
             System.out.println("Choose destination or enter 0 for exit.");
             IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + sites.get(index).getAddress()));
             destIndex = scanner.nextInt();
-            if(destIndex-- == 0 | sites.size() == 0) break;
+            if(destIndex == 0 | sites.size() == 0) break;
 
-            if(destIndex >= sites.size())
+            if(destIndex > sites.size() | destIndex < 0)
                 invalidError();
             else
-                destinations.add(createDestination(sites.remove(destIndex), scanner));
+                destinations.add(createDestination(sites.remove(destIndex - 1), scanner));
         }
         return destinations;
     }

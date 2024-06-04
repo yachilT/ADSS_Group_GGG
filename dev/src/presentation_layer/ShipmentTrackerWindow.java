@@ -30,19 +30,23 @@ public class ShipmentTrackerWindow implements Window {
             DestinationToSend nextDestination = response.getObject();
 
             Response<Object> res = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
-            while(res.isError() && res.getErrorMessage().equals("Overweight!"))
+            while(res.isError() && res.getErrorMessage().contains("Weight exceeds truck capacity")) {
+                System.out.println(res.getErrorMessage());
                 res = handleOverWeight(controller.shipmentTrackerService, controller.scanner, nextDestination);
-            
+            }
+            if (res.isError())
+                System.out.println(res.getErrorMessage());
+
+            hasNext = controller.shipmentTrackerService.hasNext(shipmentId);
         }
-        System.out.println("Shipment Ended");
-        // hasNext in the end returns a document object.
+        System.out.println("The shipment has ended!");
         return new MainMenuWindow();
     }
 
     private float reachedDestination(Scanner scanner, DestinationToSend nextDestination) {
         float newWeight = -1;
-        System.out.println("Reached destination: " + nextDestination.getAddress());
-        System.out.println("Please reweigh the truck.");
+        System.out.println("Reached destination: " + nextDestination.getAddress() + "!");
+        System.out.print("Please weigh the truck: ");
         while (newWeight <= 0){
             newWeight = scanner.nextInt();
             if(newWeight <= 0)

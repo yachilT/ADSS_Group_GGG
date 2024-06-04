@@ -32,7 +32,14 @@ public class Controller {
         areaService = new AreaService(areaFacade);
 
         TruckFacade truckFacade = new TruckFacade();
-        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(new DriverFacade(),truckFacade);
+        truckFacade.addTruck(0, "Toyota", 100, 1000);
+        truckFacade.addTruck(1, "Mitsubishi", 200, 2000);
+
+        DriverFacade driverFacade = new DriverFacade();
+        driverFacade.addDriver(new Driver(0, "Rami Hen", new License(2100)));
+        driverFacade.addDriver(new Driver(1, "Yossi Cohen", new License(1100)));
+
+        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,truckFacade);
         shipmentSchedulerService = new ShipmentSchedulerService(shipmentScheduler, areaFacade);
 
         ShipmentHistory shipmentHistory = new ShipmentHistory();

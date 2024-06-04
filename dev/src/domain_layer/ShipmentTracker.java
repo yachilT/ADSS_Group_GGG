@@ -10,13 +10,13 @@ public class ShipmentTracker implements Iterator<Destination> {
     private int currentDstIndex;
 
     public ShipmentTracker(Shipment shipment, ShipmentHistory shipmentHistory) {
-        this.currentDstIndex = 0;
+        this.currentDstIndex = -1;
         this.shipment = shipment;
         this.shipmentHistory = shipmentHistory;
     }
 
     public Truck changeTruck(TruckFacade truckFacade) throws NoSuchElementException {
-        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver()) && t.isOverweight(shipment.getCurrentDestination(currentDstIndex).getWeight())).toList();
+        List<Truck> relevantTrucks = truckFacade.getAvailableTrucks().stream().filter(t -> t.isCompatible(shipment.getDriver())).toList();
         if (relevantTrucks.isEmpty())
             throw new NoSuchElementException("No relevant trucks available.");
         shipment.changeTruck(relevantTrucks.get(0));
@@ -48,7 +48,7 @@ public class ShipmentTracker implements Iterator<Destination> {
     }
 
 
-    public void setWeight(float newWeight) {
+    public void setWeight(float newWeight) throws IllegalArgumentException {
         shipment.setWeightForDst(currentDstIndex, newWeight);
     }
 

@@ -1,13 +1,18 @@
 package domain_layer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DriverFacade {
-    final private List<Driver> drivers;
+    final private Set<Driver> drivers;
 
     public DriverFacade() {
-        drivers = new ArrayList<>();
+        drivers = new HashSet<>();
+    }
+    public void addDriver(Driver driver) {
+        drivers.add(driver);
     }
 
     public List<Driver> getAvailableDrivers() {
