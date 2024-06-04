@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class ShipmentHistoryWindow extends  Window{
+public class ShipmentHistoryWindow implements   Window{
 
     @Override
     public Window run(Controller controller) {

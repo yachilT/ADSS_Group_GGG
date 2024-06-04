@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 
-public class ScheduleShipmentWindow extends Window {
+public class ScheduleShipmentWindow implements Window {
     public ScheduleShipmentWindow(){
         super();
     }
@@ -36,7 +36,7 @@ public class ScheduleShipmentWindow extends Window {
             System.out.println("Choose origin: ");
             int i = 1;
             for (SiteToSend s : sites)
-                System.out.println(i++ + ". " + s.getAdress());
+                System.out.println(i++ + ". " + s.getAddress());
             int originIndex = scanner.nextInt() - 1;
             origin = (0 <= originIndex & originIndex < sites.size()) ? sites.get(originIndex) : null;
             if(origin == null)
@@ -64,7 +64,7 @@ public class ScheduleShipmentWindow extends Window {
         int destIndex = -1;
         while(!(destIndex == 0 | sites.size() == 0)) {
             System.out.println("Choose destination or enter 0 for exit.");
-            IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + sites.get(index).getAdress()));
+            IntStream.range(0, sites.size()).forEach(index -> System.out.println(index + 1 + ". " + sites.get(index).getAddress()));
             destIndex = scanner.nextInt();
             if(destIndex == 0 | sites.size() == 0) break;
 

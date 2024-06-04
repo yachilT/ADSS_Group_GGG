@@ -1,19 +1,17 @@
 package presentation_layer;
 
-import domain_layer.Destination;
 import service_layer.DestinationToSend;
 import service_layer.ProductToSend;
 import service_layer.Response;
 import service_layer.ShipmentTrackerService;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ShipmentTrackerWindow extends Window {
+public class ShipmentTrackerWindow implements Window {
     private int shipmentId;
     public ShipmentTrackerWindow(Integer shipmentId) {
         this.shipmentId = shipmentId;
@@ -43,7 +41,7 @@ public class ShipmentTrackerWindow extends Window {
 
     private float reachedDestination(Scanner scanner, DestinationToSend nextDestination) {
         float newWeight = -1;
-        System.out.println("Reached destination: " + nextDestination.getAdress());
+        System.out.println("Reached destination: " + nextDestination.getAddress());
         System.out.println("Please reweigh the truck.");
         while (newWeight <= 0){
             newWeight = scanner.nextInt();
@@ -83,7 +81,7 @@ public class ShipmentTrackerWindow extends Window {
         List<DestinationToSend> remainingDestinations = shipmentTrackerService.remainingDestinations(shipmentId);
         do {
             System.out.println("Select a destination: ");
-            IntStream.range(0,remainingDestinations.size()).forEach(index -> System.out.println((index + 1) + ". " + remainingDestinations.get(index).getAdress()));
+            IntStream.range(0,remainingDestinations.size()).forEach(index -> System.out.println((index + 1) + ". " + remainingDestinations.get(index).getAddress()));
             int choice = scanner.nextInt();
             if(choice <= 0 | choice > remainingDestinations.size()){
                 System.out.println("Error: Invalid selection! please select again.");
