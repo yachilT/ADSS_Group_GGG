@@ -1,11 +1,15 @@
 package UI;
 
 import ServiceLayer.ServiceManager;
+import UI.ManegerUI.ManagerMainWindow;
 
 import java.net.StandardSocketOptions;
 import java.util.Scanner;
 
 public class LoginWindow extends Window{
+    private int id;
+
+
     public LoginWindow(ServiceManager serviceManager) {
         super(serviceManager);
     }
@@ -16,13 +20,12 @@ public class LoginWindow extends Window{
         while (!loggedIn){
             System.out.println("LoginWindow");
             System.out.println("Enter your EMP ID:");
-            String empID = scanner.nextLine();
+            this.id = Integer.parseInt(scanner.nextLine());
             System.out.println("Enter your password:");
             String password = scanner.nextLine();
-            if(this.serviceManager.getEmployeeService().login(Integer.valueOf(empID),password)){
+            if(this.serviceManager.getEmployeeService().login(id,password)){
                 System.out.println("Login successful");
                 loggedIn = true;
-                System.out.println("ForwardToNextWindow");
             }else {
                 System.out.println("Login failed");
             }
@@ -33,6 +36,9 @@ public class LoginWindow extends Window{
     }
 
     private void ForwardToNextWindow() {
+        System.out.println("Forwarding to next window");
+        if(this.serviceManager.getEmployeeService().isManager(id))
+            new ManagerMainWindow(this.serviceManager, id).run();
 
     }
 }

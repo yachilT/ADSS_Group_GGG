@@ -1,4 +1,15 @@
 package UI.EmployeeUI;
 
-public class PreferencesWindow {
+import ServiceLayer.ServiceManager;
+import UI.Window;
+
+public class PreferencesWindow extends Window {
+    public PreferencesWindow(ServiceManager serviceManager) {
+        super(serviceManager);
+    }
+
+    @Override
+    public void run() {
+
+    }
 }

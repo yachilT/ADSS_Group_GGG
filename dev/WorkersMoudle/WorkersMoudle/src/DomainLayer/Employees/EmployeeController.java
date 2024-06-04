@@ -11,6 +11,7 @@ import java.util.*;
 
 public class EmployeeController {
 
+    private static final int INITIAL_ID = 0;
     private Map<Integer, Employee> employees; // empId -> employee
     private Map<Integer, BranchManager> branchManagers; // branch id -> branch manager
     private HRManager hrManager;
@@ -22,7 +23,7 @@ public class EmployeeController {
         employees = new HashMap<>();
         branchManagers = new HashMap<>();
         employeesLoggedInIds = new ArrayList<>();
-        idCounter = 0;
+        idCounter = INITIAL_ID;
 
         hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
                 hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
@@ -37,7 +38,7 @@ public class EmployeeController {
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        employees.put(id, new Employee(id, name,password, roles, bankAccountNumber, salary, branchId, null));
+        employees.put(id, new Employee(id, name,password, roles, bankAccountNumber, salary, branchId));
         employeesLoggedInIds.add(id);// assuming the employee is logged in after register
 
     }
@@ -132,6 +133,6 @@ public class EmployeeController {
     }
 
     public boolean isManager(Integer id) {
-        return branchManagers.containsKey(id);
+        return branchManagers.containsKey(id) || id ==INITIAL_ID;
     }
 }

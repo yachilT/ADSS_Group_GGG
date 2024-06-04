@@ -21,11 +21,14 @@ public class EmployeeService {
     }
 
     // Method to log in an existing employee
-    public void login(Integer id, String password) {
+    public boolean login(Integer id, String password) {
         try {
             employeeController.login(id, password);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+
         }
     }
 
