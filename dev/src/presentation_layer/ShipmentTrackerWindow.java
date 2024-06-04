@@ -34,7 +34,7 @@ public class ShipmentTrackerWindow extends Window {
             Response<Object> res = controller.shipmentTrackerService.updateWeight(shipmentId, reachedDestination(controller.scanner, nextDestination));
             while(res.isError() && res.getErrorMessage().equals("Overweight!"))
                 res = handleOverWeight(controller.shipmentTrackerService, controller.scanner, nextDestination);
-            
+
         }
         System.out.println("Shipment Ended");
         // hasNext in the end returns a document object.
