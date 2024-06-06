@@ -19,7 +19,6 @@ public class LoginWindow extends Window{
     public void run() {
         boolean loggedIn = false;
 
-
         while (!loggedIn){
             System.out.println("LoginWindow");
             System.out.println("Enter your EMP ID:");

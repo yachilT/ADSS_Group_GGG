@@ -1,9 +1,7 @@
-package UI.ManegerUI;
+package UI;
 
 import ServiceLayer.ServiceManager;
-import UI.Window;
-
-import java.util.ArrayList;
+import UI.HRManegerUI.HRMainWindow;
 
 public class CreateSystemWindow extends Window {
 
@@ -32,5 +30,9 @@ public class CreateSystemWindow extends Window {
         password = scanner.nextLine();
 
         serviceManager.getHRManagerService().hrRegister(id,name,bankAccountNum,salary, password);
+        System.out.println("HR manager created successfully");
+        System.out.println("Forwarding to HR manager window");
+        new HRMainWindow(serviceManager).run();
+
     }
 }
