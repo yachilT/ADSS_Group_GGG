@@ -79,4 +79,8 @@ public class EmployeeService {
         return employeeController.isManager(id);
 
     }
+
+    public void addEmployee(String name, int bankAccountNum, double salary, String password) {
+        // Implementation goes here
+    }
 }

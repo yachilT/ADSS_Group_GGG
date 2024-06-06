@@ -33,4 +33,9 @@ public class BranchManagerService {
         // Implementation goes here
     }
 
+    public ShiftToSend getShift() {// add parameters
+        // Implementation goes here
+        return null;
+    }
+
 }

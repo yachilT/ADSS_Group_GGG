@@ -1,8 +1,6 @@
 package UI.HRManegerUI;
 
 import ServiceLayer.ServiceManager;
-import UI.ManegerUI.AddEmpWindow;
-import UI.ManegerUI.PastShifts.ViewPastShiftsWindow;
 import UI.Window;
 
 public class HRMainWindow extends Window {

@@ -15,4 +15,6 @@ public class HRManagerService {
     public void hrRegister(int empId, String name, int bankAccountNum, double salary, String password) {
         // create system here
     }
+
+
 }
