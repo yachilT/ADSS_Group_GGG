@@ -1,10 +1,6 @@
-package DomainLayer.Barnches;
+package DomainLayer.Branches;
 
-import DomainLayer.Employees.Employee;
-import DomainLayer.Pair;
-
-
-
+import DomainLayer.Employees.Role;
 
 
 import java.util.ArrayList;
@@ -14,15 +10,17 @@ import java.util.List;
 public class Branch {
     int id;
     String name;
+    String address;
     WeeklyShifts currentWeek;
     List<WeeklyShifts> upcomingweeks;
     List<WeeklyShifts> pastweeks;
 
     public Branch(){}
 
-    public Branch(int id, String name){
+    public Branch(int id, String name, String address){
         this.id = id;
         this.name = name;
+        this.address = address;
         currentWeek = null;
         this.upcomingweeks = new ArrayList<>();
         this.pastweeks = new ArrayList<>();
@@ -54,11 +52,11 @@ public class Branch {
         }
     }
 
-    public void addEmployeeToShift(Employee employee, Pair<DayOfTheWeek, PartOfDay> key) throws Exception {
+    public void addEmployeeToShift(Integer employee, Role role, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employee == null ){
             throw new Exception("Employee is null");
         }//also check if the key is legal!
-        currentWeek.getShift(key).addEmployee(employee);
+        currentWeek.getShift(day,part).addEmployee(employee,role);
     }
 
     //getters and setters

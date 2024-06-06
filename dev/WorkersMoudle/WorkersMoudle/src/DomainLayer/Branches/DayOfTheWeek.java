@@ -1,4 +1,4 @@
-package DomainLayer.Barnches;
+package DomainLayer.Branches;
 
 public enum DayOfTheWeek {
     Sunday,

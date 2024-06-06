@@ -1,11 +1,8 @@
 package DomainLayer.Employees;
 
-import DomainLayer.Barnches.DayOfTheWeek;
-import DomainLayer.Barnches.PartOfDay;
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
-import ServiceLayer.BranchManegerServices.BranchManagerToSend;
-import ServiceLayer.HRManegerServices.HRManagerService;
-import DomainLayer.Employees.Role;
 
 import java.util.*;
 

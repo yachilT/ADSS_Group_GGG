@@ -3,10 +3,9 @@ package DomainLayer.Employees;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import DomainLayer.Employees.Role;
-import DomainLayer.Barnches.DayOfTheWeek;
-import DomainLayer.Barnches.PartOfDay;
-import DomainLayer.Barnches.Shift;
+
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
 
 public class Employee {

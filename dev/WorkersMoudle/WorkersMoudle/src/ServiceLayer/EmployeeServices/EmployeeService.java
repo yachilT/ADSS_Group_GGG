@@ -1,8 +1,8 @@
 package ServiceLayer.EmployeeServices;
 
 
-import DomainLayer.Barnches.DayOfTheWeek;
-import DomainLayer.Barnches.PartOfDay;
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Pair;
 
