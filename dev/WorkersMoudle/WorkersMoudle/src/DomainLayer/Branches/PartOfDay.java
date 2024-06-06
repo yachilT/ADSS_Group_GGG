@@ -1,7 +1,6 @@
-package DomainLayer.Barnches;
+package DomainLayer.Branches;
 
 public enum PartOfDay {
     Morning,
-    Noon,
     Evening
 }

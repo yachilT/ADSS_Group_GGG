@@ -1,51 +1,64 @@
-package DomainLayer.Barnches;
+package DomainLayer.Branches;
 
 import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Shift {
     private Pair<DayOfTheWeek,PartOfDay> id;
     private List<Role> neededRoles;
-    private List<Employee> employees;
+    private HashMap<Role, Integer> employees;
+    private Date date;
 
 
     public Shift(){}
     public Shift(Pair id) {
         this.id = id;
         this.neededRoles = new ArrayList<>();
-        this.employees = new ArrayList<>();
+        this.employees = new HashMap<>();
+    }
+
+    public Shift(Pair id, Date date) {
+        this.id = id;
+        this.neededRoles = new ArrayList<>();
+        this.employees = new HashMap<>();
+        this.date = date;
     }
 
     public Shift(Pair id, List<Role> neededRoles) {
         this.id = id;
         this.neededRoles = neededRoles;
-        this.employees = new ArrayList<>();
+        this.employees = new HashMap<>();
     }
     public Shift(Pair id, List<Role> neededRoles, List<Employee> employees) {
         this.id = id;
         this.neededRoles = neededRoles;
-        this.employees = employees;
+        this.employees = new HashMap<>();
     }
 
     public void addRole(Role role){
         neededRoles.add(role);
     }
 
-    public void addEmployee(Employee employee){
-        employees.add(employee);
+    public void addEmployee(Integer employee , Role role){
+        employees.put(role,employee);
+    }
+
+    public boolean isFulfilled(){
+        for(Role role : neededRoles){
+            if(!employees.containsKey(role)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void removeEmployee(Employee employee){
         employees.remove(employee);
     }
 
-    public boolean isEmployeeInShift(Employee employee){
-        return employees.contains(employee);
-    }
 
     //getters and setters
     public Pair<DayOfTheWeek, PartOfDay> getId() {
@@ -64,11 +77,4 @@ public class Shift {
         this.neededRoles = neededRoles;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
 }

@@ -1,20 +1,18 @@
-package DomainLayer.Barnches;
+package DomainLayer.Branches;
 
 import DomainLayer.Pair;
 
 import java.util.*;
 
-import java.util.*;
-
 public class WeeklyShifts {
-    private HashMap<Pair<DayOfTheWeek,PartOfDay>, Shift> shifts;
+    private HashMap<DayOfTheWeek, Pair<Shift,Shift>> shifts;
     private Date firstDayOfWeek;
 
     public WeeklyShifts() {
         this.shifts = new HashMap<>();
         for (DayOfTheWeek day : DayOfTheWeek.values()) {
             for (PartOfDay part : PartOfDay.values()) {
-                shifts.put(new Pair<>(day, part), new Shift(new Pair<>(day,part))); // Initialize shift
+                shifts.put(day, new Pair<>(new Shift(new Pair<>(day,part)), new Shift(new Pair<>(day,part)))); // Initialize shift
             }
         }
         this.firstDayOfWeek = Date.from(new Date().toInstant());
@@ -24,7 +22,7 @@ public class WeeklyShifts {
         this.shifts = new HashMap<>();
         for (DayOfTheWeek day : DayOfTheWeek.values()) {
             for (PartOfDay part : PartOfDay.values()) {
-                shifts.put(new Pair<>(day, part), new Shift(new Pair<>(day,part))); // Initialize shift
+                shifts.put(day, new Pair<>(new Shift(new Pair<>(day,part)), new Shift(new Pair<>(day,part)))); // Initialize shift
             }
         }
         this.firstDayOfWeek = firstDayOfWeek;
@@ -40,15 +38,16 @@ public class WeeklyShifts {
     }
 
     // Method to assign a shift
-    public void setShift(Pair<DayOfTheWeek,PartOfDay> pair, Shift shift) {
-        Pair<DayOfTheWeek, PartOfDay> key = new Pair<>(pair.getKey(), pair.getValue());
-        shifts.put(key, shift);
+    public void setShift(DayOfTheWeek day,PartOfDay part, Shift shift) {
+        shifts.put(day, new Pair<>(shift,shift));
     }
 
     // Method to get a shift
-    public Shift getShift(Pair<DayOfTheWeek, PartOfDay> pair) {
-        Pair<DayOfTheWeek, PartOfDay> key = new Pair<>(pair.getKey(), pair.getValue());
-        return shifts.get(key);
+    public Shift getShift(DayOfTheWeek day,PartOfDay part) {
+        if(part == PartOfDay.Morning)
+            return shifts.get(day).getKey();
+
+        return shifts.get(day).getValue();
     }
 
 }
