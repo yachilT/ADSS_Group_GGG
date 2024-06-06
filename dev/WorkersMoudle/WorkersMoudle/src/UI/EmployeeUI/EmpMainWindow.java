@@ -4,8 +4,10 @@ import ServiceLayer.ServiceManager;
 import UI.Window;
 
 public class EmpMainWindow extends Window {
-    public EmpMainWindow(ServiceManager serviceManager) {
+    int id;
+    public EmpMainWindow(ServiceManager serviceManager, int id) {
         super(serviceManager);
+        this.id = id;
     }
 
     @Override

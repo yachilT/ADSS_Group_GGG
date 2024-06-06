@@ -1,6 +1,7 @@
 package UI;
 
 import ServiceLayer.ServiceManager;
+import UI.EmployeeUI.EmpMainWindow;
 import UI.ManegerUI.ManagerMainWindow;
 
 import java.net.StandardSocketOptions;
@@ -17,6 +18,8 @@ public class LoginWindow extends Window{
     @Override
     public void run() {
         boolean loggedIn = false;
+
+
         while (!loggedIn){
             System.out.println("LoginWindow");
             System.out.println("Enter your EMP ID:");
@@ -39,6 +42,10 @@ public class LoginWindow extends Window{
         System.out.println("Forwarding to next window");
         if(this.serviceManager.getEmployeeService().isManager(id))
             new ManagerMainWindow(this.serviceManager, id).run();
+        else
+            new EmpMainWindow(this.serviceManager, id).run();
 
     }
+
+
 }
