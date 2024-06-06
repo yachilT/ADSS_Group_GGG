@@ -15,13 +15,11 @@ public class BranchController {
     public BranchController(EmployeeController employeeController) {
         this.employeeController = employeeController;
         branches = new HashMap<>();
-        branches.put(branchCounter, new Branch(branchCounter, "Ness Ziona Market", "Avner Ben Ner 1, Ness Ziona"));
-        branchCounter++;
     }
 
-    public void addBranch(String name, String address){
+    public int addBranch(String name, String address){
         branches.put(branchCounter, new Branch(branchCounter, name, address));
-        branchCounter++;
+        return branchCounter++;
     }
 
     public void addEmployeeToShift(int branchId, int employeeId, Role role, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{

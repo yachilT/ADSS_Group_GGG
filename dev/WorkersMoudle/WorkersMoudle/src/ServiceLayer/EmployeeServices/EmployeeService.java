@@ -1,6 +1,7 @@
 package ServiceLayer.EmployeeServices;
 
 
+import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.EmployeeController;
@@ -14,6 +15,12 @@ import java.util.List;
 public class EmployeeService {
 
     private EmployeeController employeeController;
+    private BranchController branchController;
+
+    public EmployeeService(EmployeeController employeeController, BranchController branchController) {
+        this.employeeController = employeeController;
+        this.branchController = branchController;
+    }
 
     // Method to sign up a new employee
     public void signUp(Integer id, String password) {

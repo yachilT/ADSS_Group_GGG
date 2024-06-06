@@ -10,7 +10,7 @@ import DomainLayer.Pair;
 
 public class Employee {
 
-    private int id;
+    private Integer id;
     private String name;
     private String password;
     private List<Role> roles;
@@ -25,7 +25,7 @@ public class Employee {
 
     public Employee(){}
 
-    public Employee(int id, String name, String password, List<Role> roles,
+    public Employee(Integer id, String name, String password, List<Role> roles,
                     int bankAccountNumber, double salary, int branchId) {
         this.id = id;
         this.name = name;

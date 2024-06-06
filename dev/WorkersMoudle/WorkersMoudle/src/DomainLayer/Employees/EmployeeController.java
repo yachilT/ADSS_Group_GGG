@@ -14,30 +14,40 @@ public class EmployeeController {
     private HRManager hrManager;
     private List<Integer> employeesLoggedInIds; // list of employees ids that are logged in
 
-    private int idCounter;
-    EmployeeController(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
-                       double hrManagerSalary, int hrManagerBranchId) {
+    private Integer idCounter;
+    public EmployeeController() {
         employees = new HashMap<>();
         branchManagers = new HashMap<>();
         employeesLoggedInIds = new ArrayList<>();
         idCounter = INITIAL_ID;
-
-        hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
-                hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
     }
 
-    public void addEmployee(int id, String name, String password, List<Role> roles,
+    public void setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
+    double hrManagerSalary, int hrManagerBranchId){
+        hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
+                hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
+        employees.put(hrManager.getId(), hrManager);
+    }
+
+    public void addEmployee(String name, String password, List<Role> roles,
                             int bankAccountNumber, double salary, int branchId) throws Exception {
-        if(employees.get(id) != null)
-            throw new Exception("Employee already exists");
         if(salary < 0)
             throw new Exception("Salary must be positive");
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        employees.put(id, new Employee(id, name,password, roles, bankAccountNumber, salary, branchId));
-        employeesLoggedInIds.add(id);// assuming the employee is logged in after register
+        employees.put(idCounter, new Employee(idCounter++, name,password, roles, bankAccountNumber, salary, branchId));
+    }
 
+    public void addBranchManager(String name, String password,int bankAccountNumber, double salary, int branchId) throws Exception {
+        if(salary < 0)
+            throw new Exception("Salary must be positive");
+        if(branchManagers.containsKey(branchId))
+            throw new Exception("Branch already has a manager");
+
+        BranchManager branchManager = new BranchManager(idCounter++, name,password, new ArrayList<Role>(), bankAccountNumber, salary, branchId);
+        branchManagers.put(branchManager.getId(), branchManager);
+        employees.put(branchManager.getId(), branchManager);
     }
 
     public void login(int id, String password) throws Exception {

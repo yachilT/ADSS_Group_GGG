@@ -2,40 +2,37 @@ package DomainLayer.Branches;
 
 import DomainLayer.Pair;
 
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class WeeklyShifts {
     private HashMap<DayOfTheWeek, Pair<Shift,Shift>> shifts;
-    private Date firstDayOfWeek;
+    private Date lastDayOfWeek;
 
-    public WeeklyShifts() {
-        this.shifts = new HashMap<>();
-        for (DayOfTheWeek day : DayOfTheWeek.values()) {
-            for (PartOfDay part : PartOfDay.values()) {
-                shifts.put(day, new Pair<>(new Shift(new Pair<>(day,part)), new Shift(new Pair<>(day,part)))); // Initialize shift
-            }
-        }
-        this.firstDayOfWeek = Date.from(new Date().toInstant());
-    }
 
     public WeeklyShifts(Date firstDayOfWeek) {
+        Date currentDate = firstDayOfWeek;
         this.shifts = new HashMap<>();
         for (DayOfTheWeek day : DayOfTheWeek.values()) {
             for (PartOfDay part : PartOfDay.values()) {
-                shifts.put(day, new Pair<>(new Shift(new Pair<>(day,part)), new Shift(new Pair<>(day,part)))); // Initialize shift
+                shifts.put(day, new Pair<>(new Shift(new Pair<>(day, part), currentDate), new Shift(new Pair<>(day, part), currentDate))); // Initialize shift
             }
+            // Move to the next day
+            currentDate = Date.from(currentDate.toInstant().plus(1, ChronoUnit.DAYS));
         }
-        this.firstDayOfWeek = firstDayOfWeek;
+        // Save the last day of the week
+        this.lastDayOfWeek = Date.from(currentDate.toInstant().minus(1, ChronoUnit.DAYS));
     }
 
-    // Getter and setter for firstDayOfWeek
-    public Date getFirstDayOfWeek() {
-        return firstDayOfWeek;
+    // Getters and setters for lastDayOfWeek
+    public Date getLastDayOfWeek() {
+        return lastDayOfWeek;
     }
 
-    public void setFirstDayOfWeek(Date firstDayOfWeek) {
-        this.firstDayOfWeek = firstDayOfWeek;
+    public void setLastDayOfWeek(Date lastDayOfWeek) {
+        this.lastDayOfWeek = lastDayOfWeek;
     }
+
 
     // Method to assign a shift
     public void setShift(DayOfTheWeek day,PartOfDay part, Shift shift) {

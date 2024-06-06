@@ -1,5 +1,8 @@
 package ServiceLayer;
 
+import DomainLayer.Branches.BranchController;
+import DomainLayer.Employees.BranchManager;
+import DomainLayer.Employees.EmployeeController;
 import ServiceLayer.EmployeeServices.EmployeeService;
 import ServiceLayer.HRManegerServices.HRManagerService;
 import ServiceLayer.BranchManegerServices.BranchManagerService;
@@ -14,9 +17,11 @@ public class ServiceManager {
 
     private ServiceManager() {
         // Initialize services here
-        this.employeeService = new EmployeeService();
-        this.hrManagerService = new HRManagerService();
-        this.branchManagerService = new BranchManagerService();
+        EmployeeController employeeController = new EmployeeController();
+        BranchController branchController = new BranchController(employeeController);
+        this.employeeService = new EmployeeService(employeeController,branchController);
+        this.hrManagerService = new HRManagerService(employeeController,branchController);
+        this.branchManagerService = new BranchManagerService(branchController,employeeController);
     }
 
     public static ServiceManager getInstance() {
