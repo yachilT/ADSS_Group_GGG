@@ -5,15 +5,25 @@ import ServiceLayer.HRManegerServices.HRManagerService;
 import ServiceLayer.BranchManegerServices.BranchManagerService;
 
 public class ServiceManager {
+
+    private static ServiceManager instance = null;
+
     private EmployeeService employeeService;
     private HRManagerService hrManagerService;
     private BranchManagerService branchManagerService;
 
-    public ServiceManager() {
+    private ServiceManager() {
         // Initialize services here
         this.employeeService = new EmployeeService();
         this.hrManagerService = new HRManagerService();
         this.branchManagerService = new BranchManagerService();
+    }
+
+    public static ServiceManager getInstance() {
+        if (instance == null) {
+            instance = new ServiceManager();
+        }
+        return instance;
     }
 
     public EmployeeService getEmployeeService() {
@@ -28,4 +38,3 @@ public class ServiceManager {
         return this.branchManagerService;
     }
 }
-

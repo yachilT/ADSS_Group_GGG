@@ -4,7 +4,6 @@ package ServiceLayer.EmployeeServices;
 import DomainLayer.Barnches.DayOfTheWeek;
 import DomainLayer.Barnches.PartOfDay;
 import DomainLayer.Employees.EmployeeController;
-import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
 
 
@@ -17,22 +16,19 @@ public class EmployeeService {
     private EmployeeController employeeController;
 
     // Method to sign up a new employee
-    public void signUp(String name ,String password, List<Role> roles,
-                       int bankAccountNumber, double salary, int branchId) {
-        try {
-            employeeController.addEmployee( name, password, roles, bankAccountNumber, salary, branchId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void signUp(Integer id, String password) {
+        // Implementation goes here
     }
 
     // Method to log in an existing employee
-    public void login(Integer id, String password) {
+    public boolean login(Integer id, String password) {
         try {
             employeeController.login(id, password);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+
         }
     }
 
@@ -76,5 +72,11 @@ public class EmployeeService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isManager(Integer id) {
+        // Implementation goes here
+        return employeeController.isManager(id);
+
     }
 }
