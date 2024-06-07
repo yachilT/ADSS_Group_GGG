@@ -30,8 +30,18 @@ public class Controller {
                         new Site("Rager 83, Beer Sheva", "Haim Schmidt", "0527073993"),
                         new Site("David Ben Gurion 5, Ashkelon", "Roi Shavit", "0586943858"))
                 ),
-                new Area("East", new HashSet<>()),
-                new Area("West", new HashSet<>())
+                new Area("Jerusalem", Set.of(
+                        new Site("Yitzhak Rabin 12, Jerusalem", "Yossi Cohen", "0586943858"),
+                        new Site("Nissim Bachar 13, Jerusalem", "Menashe Naim", "0503774857"),
+                        new Site("Moshe Dayan 107, Pisgat Ze'ev", "Yoav Duani", "0524995578" )
+                )),
+                new Area("HaMerkaz", Set.of(
+                        new Site("Hertzel 12, Tel Aviv", "Israel Ben Simon", "0546583385"),
+                        new Site("Arlozerov 23, Ramat Gan", "Yossi Shabtai", "05058939955"),
+                        new Site("Haim Bar Lev 5, Givatayim", "Hen Banai", "0544682285"),
+                        new Site("Yigal Alon 12, Herzliya", "Uri Itzkovitch", "0503885739"),
+                        new Site("Menachem Begin 1, Rishon LeZion", "Hezi Sa'ar", "0548885733")
+                ))
         );
         areas.forEach(areaFacade::addArea);
         areaService = new AreaService(areaFacade);
