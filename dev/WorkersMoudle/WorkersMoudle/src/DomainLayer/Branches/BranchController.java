@@ -4,6 +4,7 @@ import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BranchController {
 
@@ -30,6 +31,25 @@ public class BranchController {
         branches.get(branchId);
     }
 
+    public void setUpShift(int branchId, DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles){
+        branches.get(branchId).setUpShift(day, partOfDay, roles);
+    }
 
+    public void addEmployeeToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay){
+        try {
+            branches.get(branchId).addEmployeeToShift(id, role, day, partOfDay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Integer week, Role role) throws Exception {
+        try{
+            branches.get(branchId).exchangeShift(id1, id2, day, part, week, role);
+        }catch (Exception e){
+            throw e;
+        }
+
+    }
 
 }

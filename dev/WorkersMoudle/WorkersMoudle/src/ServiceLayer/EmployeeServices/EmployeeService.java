@@ -5,7 +5,9 @@ import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.EmployeeController;
+import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
+import ServiceLayer.Response;
 
 
 import java.util.List;
@@ -23,67 +25,82 @@ public class EmployeeService {
     }
 
     // Method to sign up a new employee
-    public void signUp(Integer id, String password) {
-        // Implementation goes here
+    public Response signUp(Integer id, String password) {
+        try {
+            employeeController.signUp(id, password);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+
+        return new Response();
     }
 
     // Method to log in an existing employee
-    public boolean login(Integer id, String password) {
+    public Response login(Integer id, String password) {
         try {
             employeeController.login(id, password);
-            return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-
+            return new Response(e.getMessage());
         }
+        return new Response();
     }
 
     // Method to log out an existing employee
-    public void logout(Integer id) {
+    public Response logout(Integer id) {
         try {
             employeeController.logout(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            return new Response(e.getMessage());
         }
+        return new Response();
     }
 
     // Method to enter time out for an employee
-    public void enterTimeOut(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> times) {
-        // Implementation goes here
+    public Response enterTimeOut(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> times) {
         try {
             employeeController.enterTimeOut(id, times);
         } catch (Exception e) {
-            e.printStackTrace();
+            return new Response(e.getMessage());
         }
-
+        return new Response();
     }
 
     // Method to exchange shifts between two employees
-    public void exchangeShift(Integer id1, Integer id2, Integer shiftId) {
-        // Implementation goes here
+    public Response exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Integer week, Role role) {
+        if (this.employeeController.isBranchEMP(id1, branchId) && this.employeeController.isBranchEMP(id2, branchId)) {
+            try {
+                branchController.exchangeShift(branchId, id1, id2, day, part, week, role);
+            } catch (Exception e) {
+                return new Response(e.getMessage());
+            }
+            return new Response();
+        }
+        return new Response("One or both of the employees are not in the branch");
     }
 
     // Method to enter shift preferences for an employee
-    public void enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) {
+    public Response enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) {
         try {
             employeeController.enterPreferences(id, shiftPreferences);
         } catch (Exception e) {
-            e.printStackTrace();
+            return new Response(e.getMessage());
         }
+        return new Response();
     }
 
-    public void removeEmployee(Integer id) {
+    public Response removeEmployee(Integer id) {
         try {
             employeeController.removeEmployee(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            return new Response(e.getMessage());
         }
+        return new Response();
     }
 
-    public boolean isManager(Integer id) {
-        // Implementation goes here
-        return employeeController.isManager(id);
+    public Response isManager(Integer id) {
+        if(employeeController.isManager(id))
+            return new Response();
 
+        return new Response("Employee is not a manager");
     }
 }

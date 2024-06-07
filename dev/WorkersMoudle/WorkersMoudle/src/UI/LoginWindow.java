@@ -26,7 +26,7 @@ public class LoginWindow extends Window{
             this.id = Integer.parseInt(scanner.nextLine());
             System.out.println("Enter your password:");
             String password = scanner.nextLine();
-            if(this.serviceManager.getEmployeeService().login(id,password)){
+            if(!this.serviceManager.getEmployeeService().login(id,password).ErrorOccured()){
                 System.out.println("Login successful");
                 loggedIn = true;
             }else {
@@ -40,7 +40,7 @@ public class LoginWindow extends Window{
 
     private void ForwardToNextWindow() {
         System.out.println("Forwarding to next window");
-        if(this.serviceManager.getEmployeeService().isManager(id))
+        if(!this.serviceManager.getEmployeeService().isManager(id).ErrorOccured())
             new ManagerMainWindow(this.serviceManager, id).run();
         else
             new EmpMainWindow(this.serviceManager, id).run();

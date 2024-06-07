@@ -9,7 +9,7 @@ import java.util.*;
 public class Shift {
     private Pair<DayOfTheWeek,PartOfDay> id;
     private List<Role> neededRoles;
-    private HashMap<Role, Integer> employees;
+    private HashMap<Integer, Role> employees;
     private Date date;
 
 
@@ -43,7 +43,7 @@ public class Shift {
     }
 
     public void addEmployee(Integer employee , Role role){
-        employees.put(role,employee);
+        employees.put(employee,role);
     }
 
     public boolean isFulfilled(){
@@ -75,6 +75,39 @@ public class Shift {
 
     public void setNeededRoles(List<Role> neededRoles) {
         this.neededRoles = neededRoles;
+    }
+
+    public void addNeededRoles(List<Role> neededRoles){
+        this.neededRoles.addAll(neededRoles);
+    }
+
+    public void exchangeShift(Integer id1, Integer id2, Role role2) throws Exception {
+        Role role = employees.get(id1);
+
+        if(role == role2){
+            employees.remove(id1);
+            employees.put(id2,role2);
+            return;
+        }
+
+        if(neededRoles.contains(role)){
+            int counter = 0;
+            for(Role r : neededRoles){
+                if(r == role){
+                    counter++;
+                }
+            }
+            if(counter > 1){
+                employees.remove(id1);
+                employees.put(id2,role2);
+                return;
+            }
+        }else{
+            employees.remove(id1);
+            employees.put(id2,role2);
+            return;
+        }
+        throw new Exception("Employees can't exchange shifts");
     }
 
 }

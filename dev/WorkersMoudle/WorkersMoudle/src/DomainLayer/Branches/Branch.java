@@ -36,6 +36,10 @@ public class Branch {
         this.pastweeks = pastweeks;
     }
 
+    public void setUpShift(DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles){
+        upcomingweeks.get(0).getShift(day, partOfDay).addNeededRoles(roles);
+    }
+
     public void create6weeks() {
         Calendar calendar = Calendar.getInstance();
 
@@ -98,7 +102,7 @@ public class Branch {
         if(employee == null ){
             throw new Exception("Employee is null");
         }//also check if the key is legal!
-        currentWeek.getShift(day,part).addEmployee(employee,role);
+        upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
     }
 
     //getters and setters
@@ -132,5 +136,17 @@ public class Branch {
 
     public void setPastweeks(List<WeeklyShifts> pastweeks) {
         this.pastweeks = pastweeks;
+    }
+
+    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Integer week, Role role) throws Exception {
+        try{
+            if(week == 0){
+                currentWeek.getShift(day,part).exchangeShift(id1,id2, role);
+            }else{
+                upcomingweeks.get(0).getShift(day,part).exchangeShift(id1,id2,role);
+            }
+        }catch (Exception e){
+            throw e;
+        }
     }
 }

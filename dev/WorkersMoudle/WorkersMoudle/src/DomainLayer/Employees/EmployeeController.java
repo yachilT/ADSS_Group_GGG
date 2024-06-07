@@ -29,14 +29,14 @@ public class EmployeeController {
         employees.put(hrManager.getId(), hrManager);
     }
 
-    public void addEmployee(String name, String password, List<Role> roles,
+    public void addEmployee(String name, List<Role> roles,
                             int bankAccountNumber, double salary, int branchId) throws Exception {
         if(salary < 0)
             throw new Exception("Salary must be positive");
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        employees.put(idCounter, new Employee(idCounter++, name,password, roles, bankAccountNumber, salary, branchId));
+        employees.put(idCounter, new Employee(idCounter++, name, roles, bankAccountNumber, salary, branchId));
     }
 
     public void addBranchManager(String name, String password,int bankAccountNumber, double salary, int branchId) throws Exception {
@@ -139,7 +139,30 @@ public class EmployeeController {
         }
     }
 
+    public void signUp(Integer id, String password) throws Exception {
+        if(employees.get(id) == null){
+            throw new IllegalArgumentException("Employee not found");
+        }
+        employees.get(id).setPassword(password);
+    }
     public boolean isManager(Integer id) {
         return branchManagers.containsKey(id) || id ==INITIAL_ID;
     }
+
+    public List<String> displayPreferences(Integer id){
+        if(employees.get(id) == null){
+            throw new IllegalArgumentException("Employee not found");
+        }
+        List<Pair<DayOfTheWeek,PartOfDay>> list = employees.get(id).getShiftPreferences();
+        List<String> res = new ArrayList<>();
+        for(Pair<DayOfTheWeek,PartOfDay> p : list){
+            res.add(p.getKey().toString() + " " + p.getValue().toString());
+        }
+        return res;
+    }
+
+    public boolean isBranchEMP(Integer empId, Integer branchId){
+        return employees.get(empId).getBranchId() == branchId;
+    }
+
 }

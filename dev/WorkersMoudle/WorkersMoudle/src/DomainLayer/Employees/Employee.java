@@ -25,11 +25,11 @@ public class Employee {
 
     public Employee(){}
 
-    public Employee(Integer id, String name, String password, List<Role> roles,
+    public Employee(Integer id, String name, List<Role> roles,
                     int bankAccountNumber, double salary, int branchId) {
         this.id = id;
         this.name = name;
-        this.password = password;
+        this.password = null;
         this.roles = roles;
         this.bankAccountNumber = bankAccountNumber;
         this.salary = salary;
@@ -38,6 +38,14 @@ public class Employee {
         this.dateLeft = null;
         shiftPreferences = new ArrayList<>();
         shiftCantWork = new ArrayList<>();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     //getters and setters
