@@ -36,10 +36,16 @@ public class ShipmentDocument {
 
     @Override
     public String toString() {
-        return "Shipment details:\n" +
-                    "\bID: " + id + ", Date: " + shipmentDate + ", Departure time: " + departureTime + "\n" +
-                    "\bTruck number: " + truckNumber + ", Driver name: " + driverName + "\n" +
+        return "------------------------------------------\n" + "Shipment details: " + id + "\n" +
+                     "Date: " + shipmentDate + " | Departure time: " + departureTime + "\n" +
+                    "Truck number: " + truckNumber + " | Driver name: " + driverName + "\n" +
+                "------------------------------------------\n" +
                     "Origin details:\n" +
-                    "\bAddress: " + originAddress + ", Contact name: " + originContactName + ", Contact number: " + originContactNumber;
+                    "Address: " + originAddress + " | Contact name: " + originContactName + " | Contact number: " + originContactNumber + "\n" +
+                "------------------------------------------\n";
+    }
+
+    public String getOriginAddress() {
+        return originAddress;
     }
 }

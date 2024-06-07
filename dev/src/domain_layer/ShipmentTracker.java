@@ -23,17 +23,18 @@ public class ShipmentTracker implements Iterator<Destination> {
         return shipment.getTruck();
     }
 
-    public void removeDestination() {
-        shipment.removeDestination(currentDstIndex);
+    public List<Destination> removeDestination() {
+        return shipment.removeDestination(currentDstIndex--);
     }
 
-    public void ChangeDestination(Destination dst) {
-        shipment.changeDestination(currentDstIndex, dst);
+    public List<Destination> changeDestination(int relativeDstIndex) {
+        currentDstIndex--;
+        return shipment.changeDestination(currentDstIndex + 1, relativeDstIndex + 1 + currentDstIndex + 1);
+
     }
 
     public void productsToRemain(List<ProductAmount> products) {
-        shipment.productsToRemain(products, currentDstIndex);
-
+        shipment.productsToRemain(products, currentDstIndex--);
     }
 
 
@@ -52,7 +53,7 @@ public class ShipmentTracker implements Iterator<Destination> {
         shipment.setWeightForDst(currentDstIndex, newWeight);
     }
 
-    public void tryFinishShipment() {
+    public void finishShipment() {
             shipment.finish();
             shipmentHistory.add(shipment.createDocument(), shipment.createDestinationDocuments());
     }
@@ -60,5 +61,9 @@ public class ShipmentTracker implements Iterator<Destination> {
 
     public List<Destination> getRemainingDestinations() {
         return shipment.getDestinationsFrom(currentDstIndex);
+    }
+
+    public List<Destination> getAllDestinations() {
+        return shipment.getDestinations();
     }
 }

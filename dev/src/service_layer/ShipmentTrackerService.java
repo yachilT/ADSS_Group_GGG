@@ -19,7 +19,7 @@ public class ShipmentTrackerService {
 
     public Response<ShipmentToSend> trackShipment(int shipmentId){
         try {
-            Shipment shipment = shipmentScheduler.getShipment(shipmentId);
+            Shipment shipment = shipmentScheduler.departShipment(shipmentId);
             ShipmentTracker tracker = new ShipmentTracker(shipment, shipmentHistory);
 
             shipmentTrackers.put(shipmentId, tracker);
@@ -77,24 +77,22 @@ public class ShipmentTrackerService {
         }
     }
 
-    public Response<Object> removeDestination(int shipmentId) {
+    public Response<List<DestinationToSend>> removeDestination(int shipmentId) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
-        tracker.removeDestination();
-        return new Response<>();
+        return new Response<>(tracker.removeDestination().stream().map(DestinationToSend::new).toList());
 
     }
 
-    public Response<Object> changeDestination(int shipmentId, DestinationToSend newDst) {
+    public Response<List<DestinationToSend>> changeDestination(int shipmentId, int relativeDstIndex) {
         ShipmentTracker tracker = shipmentTrackers.get(shipmentId);
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
 
-        tracker.ChangeDestination(newDst.toDestination());
-        return new Response<>();
+        return new Response<>(tracker.changeDestination(relativeDstIndex).stream().map(DestinationToSend::new).toList());
     }
 
     public Response<Object> productsToRemain(int shipmentId, List<ProductToSend> remainingProducts) {
@@ -116,7 +114,7 @@ public class ShipmentTrackerService {
         if (tracker == null) {
             return new Response<>("Error: Shipment not found");
         }
-        tracker.tryFinishShipment();
+        tracker.finishShipment();
         shipmentTrackers.remove(shipmentId);
         return new Response<>();
     }
