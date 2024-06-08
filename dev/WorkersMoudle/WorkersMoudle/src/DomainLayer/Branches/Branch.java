@@ -4,6 +4,7 @@ import DomainLayer.Employees.Role;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class Branch {
         currentWeek = null;
         this.upcomingweeks = new ArrayList<>();
         this.pastweeks = new ArrayList<>();
+        create6weeks();
     }
 
     public Branch(int id, String name, WeeklyShifts currentWeek, List<WeeklyShifts> upcomingweeks, List<WeeklyShifts> pastweeks){
@@ -34,29 +36,73 @@ public class Branch {
         this.pastweeks = pastweeks;
     }
 
-    public void AddWeek(Date firstDayOfWeek){
-        if(currentWeek == null){
+    public void setUpShift(DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles){
+        upcomingweeks.get(0).getShift(day, partOfDay).addNeededRoles(roles);
+    }
+
+    public void create6weeks() {
+        Calendar calendar = Calendar.getInstance();
+
+        // Adjust to the next Sunday if today is not Sunday
+        if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            calendar.add(Calendar.DAY_OF_WEEK, Calendar.SUNDAY - calendar.get(Calendar.DAY_OF_WEEK));
+        }
+
+        // Now, 'calendar' should be set to the next Sunday
+        Date nextWeekStartDate = calendar.getTime();
+
+        for (int i = 0; i < 6; i++) {
+            AddWeek(nextWeekStartDate);
+            calendar.add(Calendar.WEEK_OF_YEAR, 1);
+            nextWeekStartDate = calendar.getTime();
+        }
+    }
+
+    public void AddWeek(Date firstDayOfWeek) {
+        if (currentWeek == null) {
             this.currentWeek = new WeeklyShifts(firstDayOfWeek);
-        }else{
+        } else {
             upcomingweeks.add(new WeeklyShifts(firstDayOfWeek));
         }
     }
 
-    public void weekPast(){
-        if(currentWeek != null) {
-            pastweeks.add(currentWeek);
-            if(!upcomingweeks.isEmpty())
+    public void checkWeekPast() { //if date changes call this function
+        if (currentWeek != null) {
+            Calendar calendar = Calendar.getInstance();
+            Date today = calendar.getTime();
+
+            if (today.after(currentWeek.getLastDayOfWeek())) {
+                pastweeks.add(currentWeek);
                 currentWeek = upcomingweeks.remove(0);
-            else
-                currentWeek = null;
+
+                // Ensure there's always at least one upcoming week
+                if (upcomingweeks.isEmpty()) {
+                    upcomingweeks.add(createNextWeek());
+                }
+            }
         }
+    }
+
+    private WeeklyShifts createNextWeek() {
+        Calendar calendar = Calendar.getInstance();
+
+        // Adjust to the next Sunday if today is not Sunday
+        if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            calendar.add(Calendar.DAY_OF_WEEK, Calendar.SUNDAY - calendar.get(Calendar.DAY_OF_WEEK));
+        }
+
+        // Add one week to get to the next week's Sunday
+        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+
+        Date nextWeekStartDate = calendar.getTime();
+        return new WeeklyShifts(nextWeekStartDate);
     }
 
     public void addEmployeeToShift(Integer employee, Role role, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employee == null ){
             throw new Exception("Employee is null");
         }//also check if the key is legal!
-        currentWeek.getShift(day,part).addEmployee(employee,role);
+        upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
     }
 
     //getters and setters
@@ -90,5 +136,17 @@ public class Branch {
 
     public void setPastweeks(List<WeeklyShifts> pastweeks) {
         this.pastweeks = pastweeks;
+    }
+
+    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Integer week, Role role) throws Exception {
+        try{
+            if(week == 0){
+                currentWeek.getShift(day,part).exchangeShift(id1,id2, role);
+            }else{
+                upcomingweeks.get(0).getShift(day,part).exchangeShift(id1,id2,role);
+            }
+        }catch (Exception e){
+            throw e;
+        }
     }
 }
