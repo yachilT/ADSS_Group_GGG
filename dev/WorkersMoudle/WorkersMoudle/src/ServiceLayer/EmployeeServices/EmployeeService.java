@@ -103,4 +103,8 @@ public class EmployeeService {
 
         return new Response("Employee is not a manager");
     }
+
+    public void addEmployee(String name, int bankAccountNum, double salary, String password) {
+        // Implementation goes here
+    }
 }

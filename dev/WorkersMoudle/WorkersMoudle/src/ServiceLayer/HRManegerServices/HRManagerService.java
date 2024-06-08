@@ -32,4 +32,6 @@ public class HRManagerService {
         employeeController.setHrManager(name, password,bankAccountNum, salary, 0);
         return new Response();
     }
+
+
 }

@@ -48,4 +48,9 @@ public class BranchManagerService {
         return new Response(this.employeeController.displayPreferences(id));
     }
 
+    public ShiftToSend getShift() {// add parameters
+        // Implementation goes here
+        return null;
+    }
+
 }
