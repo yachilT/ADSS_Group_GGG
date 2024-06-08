@@ -26,7 +26,9 @@ public class Employee {
     public Employee(){}
 
     public Employee(Integer id, String name, List<Role> roles,
-                    int bankAccountNumber, double salary, int branchId) {
+                    int bankAccountNumber, double salary, int branchId) throws Exception {
+        if(salary < 0)
+            throw new Exception("Salary must be positive");
         this.id = id;
         this.name = name;
         this.password = null;

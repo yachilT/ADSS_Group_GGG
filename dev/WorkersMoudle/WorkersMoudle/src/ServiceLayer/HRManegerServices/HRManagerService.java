@@ -29,8 +29,11 @@ public class HRManagerService {
 
     // Method to register an HR manager with given details
     public Response hrRegister(String name, int bankAccountNum, double salary, String password) {
-        employeeController.setHrManager(name, password,bankAccountNum, salary, 0);
-        return new Response();
+        try {
+           return new Response(employeeController.setHrManager(name, password,bankAccountNum, salary, 0));
+        }catch (Exception e) {
+            return new Response(e.getMessage());
+        }
     }
 
 
