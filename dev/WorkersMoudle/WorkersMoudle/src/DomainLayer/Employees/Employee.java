@@ -40,9 +40,6 @@ public class Employee {
         shiftCantWork = new ArrayList<>();
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;

@@ -26,7 +26,7 @@ public class CreateSystemWindow extends Window {
         System.out.print("Password:");
         password = scanner.nextLine();
 
-        serviceManager.getHRManagerService().hrRegister(id,name,bankAccountNum,salary, password);
+        serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
         System.out.println("HR manager created successfully");
         System.out.println("Forwarding to HR manager window");
         new HRMainWindow(serviceManager).run();

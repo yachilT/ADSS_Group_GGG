@@ -38,7 +38,7 @@ public class AddBranchesWindow extends Window {
 
 
 
-        serviceManager.getHRManagerService().createBranch(branchName,address,name,bankAccountNum,salary,password);
+        serviceManager.getHRManagerService().createBranch(branchName,address,name,bankAccountNum,salary);
 
         System.out.println("Branch added");
 

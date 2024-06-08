@@ -39,13 +39,13 @@ public class EmployeeController {
         employees.put(idCounter, new Employee(idCounter++, name, roles, bankAccountNumber, salary, branchId));
     }
 
-    public void addBranchManager(String name, String password,int bankAccountNumber, double salary, int branchId) throws Exception {
+    public void addBranchManager(String name,int bankAccountNumber, double salary, int branchId) throws Exception {
         if(salary < 0)
             throw new Exception("Salary must be positive");
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch already has a manager");
 
-        BranchManager branchManager = new BranchManager(idCounter++, name,password, new ArrayList<Role>(), bankAccountNumber, salary, branchId);
+        BranchManager branchManager = new BranchManager(idCounter++, name, new ArrayList<Role>(), bankAccountNumber, salary, branchId);
         branchManagers.put(branchManager.getId(), branchManager);
         employees.put(branchManager.getId(), branchManager);
     }
