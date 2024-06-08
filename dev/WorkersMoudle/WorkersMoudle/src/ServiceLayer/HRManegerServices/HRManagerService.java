@@ -18,9 +18,9 @@ public class HRManagerService {
         this.employeeController = employeeController;
         this.branchController = branchController;
     }
-    public Response createBranchcreateBranch(String branchName, String address, String name, String password, int bankAccountNum, double salary) {
+    public Response createBranch(String branchName, String address, String name, int bankAccountNum, double salary) {
         try {
-            employeeController.addBranchManager(name, password,bankAccountNum,salary,branchController.addBranch(branchName, address));
+            employeeController.addBranchManager(name,bankAccountNum,salary,branchController.addBranch(branchName, address));
         }catch (Exception e){
             return new Response(e.getMessage());
         }
