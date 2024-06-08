@@ -111,4 +111,11 @@ public class Shift {
         throw new Exception("Employees can't exchange shifts");
     }
 
+
+    // for tests
+
+    public Set<Integer> getEmployees() {
+        return employees.keySet();
+    }
+
 }
