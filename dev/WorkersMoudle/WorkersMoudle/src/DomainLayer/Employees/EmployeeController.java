@@ -146,7 +146,7 @@ public class EmployeeController {
         employees.get(id).setPassword(password);
     }
     public boolean isManager(Integer id) {
-        return branchManagers.containsKey(id) || id ==INITIAL_ID;
+        return branchManagers.containsKey(id) || id == hrManager.getId();
     }
 
     public List<String> displayPreferences(Integer id){
