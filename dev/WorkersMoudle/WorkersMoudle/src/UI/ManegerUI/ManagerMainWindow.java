@@ -15,7 +15,7 @@ public class ManagerMainWindow extends Window {
     @Override
     public void run() {
         boolean exit = false;
-        while (exit) {
+        while (!exit) {
             chooseOptions();
             switch (scanner.nextLine()) {
                 case "1" -> new AddEmpWindow(serviceManager).run();

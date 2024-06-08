@@ -22,17 +22,17 @@ public class EmployeeController {
         idCounter = INITIAL_ID;
     }
 
-    public void setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
-    double hrManagerSalary, int hrManagerBranchId){
+    public Integer setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
+    double hrManagerSalary, int hrManagerBranchId) throws Exception{
         hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
                 hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
         employees.put(hrManager.getId(), hrManager);
+        return hrManager.getId();
     }
 
     public void addEmployee(String name, List<Role> roles,
                             int bankAccountNumber, double salary, int branchId) throws Exception {
-        if(salary < 0)
-            throw new Exception("Salary must be positive");
+
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
@@ -40,8 +40,7 @@ public class EmployeeController {
     }
 
     public void addBranchManager(String name,int bankAccountNumber, double salary, int branchId) throws Exception {
-        if(salary < 0)
-            throw new Exception("Salary must be positive");
+
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch already has a manager");
 

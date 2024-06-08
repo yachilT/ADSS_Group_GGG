@@ -1,5 +1,7 @@
 package UI;
 
+import DomainLayer.Employees.Employee;
+import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 import UI.HRManegerUI.HRMainWindow;
 
@@ -11,12 +13,33 @@ public class CreateSystemWindow extends Window {
 
     @Override
     public void run() {
+
+        Response response =null;
+        boolean flag =true;
+
+        while(flag){
+            response = getInputs();
+            if(response.ErrorOccured())
+                System.out.println(response.GetErrorMessage());
+            else
+                flag = false;
+        }
+
+
+        System.out.println("Employee ID:" + response.GetReturnValue());
+        System.out.println("HR manager created successfully");
+        System.out.println("Forwarding to HR manager window");
+
+        new HRMainWindow(serviceManager).run();
+
+    }
+
+    private Response getInputs() {
         String name;
         int bankAccountNum;
         double salary;
         String password;
         System.out.println("CreateSystem");
-        System.out.println("Enter the HR manager's date:");
         System.out.print("Name:");
         name = scanner.nextLine();
         System.out.print("Bank Account Number:");
@@ -26,10 +49,7 @@ public class CreateSystemWindow extends Window {
         System.out.print("Password:");
         password = scanner.nextLine();
 
-        serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
-        System.out.println("HR manager created successfully");
-        System.out.println("Forwarding to HR manager window");
-        new HRMainWindow(serviceManager).run();
+        return serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
 
     }
 }
