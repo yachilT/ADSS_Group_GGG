@@ -18,7 +18,7 @@ public class BranchController {
         branches = new HashMap<>();
     }
 
-    public int addBranch(String name, String address){
+    public Integer addBranch(String name, String address){
         branches.put(branchCounter, new Branch(branchCounter, name, address));
         return branchCounter++;
     }

@@ -81,6 +81,7 @@ public class Shift {
         this.neededRoles.addAll(neededRoles);
     }
 
+
     public void exchangeShift(Integer id1, Integer id2, Role role2) throws Exception {
         Role role = employees.get(id1);
 
