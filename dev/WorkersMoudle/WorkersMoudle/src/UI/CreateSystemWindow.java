@@ -38,6 +38,7 @@ public class CreateSystemWindow extends Window {
         double salary;
         String password;
         System.out.println("CreateSystem");
+        System.out.println("Enter HR Manager details");
         System.out.print("Name:");
         name = scanner.nextLine();
         System.out.print("Bank Account Number:");

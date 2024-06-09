@@ -121,10 +121,18 @@ public class EmployeeService {
     }
 
     public Response isEmployeeNew(Integer id) {
-        if(employeeController.isEmployeeNew(id))
-            return new Response();
+        try {
+            boolean isNew = employeeController.isEmployeeNew(id);
 
-        return new Response("Employee is not new");
+            if(isNew)
+                return new Response(true);
+
+            return new Response(false);
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+
+
     }
 
     public Response getBranchId(Integer id) {
