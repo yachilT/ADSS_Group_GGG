@@ -49,8 +49,13 @@ public class LoginWindow extends Window{
             System.out.println("Enter your EMP ID:");
             this.id = Integer.parseInt(scanner.nextLine());
             String password = null;
-            if(!this.serviceManager.getEmployeeService().isEmployeeNew(id).ErrorOccured()){
-                System.out.println("Enter a password for your account:");
+            Response isNew = this.serviceManager.getEmployeeService().isEmployeeNew(id);
+            if(isNew.ErrorOccured()){
+                System.out.println(isNew.ErrorMessage);
+                continue;
+            }
+            if ((Boolean) isNew.ReturnValue){
+                System.out.println("Choose a password for your account:");
                 password = scanner.nextLine();
                 if(this.serviceManager.getEmployeeService().signUp(id,password).ErrorOccured()){
                     System.out.println("Sign up failed");

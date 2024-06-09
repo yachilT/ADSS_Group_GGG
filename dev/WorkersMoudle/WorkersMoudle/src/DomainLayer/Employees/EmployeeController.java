@@ -175,7 +175,10 @@ public class EmployeeController {
         return id == hrManager.getId();
     }
 
-    public boolean isEmployeeNew(Integer id) {
+    public boolean isEmployeeNew(Integer id) throws Exception {
+        if(employees.get(id) == null){
+            throw new IllegalArgumentException("Employee not found");
+        }
         return employees.get(id).isNew();
     }
 
