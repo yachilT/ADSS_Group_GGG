@@ -57,9 +57,9 @@ public class EmployeeService {
     }
 
     // Method to enter time out for an employee
-    public Response enterTimeOut(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> times) {
+    public Response enterTimeOut(Integer id, DayOfTheWeek day, PartOfDay part) {
         try {
-            employeeController.enterTimeOut(id, times);
+            employeeController.enterTimeOut(id, day, part);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
@@ -80,9 +80,9 @@ public class EmployeeService {
     }
 
     // Method to enter shift preferences for an employee
-    public Response enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) {
+    public Response enterPreferences(Integer id, DayOfTheWeek day, PartOfDay part) {
         try {
-            employeeController.enterPreferences(id, shiftPreferences);
+            employeeController.enterPreferences(id, day, part);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }

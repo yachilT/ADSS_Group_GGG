@@ -87,13 +87,11 @@ public class EmployeeController {
         return branchEmployees;
     }
 
-    public void enterTimeOut(int id, List<Pair<DayOfTheWeek, PartOfDay>> times) throws Exception {
+    public void enterTimeOut(int id, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }
-        for (Pair<DayOfTheWeek, PartOfDay> time : times) {
-            employees.get(id).addShiftCantWork(time);
-        }
+        employees.get(id).addShiftCantWork(new Pair<>(day, part));
     }
 
     public Integer getBranchId(Integer id) throws Exception{
@@ -104,14 +102,12 @@ public class EmployeeController {
     }
 
 
-    public void enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) throws Exception {
+    public void enterPreferences(Integer id, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }
         try {
-            for(Pair<DayOfTheWeek, PartOfDay> shiftPreference : shiftPreferences) {
-                employees.get(id).addShiftPreference(shiftPreference);
-            }
+            employees.get(id).addShiftPreference(new Pair<>(day, part));
         } catch (Exception e) {
             throw new Exception("Error in setting preferences");
         }
