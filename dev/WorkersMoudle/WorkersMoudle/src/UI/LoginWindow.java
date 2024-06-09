@@ -71,7 +71,6 @@ public class LoginWindow extends Window{
                 System.out.println("Login successful");
                 loggedIn = true;
             }else {
-                System.out.println(isNew.GetErrorMessage());
                 System.out.println("Login failed");
             }
             //end of login

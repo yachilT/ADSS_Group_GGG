@@ -54,6 +54,8 @@ public class EmployeeController {
     }
 
     public void login(int id, String password) throws Exception {
+        if(password == null || password.isEmpty())
+            throw new Exception("Password is empty");
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }
@@ -66,7 +68,7 @@ public class EmployeeController {
         employeesLoggedInIds.add(id);
     }
 
-    public void logout(int id) throws Exception {
+    public void logout(Integer id) throws Exception {
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }
