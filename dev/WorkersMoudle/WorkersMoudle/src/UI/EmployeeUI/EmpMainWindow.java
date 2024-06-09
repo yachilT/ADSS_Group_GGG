@@ -4,8 +4,7 @@ import ServiceLayer.ServiceManager;
 import UI.Window;
 
 public class EmpMainWindow extends Window {
-    int id;
-    private Window nextWindow;
+    private int id;
     public EmpMainWindow(ServiceManager serviceManager, int id) {
         super(serviceManager);
         this.id = id;
@@ -20,10 +19,10 @@ public class EmpMainWindow extends Window {
 
             switch (scanner.nextLine()) {
                 case "1" -> {
-                    new CantWorkWindow(serviceManager).run();
+                    new CantWorkWindow(serviceManager,id).run();
                 }
                 case "2" -> {
-                    new PreferencesWindow(serviceManager).run();
+                    new PreferencesWindow(serviceManager,id).run();
                 }
                 case "3" -> {
 
@@ -36,13 +35,13 @@ public class EmpMainWindow extends Window {
 
     private void chooseOptions() {
         System.out.println("Choose an option:");
-        System.out.println("1. Cant Work");
-        System.out.println("2. Preferences");
+        System.out.println("1. Enter the shifts when you arent available to work");
+        System.out.println("2. Enter your preferable shifts");
         System.out.println("3. Exit");
 
     }
 
     public Window getNextWindow() {
-        return nextWindow;
+        return null;
     }
 }
