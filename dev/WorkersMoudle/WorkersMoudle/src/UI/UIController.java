@@ -13,7 +13,9 @@ public class UIController {
 
 
     public static void main(String[] args) {
-        boolean runExample = true;
+        System.out.println("Run example? (Y/Other)");
+        String input = System.console().readLine();
+        boolean runExample = input.equals("Y");
         if(runExample)
             example();
         else
