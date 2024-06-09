@@ -25,11 +25,11 @@ public class Truck {
     public boolean isAvailable() { return available; }
 
     public void assignDelivery() {
-        available = true;
+        available = false;
     }
 
     public void finishDelivery() {
-        available = false;
+        available = true;
     }
 
     public int getTruckNumber() {

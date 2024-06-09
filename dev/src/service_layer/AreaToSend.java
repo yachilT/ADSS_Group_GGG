@@ -12,7 +12,6 @@ public class AreaToSend {
     public AreaToSend(Area area){
         areaName = area.getAreaName();
         sites = area.getSites().stream().map(SiteToSend::new).collect(Collectors.toSet());
-        System.out.println("AreaToSend created: " + areaName + sites.stream().map(SiteToSend::getAddress).reduce("", (a, b) -> a + b + "\n"));
     }
     public String getAreaName(){
         return areaName;

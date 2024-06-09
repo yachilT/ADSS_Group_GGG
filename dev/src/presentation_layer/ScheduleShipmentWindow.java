@@ -17,16 +17,21 @@ public class ScheduleShipmentWindow implements Window {
     public Window run(Controller controller){
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
-        List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
+
+        List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner, origin);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
-        System.out.println("Scheduling shipment: " + origin.getAddress() + "->");
+        System.out.print("Scheduling shipment: " + origin.getAddress());
         destination.forEach(d -> {
             try {
-                Thread.sleep(500);
+                Thread.sleep(800);
             } catch (InterruptedException ignored) {}
-            System.out.println(" -> " + d.getAddress());
+            System.out.print(" -> " + d.getAddress());
         }
         );
+        try {
+            Thread.sleep(800);
+        } catch (InterruptedException ignored) {}
+        System.out.println(" -> " + origin.getAddress());
 
 
         if(response.isError()) {
@@ -68,7 +73,8 @@ public class ScheduleShipmentWindow implements Window {
         }
         return area;
     }
-    private List<DestinationToSend> chooseDestinations(List<SiteToSend> sites,Scanner scanner) {
+    private List<DestinationToSend> chooseDestinations(List<SiteToSend> sites,Scanner scanner, SiteToSend origin) {
+        sites.removeIf(s -> s.equals(origin));
         List<DestinationToSend> destinations = new LinkedList<>();
         int destIndex = -1;
         while(!(destIndex == 0 | sites.size() == 0)) {

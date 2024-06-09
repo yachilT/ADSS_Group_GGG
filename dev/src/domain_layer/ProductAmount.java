@@ -23,4 +23,9 @@ public class ProductAmount {
         }
         return productAmount.productName.equals(productName) && productAmount.amount == amount;
     }
+
+    @Override
+    public String toString() {
+        return "Product: " + productName + " | Amount: " + amount;
+    }
 }

@@ -23,11 +23,11 @@ public class Driver {
     }
 
     public void assignJob() {
-        available = true;
+        available = false;
     }
 
     public void finishJob() {
-        available = false;
+        available = true;
     }
 
     public String getName() {

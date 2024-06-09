@@ -1,4 +1,6 @@
 package domain_layer;
+import service_layer.SiteToSend;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -30,10 +32,11 @@ public class Shipment {
         this.truck.assignDelivery();
     }
 
-    public void removeDestination(int destinationIndex) {
+    public List<Destination> removeDestination(int destinationIndex) {
         if (destinations.size() <= destinationIndex)
             throw new NoSuchElementException("Couldn't find destination to remove");
         destinations.remove(destinationIndex);
+        return destinations.subList(destinationIndex, destinations.size());
     }
     public int getShipmentId() {
         return shipmentId;
@@ -57,12 +60,14 @@ public class Shipment {
         return driver;
     }
 
-    public void changeDestination(int indexToChange, Destination dst) {
-        if (destinations.size() <= indexToChange)
+    public List<Destination> changeDestination(int indexOld, int indexNew) {
+        if (destinations.size() <= indexOld || destinations.size() <= indexNew)
             throw new NoSuchElementException("Couldn't find destination to change");
-        if (destinations.contains(dst))
-            throw new IllegalArgumentException("Destination already exists in the shipment");
-        destinations.set(indexToChange, dst);
+
+        Destination newDst = destinations.get(indexNew);
+        destinations.set(indexNew, destinations.get(indexOld));
+        destinations.set(indexOld, newDst);
+        return destinations.subList(indexOld, destinations.size());
     }
 
     public void productsToRemain(List<ProductAmount> products, int currentDstIndex) {
@@ -79,7 +84,7 @@ public class Shipment {
     }
     public void setWeightForDst(int currentDstIndex, float newWeight) throws IllegalArgumentException {
         if (truck.isOverweight(newWeight))
-            throw new IllegalArgumentException("Weight exceeds truck capacity");
+            throw new IllegalArgumentException("Weight exceeds truck capacity: " + truck.getMaxWeight());
         destinations.get(currentDstIndex).setWeight(newWeight);
     }
 
@@ -101,5 +106,13 @@ public class Shipment {
             destinationDocuments.add(destinations.get(i).createDocument(i, shipmentId));
         }
         return destinationDocuments;
+    }
+
+    public Site getOrigin() {
+        return origin;
+    }
+
+    public List<Destination> getDestinations() {
+        return destinations;
     }
 }

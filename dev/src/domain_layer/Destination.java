@@ -5,17 +5,16 @@ import java.util.List;
 public class Destination {
     private Site site;
     private List<ProductAmount> products;
-
     private float weight;
+
     public Destination(Site site, List<ProductAmount> products) {
         this.site = site;
         this.products = products;
-
         this.weight = -1;
     }
 
     public DestinationDocument createDocument(int destinationId, int shipmentDocumentId) {
-        return new DestinationDocument(this, destinationId, shipmentDocumentId);
+        return new DestinationDocument(this, destinationId, shipmentDocumentId, this.weight);
     }
 
     public String getAddress() {

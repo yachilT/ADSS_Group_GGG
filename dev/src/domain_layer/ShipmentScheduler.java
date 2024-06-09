@@ -36,7 +36,15 @@ public class ShipmentScheduler {
     }
 
     public Shipment getShipment(int shipmentId) {
+
         return shipments.stream().filter(s -> s.getShipmentId() == shipmentId).findFirst().orElseThrow(NoSuchElementException::new);
+    }
+
+    public Shipment departShipment(int shipmentId ) {
+        Shipment shipment = getShipment(shipmentId);
+        shipments.remove(shipment);
+        return shipment;
+
     }
 
     private class Pair<D,B> {

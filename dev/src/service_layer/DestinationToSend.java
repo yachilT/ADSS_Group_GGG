@@ -26,6 +26,6 @@ public class DestinationToSend extends SiteToSend {
     }
 
     public Destination toDestination() {
-        return null;
+        return new Destination(new Site(this.address, this.contactName, this.contactNumber), products.stream().map(ProductToSend::toProductAmount).collect(Collectors.toList()));
     }
 }

@@ -1,5 +1,6 @@
 package domain_layer;
 
+
 import java.util.*;
 
 public class ShipmentHistory {
@@ -27,6 +28,10 @@ public class ShipmentHistory {
             throw new NoSuchElementException("Shipment with " + id + " not found.");
         }
         return destinations.get();
+    }
+
+    public List<DestinationDocument> getDestinations(ShipmentDocument shipmentDoc) {
+        return shipments.get(shipmentDoc);
     }
 
 }
