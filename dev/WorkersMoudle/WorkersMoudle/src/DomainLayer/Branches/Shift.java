@@ -112,6 +112,7 @@ public class Shift {
         throw new Exception("Employees can't exchange shifts");
     }
 
+
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy");
@@ -165,6 +166,13 @@ public class Shift {
                     .append(" Role: ").append(entry.getValue()).append("\n");
         }
         return str.toString();
+    }
+
+    // for tests
+
+    public Set<Integer> getEmployees() {
+        return employees.keySet();
+
     }
 
 }

@@ -199,4 +199,13 @@ public class EmployeeController {
         return employees.get(empId).getBranchId() == branchId;
     }
 
+    // only for tests
+    public HRManager getHrManager() {
+        return hrManager;
+    }
+
+    public Collection<Employee> getEmployees() {
+        return employees.values();
+    }
+
 }

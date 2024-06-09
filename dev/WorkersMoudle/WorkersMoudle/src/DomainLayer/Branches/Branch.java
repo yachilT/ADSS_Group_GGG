@@ -176,4 +176,16 @@ public class Branch {
             throw e;
         }
     }
+
+    public WeeklyShifts getCurrentWeek() {
+        return currentWeek;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setCurrentWeek(WeeklyShifts weeklyShifts) {
+        this.currentWeek = weeklyShifts;
+    }
 }
