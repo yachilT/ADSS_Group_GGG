@@ -60,7 +60,6 @@ public class ShipmentTracker implements Iterator<Destination> {
 
     }
 
-
     public List<Destination> getRemainingDestinations() {
         return shipment.getDestinationsFrom(currentDstIndex);
     }

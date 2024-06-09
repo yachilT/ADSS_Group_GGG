@@ -17,7 +17,6 @@ public class ScheduleShipmentWindow implements Window {
     public Window run(Controller controller){
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
-
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner);
         Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
         System.out.println("Scheduling shipment: " + origin.getAddress() + "->");
