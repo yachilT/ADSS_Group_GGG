@@ -24,7 +24,7 @@ public class BranchController {
         return branchCounter++;
     }
 
-    public String getStringShift(Integer branchId, Integer week, DayOfTheWeek day, PartOfDay partOfDay){
+    public String getStringShift(Integer branchId, Integer week, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
         if(!branches.containsKey(branchId))
             return null;
 
@@ -49,7 +49,13 @@ public class BranchController {
         }catch (Exception e){
             throw e;
         }
+    }
 
+    public void isWeekExists(Integer branchId,Integer week) throws Exception {
+        if(branches.containsKey(branchId))
+            branches.get(branchId).isWeekExists(week);
+        else
+            throw new Exception("Branch not found");
     }
 
     public void addNeededRoles(Integer branchId,DayOfTheWeek day,PartOfDay part,List<Role> list) throws Exception {

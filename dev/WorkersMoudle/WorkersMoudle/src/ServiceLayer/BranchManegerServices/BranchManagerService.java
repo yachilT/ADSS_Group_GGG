@@ -3,6 +3,7 @@ package ServiceLayer.BranchManegerServices;
 import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
+import DomainLayer.Branches.Shift;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -64,6 +65,15 @@ public class BranchManagerService {
         return new Response(this.employeeController.displayPreferences(id));
     }
 
+    public Response isWeekExists(Integer branchId,Integer week){
+        try {
+            this.branchController.isWeekExists(branchId, week);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
+
     public Response addNeededRoles(Integer branchId,DayOfTheWeek day,PartOfDay part,List<Role> list){
         try {
             this.branchController.addNeededRoles(branchId, day, part, list);
@@ -74,11 +84,16 @@ public class BranchManagerService {
     }
 
     public Response getShift(Integer branchId, Integer week,DayOfTheWeek day, PartOfDay partOfDay) {
-        String shift = this.branchController.getStringShift(branchId, week, day, partOfDay);
+        String shift = null;
+        try {
+            shift = this.branchController.getStringShift(branchId, week, day, partOfDay);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
         if(shift == null)
             return new Response("Shift not found");
 
-        return new Response(shift);
+        return new Response(shift, null);
     }
 
 }
