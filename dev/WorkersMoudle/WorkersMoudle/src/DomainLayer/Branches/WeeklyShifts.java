@@ -14,9 +14,7 @@ public class WeeklyShifts {
         Date currentDate = firstDayOfWeek;
         this.shifts = new HashMap<>();
         for (DayOfTheWeek day : DayOfTheWeek.values()) {
-            for (PartOfDay part : PartOfDay.values()) {
-                shifts.put(day, new Pair<>(new Shift(new Pair<>(day, part), currentDate), new Shift(new Pair<>(day, part), currentDate))); // Initialize shift
-            }
+            shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), currentDate), new Shift(new Pair<>(day, PartOfDay.Evening), currentDate))); // Initialize shift
             // Move to the next day
             currentDate = Date.from(currentDate.toInstant().plus(1, ChronoUnit.DAYS));
         }
@@ -45,6 +43,13 @@ public class WeeklyShifts {
             return shifts.get(day).getKey();
 
         return shifts.get(day).getValue();
+    }
+
+    public String toString(DayOfTheWeek day, PartOfDay part){
+        if(part == PartOfDay.Morning)
+            return shifts.get(day).getKey().toString();
+        else
+            return shifts.get(day).getValue().toString();
     }
 
 }

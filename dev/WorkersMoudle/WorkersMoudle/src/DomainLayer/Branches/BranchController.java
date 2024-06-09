@@ -2,6 +2,7 @@ package DomainLayer.Branches;
 
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
+import ServiceLayer.Response;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,24 +24,23 @@ public class BranchController {
         return branchCounter++;
     }
 
-    public void addEmployeeToShift(int branchId, int employeeId, Role role, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
-        branches.get(branchId).addEmployeeToShift(employeeId, role, day, partOfDay);
+    public String getStringShift(Integer branchId, Integer week, DayOfTheWeek day, PartOfDay partOfDay){
+        if(!branches.containsKey(branchId))
+            return null;
+
+        return branches.get(branchId).getShiftToString(week,day,partOfDay);
     }
 
-    public void deleteEmployeeFromShift(int branchId, int employeeId, DayOfTheWeek day, PartOfDay partOfDay){
-        branches.get(branchId);
+    public void deleteEmployeeFromShift(int branchId, int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
+        branches.get(branchId).deleteEmployeeFromShift(employeeId, day, partOfDay);
     }
 
     public void setUpShift(int branchId, DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles){
         branches.get(branchId).setUpShift(day, partOfDay, roles);
     }
 
-    public void addEmployeeToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay){
-        try {
-            branches.get(branchId).addEmployeeToShift(id, role, day, partOfDay);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addEmployeeToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
+        branches.get(branchId).addEmployeeToShift(id, role, day, partOfDay);
     }
 
     public void exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Integer week, Role role) throws Exception {
@@ -50,6 +50,16 @@ public class BranchController {
             throw e;
         }
 
+    }
+
+    public void addNeededRoles(Integer branchId,DayOfTheWeek day,PartOfDay part,List<Role> list) throws Exception {
+        if(!branches.containsKey(branchId))
+            throw new Exception("Branch not found");
+
+        if(list.isEmpty())
+            throw new Exception("No Roles Were added");
+
+        branches.get(branchId).addNeededRoles(day, part, list);
     }
 
 }

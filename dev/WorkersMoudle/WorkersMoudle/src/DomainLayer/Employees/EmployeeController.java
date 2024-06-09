@@ -3,6 +3,7 @@ package DomainLayer.Employees;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
+import ServiceLayer.Response;
 
 import java.util.*;
 
@@ -30,16 +31,18 @@ public class EmployeeController {
         return hrManager.getId();
     }
 
-    public void addEmployee(String name, List<Role> roles,
+    public Integer addEmployee(String name, List<Role> roles,
                             int bankAccountNumber, double salary, int branchId) throws Exception {
 
-        if(branchManagers.containsKey(branchId))
+        if(!branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        employees.put(idCounter, new Employee(idCounter++, name, roles, bankAccountNumber, salary, branchId));
+        Employee employee = new Employee(idCounter++, name, roles, bankAccountNumber, salary, branchId);
+        employees.put(idCounter, employee);
+        return employee.getId();
     }
 
-    public void addBranchManager(String name,int bankAccountNumber, double salary, int branchId) throws Exception {
+    public int addBranchManager(String name,int bankAccountNumber, double salary, int branchId) throws Exception {
 
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch already has a manager");
@@ -47,6 +50,7 @@ public class EmployeeController {
         BranchManager branchManager = new BranchManager(idCounter++, name, new ArrayList<Role>(), bankAccountNumber, salary, branchId);
         branchManagers.put(branchManager.getId(), branchManager);
         employees.put(branchManager.getId(), branchManager);
+        return branchManager.getId();
     }
 
     public void login(int id, String password) throws Exception {
@@ -92,6 +96,13 @@ public class EmployeeController {
         }
     }
 
+    public Integer getBranchId(Integer id) throws Exception{
+        if(employees.get(id) == null){
+            throw new IllegalArgumentException("Employee not found");
+        }
+        return employees.get(id).getBranchId();
+    }
+
 
     public void enterPreferences(Integer id, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) throws Exception {
         if(employees.get(id) == null){
@@ -132,6 +143,22 @@ public class EmployeeController {
         }
     }
 
+    public String printEmployeesPref(Integer branchId) throws Exception{
+        if(branchManagers.get(branchId) == null){
+            throw new Exception("Branch not found");
+        }
+        String output = "";
+        for (Employee employee : employees.values()) {
+            if (employee.getBranchId() == branchId && !(branchManagers.get(branchId).getId() != employee.getId())){
+                output += employee.toString() + "\n";
+            }
+        }
+        if(output.equals(""))
+            throw new Exception("No employees in branch");
+
+        return output;
+    }
+
     public void removeEmployee(Integer id) {
         if(null == employees.remove(id)){
             throw new IllegalArgumentException("Employee not found");
@@ -146,6 +173,14 @@ public class EmployeeController {
     }
     public boolean isManager(Integer id) {
         return branchManagers.containsKey(id) || id == hrManager.getId();
+    }
+
+    public boolean isHR(Integer id) {
+        return id == hrManager.getId();
+    }
+
+    public boolean isEmployeeNew(Integer id) {
+        return employees.get(id).isNew();
     }
 
     public List<String> displayPreferences(Integer id){

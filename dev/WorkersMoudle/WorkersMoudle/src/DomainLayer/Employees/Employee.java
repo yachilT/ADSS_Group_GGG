@@ -42,7 +42,9 @@ public class Employee {
         shiftCantWork = new ArrayList<>();
     }
 
-
+    public boolean isNew(){
+        return password == null;
+    }
     public void setPassword(String password) {
         this.password = password;
     }
@@ -144,6 +146,48 @@ public class Employee {
             throw new Exception("Shift not found in cant work shifts");
         }
         shiftCantWork.remove(shift);
+    }
+
+    @Override
+    public String toString(){
+        if(shiftPreferences.isEmpty() && shiftCantWork.isEmpty()){
+            return "Employee id: " + id + "\n" +
+                    "name: " + name + "\n" +
+                    "roles: " + roles + "\n" +
+                    "shiftPreferences: " + "None" + "\n" +
+                    "shiftCantWork: " + "None";
+        }
+
+        if(shiftPreferences.isEmpty()){
+            return "id: " + id + "\n" +
+                    "name: " + name + "\n" +
+                    "roles: " + roles + "\n" +
+                    "shiftPreferences: " + "None" + "\n" +
+                    "shiftCantWork: " + "\n" + shiftsToString(shiftCantWork);
+        }
+
+        if(shiftCantWork.isEmpty()){
+            return "id: " + id + "\n" +
+                    "name: " + name + "\n" +
+                    "roles: " + roles + "\n" +
+                    "shiftPreferences: " + "\n" + shiftsToString(shiftPreferences) + "\n" +
+                    "shiftCantWork: " + "None";
+        }
+
+
+        return "id: " + id + "\n" +
+                "name: " + name + "\n" +
+                "roles: " + roles + "\n" +
+                "shiftPreferences: " + "\n" + shiftsToString(shiftPreferences) + "\n" +
+                "shiftCantWork: " + "\n" +shiftsToString(shiftCantWork);
+    }
+
+    public String shiftsToString(List<Pair<DayOfTheWeek, PartOfDay>> list){
+        String output = "";
+        for(Pair<DayOfTheWeek, PartOfDay> shift : list){
+            output += shift.getKey().toString() + "-" + shift.getValue().toString() + "\n";
+        }
+        return output;
     }
 
 }

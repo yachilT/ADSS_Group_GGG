@@ -23,12 +23,13 @@ public class BranchManagerService {
 
     // Method to register an employee with given ID and employee data
     public Response empRegister(String name, int bankAccountNum, double salary, int branchId, List<Role> qualification) {
+        Integer id;
         try{
-            employeeController.addEmployee(name, qualification, bankAccountNum, salary, branchId);
+            id = employeeController.addEmployee(name, qualification, bankAccountNum, salary, branchId);
         }catch (Exception e){
             return new Response(e.getMessage());
         }
-        return new Response();
+        return new Response(id);
     }
 
     // Method to prepare shifts with a list of roles (add roles to the shift)
@@ -39,7 +40,21 @@ public class BranchManagerService {
 
     // Method to assign an employee to a shift
     public Response assignToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay) {
-        this.branchController.addEmployeeToShift(id, branchId, role, day, partOfDay);
+        try {
+            this.branchController.addEmployeeToShift(id, branchId, role, day, partOfDay);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
+
+    // Method to unAssign an employee from a shift
+    public Response unAssignFromShift(Integer id,Integer branchId, DayOfTheWeek day, PartOfDay partOfDay) {
+        try {
+            this.branchController.deleteEmployeeFromShift(id, branchId, day, partOfDay);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
         return new Response();
     }
 
@@ -48,9 +63,21 @@ public class BranchManagerService {
         return new Response(this.employeeController.displayPreferences(id));
     }
 
-    public ShiftToSend getShift() {// add parameters
-        // Implementation goes here
-        return null;
+    public Response addNeededRoles(Integer branchId,DayOfTheWeek day,PartOfDay part,List<Role> list){
+        try {
+            this.branchController.addNeededRoles(branchId, day, part, list);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
+
+    public Response getShift(Integer branchId, Integer week,DayOfTheWeek day, PartOfDay partOfDay) {
+        String shift = this.branchController.getStringShift(branchId, week, day, partOfDay);
+        if(shift == null)
+            return new Response("Shift not found");
+
+        return new Response(shift);
     }
 
 }

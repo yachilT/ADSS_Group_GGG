@@ -4,6 +4,7 @@ package ServiceLayer.EmployeeServices;
 import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -104,7 +105,33 @@ public class EmployeeService {
         return new Response("Employee is not a manager");
     }
 
-    public void addEmployee(String name, int bankAccountNum, double salary, String password) {
-        // Implementation goes here
+    public Response isHR(Integer id) {
+        if(employeeController.isHR(id))
+            return new Response();
+
+        return new Response("Employee is not a HR manager");
+    }
+
+    public Response printEmployeesPref(Integer branchId){
+        try {
+            return new Response(employeeController.printEmployeesPref(branchId));
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    public Response isEmployeeNew(Integer id) {
+        if(employeeController.isEmployeeNew(id))
+            return new Response();
+
+        return new Response("Employee is not new");
+    }
+
+    public Response getBranchId(Integer id) {
+        try {
+            return new Response(employeeController.getBranchId(id));
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
     }
 }

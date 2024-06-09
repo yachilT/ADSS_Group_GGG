@@ -12,4 +12,8 @@ public class CantWorkWindow extends Window {
     public void run() {
 
     }
+
+    public Window getNextWindow() {
+        return null;
+    }
 }
