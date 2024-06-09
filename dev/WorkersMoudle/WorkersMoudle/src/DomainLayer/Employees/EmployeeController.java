@@ -103,6 +103,11 @@ public class EmployeeController {
         return employees.get(id).getBranchId();
     }
 
+    public void isEmployeeExist(Integer id, Integer branchId) throws Exception{
+        if(!employees.containsKey(id))
+            throw new Exception("Employee not found");
+    }
+
 
     public void enterPreferences(Integer id, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employees.get(id) == null){
@@ -147,7 +152,7 @@ public class EmployeeController {
         }
         String output = "";
         for (Employee employee : employees.values()) {
-            if (employee.getBranchId() == branchId && !(branchManagers.get(branchId).getId() != employee.getId())){
+            if (employee.getBranchId() == branchId && !(branchManagers.get(branchId).getId() == employee.getId())){
                 output += employee.toString() + "\n";
             }
         }
@@ -155,6 +160,15 @@ public class EmployeeController {
             throw new Exception("No employees in branch");
 
         return output;
+    }
+
+    public void checkEmployeeRole(Integer id, Role role) throws Exception{
+        if(employees.get(id) == null){
+            throw new IllegalArgumentException("Employee not found");
+        }
+        if(!employees.get(id).getRoles().contains(role)){
+            throw new IllegalArgumentException("Employee doesn't have the role");
+        }
     }
 
     public void removeEmployee(Integer id) {

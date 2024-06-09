@@ -43,9 +43,9 @@ public class BranchController {
         branches.get(branchId).addEmployeeToShift(id, role, day, partOfDay);
     }
 
-    public void exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Integer week, Role role) throws Exception {
+    public void exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Role role) throws Exception {
         try{
-            branches.get(branchId).exchangeShift(id1, id2, day, part, week, role);
+            branches.get(branchId).exchangeShift(id1, id2, day, part, role);
         }catch (Exception e){
             throw e;
         }

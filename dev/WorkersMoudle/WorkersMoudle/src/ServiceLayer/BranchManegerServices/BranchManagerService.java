@@ -41,6 +41,7 @@ public class BranchManagerService {
     // Method to assign an employee to a shift
     public Response assignToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay) {
         try {
+            this.employeeController.isEmployeeExist(id, branchId);
             this.branchController.addEmployeeToShift(id, branchId, role, day, partOfDay);
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -51,7 +52,7 @@ public class BranchManagerService {
     // Method to unAssign an employee from a shift
     public Response unAssignFromShift(Integer id,Integer branchId, DayOfTheWeek day, PartOfDay partOfDay) {
         try {
-            this.branchController.deleteEmployeeFromShift(id, branchId, day, partOfDay);
+            this.branchController.deleteEmployeeFromShift(branchId, id, day, partOfDay);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }

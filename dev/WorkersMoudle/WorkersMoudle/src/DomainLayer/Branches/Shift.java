@@ -43,7 +43,10 @@ public class Shift {
         neededRoles.add(role);
     }
 
-    public void addEmployee(Integer employee , Role role){
+    public void addEmployee(Integer employee , Role role) throws Exception {
+        if(employees.containsKey(employee)){
+            throw new Exception("Employee already in the shift");
+        }
         employees.put(employee,role);
     }
 
@@ -84,6 +87,10 @@ public class Shift {
 
 
     public void exchangeShift(Integer id1, Integer id2, Role role2) throws Exception {
+        if(!employees.containsKey(id1)){
+            throw new Exception("You are not in this shift");
+        }
+
         Role role = employees.get(id1);
 
         if(role == role2){
@@ -130,7 +137,7 @@ public class Shift {
             return "Shift{\n" +
                     id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
                     "  neededRoles=" + neededRoles + ",\n" +
-                    "  employees-roles=\n" + employeesToString() + "\n" +
+                    "  employees-roles=\n" + "N/A" + "\n" +
                     "  date=" + dateFormat.format(date) + "\n" +
                     '}';
         }
@@ -138,8 +145,8 @@ public class Shift {
         if(neededRoles.isEmpty()){
             return "Shift{\n" +
                     id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
-                    "  neededRoles=" + neededRoles + ",\n" +
-                    "  employees-roles=" + "N/A" + "\n" +
+                    "  neededRoles=" + "N/A" + ",\n" +
+                    "  employees-roles=" +  employeesToString() + "\n" +
                     "  date=" + dateFormat.format(date) + "\n" +
                     '}';
         }
@@ -153,6 +160,9 @@ public class Shift {
     }
 
     public void deleteEmployee(Integer employeeId) throws Exception{
+        if(employees.isEmpty()){
+            throw new Exception("No employees in the shift");
+        }
         if(!employees.containsKey(employeeId)){
             throw new Exception("Employee not found in the shift");
         }
@@ -162,8 +172,8 @@ public class Shift {
     public String employeesToString() {
         StringBuilder str = new StringBuilder();
         for (Map.Entry<Integer, Role> entry : employees.entrySet()) {
-            str.append("    Employee: ").append(entry.getKey())
-                    .append(" Role: ").append(entry.getValue()).append("\n");
+            str.append("\n").append("Employee:").append(entry.getKey()).append(" ,")
+                    .append("Role:").append(entry.getValue()).append("\n");
         }
         return str.toString();
     }

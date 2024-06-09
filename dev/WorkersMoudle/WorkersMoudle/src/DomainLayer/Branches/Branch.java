@@ -84,8 +84,12 @@ public class Branch {
     }
 
     public void deleteEmployeeFromShift(int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
-        if(currentWeek != null){
-            currentWeek.getShift(day,partOfDay).deleteEmployee(employeeId);
+        if(upcomingweeks.get(0) != null){
+            Shift shift = upcomingweeks.get(0).getShift(day,partOfDay);
+            if(shift != null)
+                shift.deleteEmployee(employeeId);
+            else
+                throw new Exception("Shift not found");
         }
     }
 
@@ -122,9 +126,9 @@ public class Branch {
     }
 
     public void addEmployeeToShift(Integer employee, Role role, DayOfTheWeek day, PartOfDay part) throws Exception {
-        if(employee == null ){
+        if(employee == null){
             throw new Exception("Employee is null");
-        }//also check if the key is legal!
+        }
         upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
     }
 
@@ -165,13 +169,9 @@ public class Branch {
         this.pastweeks = pastweeks;
     }
 
-    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Integer week, Role role) throws Exception {
+    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Role role) throws Exception {
         try{
-            if(week == 0){
-                currentWeek.getShift(day,part).exchangeShift(id1,id2, role);
-            }else{
-                upcomingweeks.get(0).getShift(day,part).exchangeShift(id1,id2,role);
-            }
+            upcomingweeks.get(0).getShift(day,part).exchangeShift(id1,id2,role);
         }catch (Exception e){
             throw e;
         }

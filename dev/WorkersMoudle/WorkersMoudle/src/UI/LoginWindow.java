@@ -105,7 +105,7 @@ public class LoginWindow extends Window{
             else
                 this.nextWindow = new ManagerMainWindow(this.serviceManager, id, branchId);
         }else
-            this.nextWindow = new EmpMainWindow(this.serviceManager, id);
+            this.nextWindow = new EmpMainWindow(this.serviceManager, id, branchId);
 
     }
 
