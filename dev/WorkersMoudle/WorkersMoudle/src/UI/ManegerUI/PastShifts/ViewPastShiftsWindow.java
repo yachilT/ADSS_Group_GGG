@@ -26,9 +26,9 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Sunday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Sunday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Sunday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Sunday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
@@ -36,9 +36,9 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Monday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Monday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Monday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Monday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
@@ -46,9 +46,9 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Tuesday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Tuesday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Tuesday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Tuesday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
@@ -56,9 +56,9 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Wednesday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Wednesday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Wednesday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Wednesday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
@@ -66,9 +66,9 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Thursday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Thursday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Thursday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Thursday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
@@ -76,29 +76,39 @@ public class ViewPastShiftsWindow extends Window {
                     System.out.println("Morning or Evening? (M/E)");
                     String partOfDay = scanner.nextLine();
                     if(partOfDay.equals("M"))
-                        PrintShift(DayOfTheWeek.Friday, PartOfDay.Morning);
+                        PrintShift(DayOfTheWeek.Friday, PartOfDay.Morning, week);
                     else if(partOfDay.equals("E"))
-                        PrintShift(DayOfTheWeek.Friday, PartOfDay.Evening);
+                        PrintShift(DayOfTheWeek.Friday, PartOfDay.Evening, week);
                     else
                         System.out.println("Invalid input");
                 }
                 case "7" -> {
                     week += 1;
                     System.out.println();
-                    System.out.println("Forwarded to next week!");
-                    if(week == 0)
+                    if(week == 0){
+                        System.out.println("Forwarded to next week!");
                         System.out.println("You are viewing the current week shifts");
+                    }
                     else if (week > 0){
                         System.out.println("can't view future week shifts");
                         week = 0;
+                        System.out.println("Still viewing the current week shifts");
                     }
-                    else
+                    else{
+                        System.out.println("Forwarded to next week!");
                         System.out.println("You are viewing the week shifts from the past");
+                    }
                 }
                 case "8" -> {
                     week -= 1;
                     System.out.println();
-                    System.out.println("Backwarded to last week!");
+                    Response response = serviceManager.getBranchManagerService().isWeekExists(branchId, week);
+                    if(response.ErrorOccured()){
+                        System.out.println(response.GetErrorMessage());
+                        week += 1;
+                    }else
+                        System.out.println("Backwarded to last week!");
+
                     if(week == 0)
                         System.out.println("You are viewing the current week shifts");
                     else
@@ -110,8 +120,8 @@ public class ViewPastShiftsWindow extends Window {
         System.out.println("Finished viewing shifts");
     }
 
-    private void PrintShift(DayOfTheWeek day, PartOfDay partOfDay){
-        Response response = serviceManager.getBranchManagerService().getShift(branchId,0, day, partOfDay);
+    private void PrintShift(DayOfTheWeek day, PartOfDay partOfDay, Integer week){
+        Response response = serviceManager.getBranchManagerService().getShift(branchId, week, day, partOfDay);
         System.out.println();
         if(response.ErrorOccured()){
             System.out.println(response.GetErrorMessage());

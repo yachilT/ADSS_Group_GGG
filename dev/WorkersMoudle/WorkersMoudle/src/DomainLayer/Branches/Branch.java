@@ -66,7 +66,7 @@ public class Branch {
         }
     }
 
-    public String getShiftToString(Integer week, DayOfTheWeek day, PartOfDay part){
+    public String getShiftToString(Integer week, DayOfTheWeek day, PartOfDay part) throws Exception{
         if(week ==0){
             return currentWeek.toString(day,part);
         }else if(week < 0){
@@ -78,7 +78,7 @@ public class Branch {
         }
         week -= 1;
         if(week >= upcomingweeks.size()){
-            return null;
+            throw new Exception("No such week");
         }
         return upcomingweeks.get(week).toString(day,part);
     }
@@ -130,6 +130,15 @@ public class Branch {
             throw new Exception("Employee is null");
         }
         upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
+    }
+
+    public void isWeekExists(Integer week) throws Exception {
+        if(pastweeks.isEmpty())
+            throw new Exception("No past weeks");
+
+        week = (week*-1) - 1;
+        if(week > pastweeks.size())
+            throw new Exception("Threre is no such week");
     }
 
     public void addNeededRoles(DayOfTheWeek day, PartOfDay part, List<Role> roles){
