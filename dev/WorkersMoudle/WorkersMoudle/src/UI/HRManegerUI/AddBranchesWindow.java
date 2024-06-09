@@ -33,10 +33,6 @@ public class AddBranchesWindow extends Window {
         // Consume the newline character left by nextDouble()
         scanner.nextLine();
 
-        // Read the password
-        System.out.println("Manager password");
-        password = scanner.nextLine();
-
 
 
         Response response = serviceManager.getHRManagerService().createBranch(branchName,address,name,bankAccountNum,salary);

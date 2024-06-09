@@ -37,8 +37,8 @@ public class EmployeeController {
         if(!branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        Employee employee = new Employee(idCounter++, name, roles, bankAccountNumber, salary, branchId);
-        employees.put(idCounter, employee);
+        Employee employee = new Employee(idCounter, name, roles, bankAccountNumber, salary, branchId);
+        employees.put(idCounter++, employee);
         return employee.getId();
     }
 

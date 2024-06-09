@@ -24,7 +24,10 @@ public class ManagerMainWindow extends Window {
                 case "1" -> new AddEmpWindow(serviceManager, branchId).run();
                 case "2" -> new ViewPastShiftsWindow(serviceManager, branchId).run();
                 case "3" -> new EditNextShiftWindow(serviceManager, branchId).run();
-                case "4" -> exit = true;
+                case "4" -> {
+                    serviceManager.getEmployeeService().logout(id);
+                    exit = true;
+                }
             }
         }
         System.out.println("Goodbye!");

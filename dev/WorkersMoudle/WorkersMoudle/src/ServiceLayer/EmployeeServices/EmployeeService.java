@@ -122,12 +122,7 @@ public class EmployeeService {
 
     public Response isEmployeeNew(Integer id) {
         try {
-            boolean isNew = employeeController.isEmployeeNew(id);
-
-            if(isNew)
-                return new Response(true);
-
-            return new Response(false);
+            return new Response(employeeController.isEmployeeNew(id));
         }catch (Exception e){
             return new Response(e.getMessage());
         }

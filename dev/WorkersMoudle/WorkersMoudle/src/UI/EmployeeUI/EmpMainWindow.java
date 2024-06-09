@@ -25,7 +25,7 @@ public class EmpMainWindow extends Window {
                     new PreferencesWindow(serviceManager,id).run();
                 }
                 case "3" -> {
-
+                    serviceManager.getEmployeeService().logout(id);
                     exit = true;
                 }
             }

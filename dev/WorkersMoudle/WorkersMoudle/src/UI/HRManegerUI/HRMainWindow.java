@@ -18,7 +18,10 @@ public class HRMainWindow extends Window {
             chooseOptions();
             switch (scanner.nextLine()) {
                 case "1" -> new AddBranchesWindow(serviceManager).run();
-                case "2" -> exit = false;
+                case "2" -> {
+                    serviceManager.getEmployeeService().logout(id);
+                    exit = false;
+                }
             }
         }
         System.out.println("Goodbye!");
