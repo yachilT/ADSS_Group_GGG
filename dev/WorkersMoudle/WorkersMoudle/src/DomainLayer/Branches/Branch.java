@@ -66,6 +66,29 @@ public class Branch {
         }
     }
 
+    public String getShiftToString(Integer week, DayOfTheWeek day, PartOfDay part){
+        if(week ==0){
+            return currentWeek.toString(day,part);
+        }else if(week < 0){
+            week = (week*-1) - 1;
+            if(week >= pastweeks.size()){
+                return null;
+            }
+            return pastweeks.get(week).toString(day,part);
+        }
+        week -= 1;
+        if(week >= upcomingweeks.size()){
+            return null;
+        }
+        return upcomingweeks.get(week).toString(day,part);
+    }
+
+    public void deleteEmployeeFromShift(int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
+        if(currentWeek != null){
+            currentWeek.getShift(day,partOfDay).deleteEmployee(employeeId);
+        }
+    }
+
     public void checkWeekPast() { //if date changes call this function
         if (currentWeek != null) {
             Calendar calendar = Calendar.getInstance();
@@ -103,6 +126,10 @@ public class Branch {
             throw new Exception("Employee is null");
         }//also check if the key is legal!
         upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
+    }
+
+    public void addNeededRoles(DayOfTheWeek day, PartOfDay part, List<Role> roles){
+        upcomingweeks.get(0).getShift(day, part).addNeededRoles(roles);
     }
 
     //getters and setters

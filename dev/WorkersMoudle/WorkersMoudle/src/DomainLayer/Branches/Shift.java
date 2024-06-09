@@ -3,6 +3,7 @@ package DomainLayer.Branches;
 import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
+import java.text.SimpleDateFormat;
 
 import java.util.*;
 
@@ -109,6 +110,61 @@ public class Shift {
             return;
         }
         throw new Exception("Employees can't exchange shifts");
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy");
+
+        if(neededRoles.isEmpty() && employees.isEmpty()){
+            return "Shift{\n" +
+                    id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
+                    "  neededRoles=" + "N/A" + ",\n" +
+                    "  employees-roles=" + "N/A" + "\n" +
+                    "  date=" + dateFormat.format(date) + "\n" +
+                    '}';
+        }
+
+        if(employees.isEmpty()){
+            return "Shift{\n" +
+                    id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
+                    "  neededRoles=" + neededRoles + ",\n" +
+                    "  employees-roles=\n" + employeesToString() + "\n" +
+                    "  date=" + dateFormat.format(date) + "\n" +
+                    '}';
+        }
+
+        if(neededRoles.isEmpty()){
+            return "Shift{\n" +
+                    id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
+                    "  neededRoles=" + neededRoles + ",\n" +
+                    "  employees-roles=" + "N/A" + "\n" +
+                    "  date=" + dateFormat.format(date) + "\n" +
+                    '}';
+        }
+
+        return "Shift{\n" +
+                 id.getKey().toString() + " " +id.getValue().toString() + ",\n" +
+                "  neededRoles=" + neededRoles + ",\n" +
+                "  employees-roles=\n" + employeesToString() + "\n" +
+                "  date=" + dateFormat.format(date) + "\n" +
+                '}';
+    }
+
+    public void deleteEmployee(Integer employeeId) throws Exception{
+        if(!employees.containsKey(employeeId)){
+            throw new Exception("Employee not found in the shift");
+        }
+        employees.remove(employeeId);
+    }
+
+    public String employeesToString() {
+        StringBuilder str = new StringBuilder();
+        for (Map.Entry<Integer, Role> entry : employees.entrySet()) {
+            str.append("    Employee: ").append(entry.getKey())
+                    .append(" Role: ").append(entry.getValue()).append("\n");
+        }
+        return str.toString();
     }
 
 }

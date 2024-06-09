@@ -19,12 +19,13 @@ public class HRManagerService {
         this.branchController = branchController;
     }
     public Response createBranch(String branchName, String address, String name, int bankAccountNum, double salary) {
+        Integer id;
         try {
-            employeeController.addBranchManager(name,bankAccountNum,salary,branchController.addBranch(branchName, address));
+            id = employeeController.addBranchManager(name,bankAccountNum,salary,branchController.addBranch(branchName, address));
         }catch (Exception e){
             return new Response(e.getMessage());
         }
-        return new Response();
+        return new Response(id);
     }
 
     // Method to register an HR manager with given details

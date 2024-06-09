@@ -5,6 +5,7 @@ import UI.Window;
 
 public class EmpMainWindow extends Window {
     int id;
+    private Window nextWindow;
     public EmpMainWindow(ServiceManager serviceManager, int id) {
         super(serviceManager);
         this.id = id;
@@ -39,5 +40,9 @@ public class EmpMainWindow extends Window {
         System.out.println("2. Preferences");
         System.out.println("3. Exit");
 
+    }
+
+    public Window getNextWindow() {
+        return nextWindow;
     }
 }

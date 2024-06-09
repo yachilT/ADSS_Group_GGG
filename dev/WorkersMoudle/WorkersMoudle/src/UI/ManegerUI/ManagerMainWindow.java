@@ -7,9 +7,12 @@ import UI.Window;
 
 public class ManagerMainWindow extends Window {
     private int id;
-    public ManagerMainWindow(ServiceManager serviceManager, int id) {
+    private int branchId;
+    private Window nextWindow;
+    public ManagerMainWindow(ServiceManager serviceManager, int id, Integer branchId){
         super(serviceManager);
         this.id = id;
+        this.branchId = branchId;
     }
 
     @Override
@@ -18,9 +21,9 @@ public class ManagerMainWindow extends Window {
         while (!exit) {
             chooseOptions();
             switch (scanner.nextLine()) {
-                case "1" -> new AddEmpWindow(serviceManager).run();
-                case "2" -> new ViewPastShiftsWindow(serviceManager).run();
-                case "3" -> new EditNextShiftWindow(serviceManager).run();
+                case "1" -> new AddEmpWindow(serviceManager, branchId).run();
+                case "2" -> new ViewPastShiftsWindow(serviceManager, branchId).run();
+                case "3" -> new EditNextShiftWindow(serviceManager, branchId).run();
                 case "4" -> exit = true;
             }
         }
@@ -30,9 +33,13 @@ public class ManagerMainWindow extends Window {
     private void chooseOptions() {
         System.out.println("Choose an option:");
         System.out.println("1. Add Employee");
-        System.out.println("2. View Past Shifts");
-        System.out.println("3. Edit Next Shift");
+        System.out.println("2. View Past&Current Weekly Shifts");
+        System.out.println("3. Edit Next Week Shifts");
         System.out.println("4. Exit");
 
+    }
+
+    public Window getNextWindow() {
+        return nextWindow;
     }
 }

@@ -28,9 +28,7 @@ public class CreateSystemWindow extends Window {
 
         System.out.println("Employee ID:" + response.GetReturnValue());
         System.out.println("HR manager created successfully");
-        System.out.println("Forwarding to HR manager window");
-
-        new HRMainWindow(serviceManager).run();
+        System.out.println("Forwarding Login window");
 
     }
 
@@ -51,5 +49,9 @@ public class CreateSystemWindow extends Window {
 
         return serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
 
+    }
+
+    public Window getNextWindow() {
+        return new LoginWindow(serviceManager);
     }
 }

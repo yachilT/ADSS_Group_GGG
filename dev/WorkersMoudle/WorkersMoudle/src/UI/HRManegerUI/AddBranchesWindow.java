@@ -1,5 +1,6 @@
 package UI.HRManegerUI;
 
+import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 import UI.Window;
 
@@ -38,9 +39,17 @@ public class AddBranchesWindow extends Window {
 
 
 
-        serviceManager.getHRManagerService().createBranch(branchName,address,name,bankAccountNum,salary);
-
+        Response response = serviceManager.getHRManagerService().createBranch(branchName,address,name,bankAccountNum,salary);
+        if(response.ErrorOccured()){
+            System.out.println(response.GetErrorMessage());
+            return;
+        }
+        System.out.println("Branch Manager Id: " + response.GetReturnValue());
         System.out.println("Branch added");
 
+    }
+
+    public Window getNextWindow() {
+        return null;
     }
 }

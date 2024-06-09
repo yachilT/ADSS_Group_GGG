@@ -12,4 +12,8 @@ public class PreferencesWindow extends Window {
     public void run() {
 
     }
+
+    public Window getNextWindow() {
+        return null;
+    }
 }

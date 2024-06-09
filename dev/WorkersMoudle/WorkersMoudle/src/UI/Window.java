@@ -14,4 +14,6 @@ public abstract class Window {
     }
 
     public abstract void run();
+
+    public abstract Window getNextWindow();
 }
