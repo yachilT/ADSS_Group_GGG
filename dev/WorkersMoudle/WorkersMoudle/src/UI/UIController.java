@@ -8,13 +8,15 @@ import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class UIController {
 
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Run example? (Y/Other)");
-        String input = System.console().readLine();
+        String input = scanner.nextLine();
         boolean runExample = input.equals("Y");
         if(runExample)
             example();
