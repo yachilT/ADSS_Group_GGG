@@ -110,6 +110,8 @@ public class EditNextShiftWindow extends Window {
                         if (role == null) {
                             System.out.println("You must choose a valid role");
                         }
+
+                        response = serviceManager.getEmployeeService().checkEmployeeRole(id, role);
                     }
                     response = serviceManager.getBranchManagerService().assignToShift(id,branchId, role, day, part);
                     if (response.ErrorOccured()) {

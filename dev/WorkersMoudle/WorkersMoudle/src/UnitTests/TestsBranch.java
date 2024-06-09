@@ -75,7 +75,7 @@ public class TestsBranch {
         Role role = Role.Cashier;
         branch.addEmployeeToShift(id1, role, DayOfTheWeek.Tuesday, PartOfDay.Morning);
         branch.addEmployeeToShift(id2, role, DayOfTheWeek.Tuesday, PartOfDay.Morning);
-        branch.exchangeShift(id1, id2, DayOfTheWeek.Tuesday, PartOfDay.Morning, 0, role);
+        branch.exchangeShift(id1, id2, DayOfTheWeek.Tuesday, PartOfDay.Morning, role);
 
     }
 }

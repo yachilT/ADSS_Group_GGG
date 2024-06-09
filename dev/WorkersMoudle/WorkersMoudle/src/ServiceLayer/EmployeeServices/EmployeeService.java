@@ -67,10 +67,10 @@ public class EmployeeService {
     }
 
     // Method to exchange shifts between two employees
-    public Response exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Integer week, Role role) {
+    public Response exchangeShift(Integer branchId, Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Role role) {
         if (this.employeeController.isBranchEMP(id1, branchId) && this.employeeController.isBranchEMP(id2, branchId)) {
             try {
-                branchController.exchangeShift(branchId, id1, id2, day, part, week, role);
+                branchController.exchangeShift(branchId, id1, id2, day, part, role);
             } catch (Exception e) {
                 return new Response(e.getMessage());
             }
@@ -114,12 +114,20 @@ public class EmployeeService {
 
     public Response printEmployeesPref(Integer branchId){
         try {
-            return new Response(employeeController.printEmployeesPref(branchId));
+            return new Response(employeeController.printEmployeesPref(branchId),null);
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
 
+    public Response checkEmployeeRole(Integer id, Role role){
+        try {
+            employeeController.checkEmployeeRole(id, role);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
     public Response isEmployeeNew(Integer id) {
         try {
             return new Response(employeeController.isEmployeeNew(id));
@@ -128,6 +136,15 @@ public class EmployeeService {
         }
 
 
+    }
+
+    public Response isEmployeeExist(Integer id, Integer branchId){
+        try {
+            employeeController.isEmployeeExist(id, branchId);
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+        return new Response();
     }
 
     public Response getBranchId(Integer id) {
