@@ -58,7 +58,6 @@ public class ShipmentTracker implements Iterator<Destination> {
             shipmentHistory.add(shipment.createDocument(), shipment.createDestinationDocuments());
     }
 
-
     public List<Destination> getRemainingDestinations() {
         return shipment.getDestinationsFrom(currentDstIndex);
     }
