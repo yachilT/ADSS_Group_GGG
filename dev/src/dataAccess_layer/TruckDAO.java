@@ -4,6 +4,7 @@ import domain_layer.Truck;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,7 +24,7 @@ public class TruckDAO {
             pstmt.setInt(1, truck.getNumber());
             pstmt.setString(2, truck.getModel());
             pstmt.setFloat(3, truck.getEmptyWeight());
-            pstmt.setFloat(3, truck.getMaxWeight());
+            pstmt.setFloat(4, truck.getMaxWeight());
 
             pstmt.executeUpdate();
         }
@@ -34,7 +35,7 @@ public class TruckDAO {
     }
 
     public Truck read(int truckNumber){
-        String selectSQL = "SELECT * FROM Drivers WHERE truckNumber = " + truckNumber;
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE truckNumber = " + truckNumber;
         Truck truck = null;
         try (Connection conn = DriverManager.getConnection(URL);
 
@@ -52,6 +53,19 @@ public class TruckDAO {
         return truck;
     }
     public List<Truck> readAll(){
-        
+        String selectSQL = "SELECT * FROM " + TABLE_NAME;
+        List<Truck> trucks = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL);
+
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(selectSQL)) {
+
+            while (rs.next()) {
+                trucks.add(new Truck(rs.getInt("truckNumber"), rs.getString("model"), rs.getFloat("emptyWeight"), rs.getFloat("maxWeight")));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return trucks;
     }
 }

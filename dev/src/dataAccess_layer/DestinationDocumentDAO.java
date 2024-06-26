@@ -34,7 +34,7 @@ public class DestinationDocumentDAO {
 
     }
     public DestinationDocument read(int destinationDocId) throws NoSuchElementException{
-        String selectSQL = "SELECT * FROM DestinationDocs WHERE destinationDocId = " + destinationDocId;
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE destinationDocId = " + destinationDocId;
         DestinationDocument resultDoc = null;
         try (Connection conn = DriverManager.getConnection(URL);
 
@@ -54,7 +54,7 @@ public class DestinationDocumentDAO {
 
 
     public List<Integer> readDstIdByShipmentId(int shipmentDocId) {
-        String selectSQL = "SELECT * FROM DestinationDocs WHERE shipmentDocId = " + shipmentDocId;
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE shipmentDocId = " + shipmentDocId;
         List<Integer> lst = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL);
 

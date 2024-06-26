@@ -1,9 +1,11 @@
 package dataAccess_layer;
-import domain_layer.DestinationDocument;
+
 import domain_layer.Driver;
 import domain_layer.License;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DriverDAO {
@@ -32,7 +34,7 @@ public class DriverDAO {
     }
 
     public Driver read(int driverId){
-        String selectSQL = "SELECT * FROM Drivers WHERE driverId = " + driverId;
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE driverId = " + driverId;
         Driver driver = null;
         try (Connection conn = DriverManager.getConnection(URL);
 
@@ -48,6 +50,22 @@ public class DriverDAO {
         if(driver == null)
             throw new NoSuchElementException("driver with id: " + driverId + " is not found.");
         return driver;
+    }
+    public List<Driver> readAll(){
+        String selectSQL = "SELECT * FROM " + TABLE_NAME;
+        List<Driver> drivers = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL);
+
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(selectSQL)) {
+
+            while (rs.next()) {
+                drivers.add(new Driver(rs.getInt("driverId"), rs.getString("driverName"), new License(rs.getFloat("license"))));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return drivers;
     }
 
 
