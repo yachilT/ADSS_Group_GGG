@@ -14,6 +14,6 @@ public class ShipmentDocumentDAO {
     }
 
     public List<ShipmentDocument> readAll() {
-        
+        return null;
     }
 }
