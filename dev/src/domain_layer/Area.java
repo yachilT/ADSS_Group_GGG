@@ -20,4 +20,5 @@ public class Area {
 
     public Set<Site> getSites() { return sites; }
     public String getAreaName() { return areaName; }
+
 }

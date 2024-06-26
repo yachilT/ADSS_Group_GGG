@@ -11,8 +11,8 @@ import java.util.NoSuchElementException;
 
 
 public class ProductDAO {
-    private final   String TABLE_NAME = "Products";
-    private  final  String URL = "jdbc:sqlite:persisted_layer.db";
+    private final String TABLE_NAME = "Products";
+    private final String URL = "jdbc:sqlite:persisted_layer.db";
     public ProductDAO() {}
 
     public List<ProductAmount> getProductsByDstId(int destDocId) throws NoSuchElementException{

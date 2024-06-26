@@ -36,10 +36,10 @@ public class DestinationDocumentDAO {
     public DestinationDocument read(int destinationDocId) throws NoSuchElementException{
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE destinationDocId = " + destinationDocId;
         DestinationDocument resultDoc = null;
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL)) {
 
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectSQL)) {
+             ResultSet rs = stmt.executeQuery(selectSQL);
 
             while (rs.next()) {
                 resultDoc = new DestinationDocument(rs.getInt("destinationDocId"), rs.getInt("shipmentDocId"), rs.getString("address"), rs.getString("contactName"), rs.getString("contactNumber"), rs.getFloat("weight"));
