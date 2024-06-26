@@ -7,8 +7,15 @@ import java.util.Set;
 
 public class AreaFacade {
     private final Set<Area> areas;
+    private AreaRepository areaRepository;
     public AreaFacade(){
         areas = new HashSet<>();
+        areaRepository = new AreaRepository();
+    }
+
+    public void LoadAll() {
+        List<Area> areas = areaRepository.getAllAreas();
+        areas.forEach(this::addArea);
     }
     public void addArea(Area area){
         areas.add(area);

@@ -73,4 +73,8 @@ public class DestinationDocument {
     public float getWeight() {
         return weight;
     }
+
+    public int getId() {
+        return destinationDocId;
+    }
 }

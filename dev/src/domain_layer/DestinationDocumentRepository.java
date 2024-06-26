@@ -24,4 +24,9 @@ public class DestinationDocumentRepository {
         List<Integer> destIds = destinationDocumentDAO.readDstIdByShipmentId(shipmentId);
         return destIds.stream().map(this::get).toList();
     }
+
+    public void create(DestinationDocument destDoc) {
+        destinationDocumentDAO.create(destDoc);
+        destDoc.getProducts().forEach(p -> productDAO.create(p, destDoc.getId()));
+    }
 }

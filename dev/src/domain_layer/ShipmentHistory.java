@@ -1,19 +1,38 @@
 package domain_layer;
 
 
+import dataAccess_layer.ShipmentDocumentDAO;
+
 import java.util.*;
 
 public class ShipmentHistory {
     private final Map<ShipmentDocument, List<DestinationDocument>> shipments;
 
+    private ShipmentDocumentDAO shipDocDAO;
+    private DestinationDocumentRepository destDocRepo;
+
     public ShipmentHistory() {
         this.shipments = new HashMap<>();
+        this.shipDocDAO = new ShipmentDocumentDAO();
+        this.destDocRepo = new DestinationDocumentRepository();
+    }
+
+    public void LoadAll() {
+        List<ShipmentDocument> shipDocs = shipDocDAO.readAll();
+        shipDocs.forEach(shipDoc -> {
+            List<DestinationDocument> destDocs = destDocRepo.getDestDocsOfShipment(shipDoc.getId());
+            add(shipDoc, destDocs);
+        });
     }
 
     public boolean add(ShipmentDocument shipment, List<DestinationDocument> destinations) {
         if (shipments.containsKey(shipment)) {
             return false;
         }
+
+        shipDocDAO.create(shipment);
+        destinations.forEach(destDoc -> destDocRepo.create(destDoc));
+
         shipments.put(shipment, destinations);
         return true;
     }
