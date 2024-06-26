@@ -30,6 +30,8 @@ public class AreaRepository {
     }
 
 
-
-
+    public void add(Area area) {
+        areaDAO.create(area);
+        area.getSites().forEach(site -> siteDAO.create(site, area.getAreaName()));
+    }
 }

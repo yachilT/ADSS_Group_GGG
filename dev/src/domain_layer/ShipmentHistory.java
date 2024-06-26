@@ -17,7 +17,7 @@ public class ShipmentHistory {
         this.destDocRepo = new DestinationDocumentRepository();
     }
 
-    public void LoadAll() {
+    public void loadAll() {
         List<ShipmentDocument> shipDocs = shipDocDAO.readAll();
         shipDocs.forEach(shipDoc -> {
             List<DestinationDocument> destDocs = destDocRepo.getDestDocsOfShipment(shipDoc.getId());
@@ -52,6 +52,5 @@ public class ShipmentHistory {
     public List<DestinationDocument> getDestinations(ShipmentDocument shipmentDoc) {
         return shipments.get(shipmentDoc);
     }
-
 
 }

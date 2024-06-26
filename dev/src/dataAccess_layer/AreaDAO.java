@@ -12,4 +12,8 @@ public class AreaDAO {
     public List<String> readAllNames() {
         return null;
     }
+
+    public void create(Area area) {
+
+    }
 }

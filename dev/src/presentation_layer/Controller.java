@@ -47,6 +47,8 @@ public class Controller {
         areaService = new AreaService(areaFacade);
 
         TruckFacade truckFacade = new TruckFacade();
+        truckFacade.loadAll();
+
         truckFacade.addTruck(0, "Toyota", 100, 1000);
         truckFacade.addTruck(1, "Mitsubishi", 200, 2000);
 
@@ -67,6 +69,7 @@ public class Controller {
                 0,
                 "Rami Hen");
         ShipmentHistory shipmentHistory = new ShipmentHistory();
+        shipmentHistory.loadAll();
         shipmentHistory.add(shipmentDocument, List.of(
                 new DestinationDocument(new Destination(haifa1, List.of(new ProductAmount("Milk", 10))), 12, 100, 900),
                 new DestinationDocument(new Destination(haifa2, List.of(new ProductAmount("bread", 100), new ProductAmount("cheese", 200))), 13, 100,800)));

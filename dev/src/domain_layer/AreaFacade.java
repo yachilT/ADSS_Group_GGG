@@ -18,6 +18,7 @@ public class AreaFacade {
         areas.forEach(this::addArea);
     }
     public void addArea(Area area){
+        areaRepository.add(area);
         areas.add(area);
     }
     public boolean removeArea(Area area){
