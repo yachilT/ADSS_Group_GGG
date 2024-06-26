@@ -36,10 +36,10 @@ public class DriverDAO {
     public Driver read(int driverId){
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE driverId = " + driverId;
         Driver driver = null;
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL)) {
 
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectSQL)) {
+             ResultSet rs = stmt.executeQuery(selectSQL);
 
             while (rs.next()) {
                 driver = new Driver(rs.getInt("driverId"), rs.getString("driverName"), new License(rs.getFloat("license")));
@@ -54,10 +54,10 @@ public class DriverDAO {
     public List<Driver> readAll(){
         String selectSQL = "SELECT * FROM " + TABLE_NAME;
         List<Driver> drivers = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL)) {
 
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectSQL)) {
+             ResultSet rs = stmt.executeQuery(selectSQL);
 
             while (rs.next()) {
                 drivers.add(new Driver(rs.getInt("driverId"), rs.getString("driverName"), new License(rs.getFloat("license"))));

@@ -20,7 +20,7 @@ public class ShipmentHistory {
     public void loadAll() {
         List<ShipmentDocument> shipDocs = shipDocDAO.readAll();
         shipDocs.forEach(shipDoc -> {
-            List<DestinationDocument> destDocs = destDocRepo.getDestDocsOfShipment(shipDoc.getId());
+            List<DestinationDocument> destDocs = destDocRepo.getDestDocsOfShipment(shipDoc.getShipmentId());
             add(shipDoc, destDocs);
         });
     }
@@ -42,7 +42,7 @@ public class ShipmentHistory {
     }
 
     public List<DestinationDocument> getDestinations(int id) {
-        Optional<List<DestinationDocument>> destinations = shipments.entrySet().stream().filter(e -> e.getKey().getId() == id).map(Map.Entry::getValue).findFirst();
+        Optional<List<DestinationDocument>> destinations = shipments.entrySet().stream().filter(e -> e.getKey().getShipmentId() == id).map(Map.Entry::getValue).findFirst();
         if (destinations.isEmpty()) {
             throw new NoSuchElementException("Shipment with " + id + " not found.");
         }
