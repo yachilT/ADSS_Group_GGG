@@ -46,7 +46,7 @@ public class ShipmentHistoryWindow implements   Window{
         } while (documentIndex <= 0 || documentIndex > documents.size());
         return documents.get(documentIndex - 1);
     }
-
+    // need to fix according to
     private ShipmentDocument selectDocument(List<ShipmentDocument> documents, Scanner scanner) {
         if (documents.size() > 0) {
             System.out.println("Please choose a document by entering its number");

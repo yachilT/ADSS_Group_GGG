@@ -69,7 +69,6 @@ public class Shipment {
         destinations.set(indexOld, newDst);
         return destinations.subList(indexOld, destinations.size());
     }
-
     public void productsToRemain(List<ProductAmount> products, int currentDstIndex) {
         this.destinations.get(currentDstIndex).getProducts().removeIf(productAmount -> !products.contains(productAmount));
     }
