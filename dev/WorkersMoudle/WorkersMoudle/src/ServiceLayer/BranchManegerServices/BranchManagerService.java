@@ -43,6 +43,7 @@ public class BranchManagerService {
     public Response assignToShift(Integer id,Integer branchId, Role role, DayOfTheWeek day, PartOfDay partOfDay) {
         try {
             this.employeeController.isEmployeeExist(id, branchId);
+            this.employeeController.canWork(id, day, partOfDay);
             this.branchController.addEmployeeToShift(id, branchId, role, day, partOfDay);
         } catch (Exception e) {
             return new Response(e.getMessage());

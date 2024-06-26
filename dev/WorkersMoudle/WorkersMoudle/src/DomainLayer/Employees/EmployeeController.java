@@ -223,4 +223,13 @@ public class EmployeeController {
         return employees.values();
     }
 
+    public void canWork(Integer id, DayOfTheWeek day, PartOfDay partOfDay) throws Exception {
+        if(employees.get(id) == null){
+            throw new Exception("Employee not found");
+        }
+        if(employees.get(id).getShiftCantWork().contains(new Pair<>(day, partOfDay))){
+            throw new Exception("Employee can't work at this time");
+        }
+
+    }
 }
