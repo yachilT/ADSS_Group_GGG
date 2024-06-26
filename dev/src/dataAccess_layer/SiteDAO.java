@@ -3,6 +3,7 @@ package dataAccess_layer;
 import domain_layer.DestinationDocument;
 import domain_layer.Site;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,17 @@ import java.util.NoSuchElementException;
 
 public class SiteDAO {
     private final String TABLE_NAME = "Sites";
-    private final String URL = "jdbc:sqlite:persisted_layer.db";
-    public SiteDAO() {}
+    private final String URL;
+    public SiteDAO() {
+        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    }
     public List<Site> getSitesByArea(String name) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         List<Site> sites = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
             String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE areaName = '" + name + "'";
@@ -32,6 +41,12 @@ public class SiteDAO {
     }
 
     public void create(Site site, String areaName) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         try (Connection connection = DriverManager.getConnection(URL)){
 
             String insertSQL = "INSERT INTO " + TABLE_NAME + "(address, areaName, contactName, contactNumber) VALUES(?,?,?,?)";

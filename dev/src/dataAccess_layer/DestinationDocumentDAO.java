@@ -1,18 +1,28 @@
 package dataAccess_layer;
 import domain_layer.DestinationDocument;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DestinationDocumentDAO {
-    private final   String TABLE_NAME = "DestinationDocs";
-    private  final  String URL = "jdbc:sqlite:persisted_layer.db";
+    private final String TABLE_NAME = "DestinationDocs";
+    private final String URL;
 
-    public DestinationDocumentDAO() {}
+    public DestinationDocumentDAO() {
+        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    }
 
     public void create(DestinationDocument dstDoc) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         try (Connection connection = DriverManager.getConnection(URL)){
 
             String insertSQL = "INSERT INTO " + TABLE_NAME + "(destinationDocId, shipmentDocId, address, contactName, contactNumber, weight) VALUES(?,?,?,?,?,?)";
@@ -36,6 +46,12 @@ public class DestinationDocumentDAO {
     public DestinationDocument read(int destinationDocId) throws NoSuchElementException{
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE destinationDocId = " + destinationDocId;
         DestinationDocument resultDoc = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         try (Connection conn = DriverManager.getConnection(URL)) {
 
              Statement stmt = conn.createStatement();
@@ -54,6 +70,13 @@ public class DestinationDocumentDAO {
 
 
     public List<Integer> readDstIdByShipmentId(int shipmentDocId) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE shipmentDocId = " + shipmentDocId;
         List<Integer> lst = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL);

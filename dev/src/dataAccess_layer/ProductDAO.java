@@ -3,7 +3,7 @@ package dataAccess_layer;
 import domain_layer.ProductAmount;
 
 
-
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,18 @@ import java.util.NoSuchElementException;
 
 public class ProductDAO {
     private final String TABLE_NAME = "Products";
-    private final String URL = "jdbc:sqlite:persisted_layer.db";
-    public ProductDAO() {}
+    private final String URL;
+    public ProductDAO() {
+        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    }
 
     public List<ProductAmount> getProductsByDstId(int destDocId) throws NoSuchElementException{
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE destinationDocId = " + destDocId;
         List<ProductAmount> products = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
@@ -35,6 +43,12 @@ public class ProductDAO {
     }
 
     public void create(ProductAmount productAmount, int dstId) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         try (Connection connection = DriverManager.getConnection(URL)){
 
             String insertSQL = "INSERT INTO " + TABLE_NAME + "(destinationDocId, productName, productAmount) VALUES(?,?,?)";
