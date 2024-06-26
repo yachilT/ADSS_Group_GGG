@@ -66,7 +66,7 @@ public class ShipmentHistoryWindow implements   Window{
             System.out.println("Please choose a document by entering its number");
             int documentIndex = -1;
             do {
-                IntStream.range(0, documents.size()).forEach(index -> System.out.println((index + 1) + ". ID: " + documents.get(index).getId() + " Origin address: " + documents.get(index).getOriginAddress()));
+                IntStream.range(0, documents.size()).forEach(index -> System.out.println((index + 1) + ". ID: " + documents.get(index).getShipmentId() + " Origin address: " + documents.get(index).getOriginAddress()));
                 try {
                     documentIndex = scanner.nextInt();
                     if (documentIndex <= 0 || documentIndex > documents.size())

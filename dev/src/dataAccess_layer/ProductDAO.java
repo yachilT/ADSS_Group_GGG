@@ -18,10 +18,10 @@ public class ProductDAO {
     public List<ProductAmount> getProductsByDstId(int destDocId) throws NoSuchElementException{
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE destinationDocId = " + destDocId;
         List<ProductAmount> products = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL)) {
 
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(selectSQL)) {
+             ResultSet rs = stmt.executeQuery(selectSQL);
 
             while (rs.next()) {
                 products.add(new ProductAmount( rs.getString("productName"), rs.getInt("productAmount")));

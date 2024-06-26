@@ -1,7 +1,7 @@
 package domain_layer;
 
 public class ShipmentDocument {
-    private int id;
+    private int shipmentId;
     private String originAddress;
     private String originContactName;
     private String originContactNumber;
@@ -11,7 +11,7 @@ public class ShipmentDocument {
     private String driverName;
 
     public ShipmentDocument(int id, String originAddress, String originContactName, String originContactNumber, String shipmentDate, String departureTime, int truckNumber, String driverName) {
-        this.id = id;
+        this.shipmentId = id;
         this.originAddress = originAddress;
         this.originContactName = originContactName;
         this.originContactNumber = originContactNumber;
@@ -21,22 +21,22 @@ public class ShipmentDocument {
         this.driverName = driverName;
     }
 
-    public int getId() {
-        return id;
+    public int getShipmentId() {
+        return shipmentId;
     }
     public String getOriginContactName() {return originContactName;}
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ShipmentDocument other) {
-            return this.id == other.id;
+            return this.shipmentId == other.shipmentId;
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return "------------------------------------------\n" + "Shipment details: " + id + "\n" +
+        return "------------------------------------------\n" + "Shipment details: " + shipmentId + "\n" +
                      "Date: " + shipmentDate + " | Departure time: " + departureTime + "\n" +
                     "Truck number: " + truckNumber + " | Driver name: " + driverName + "\n" +
                 "------------------------------------------\n" +
@@ -47,5 +47,25 @@ public class ShipmentDocument {
 
     public String getOriginAddress() {
         return originAddress;
+    }
+
+    public String getOriginContactNumber() {
+        return originContactNumber;
+    }
+
+    public String getShipmentDate() {
+        return shipmentDate;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public int getTruckNumber() {
+        return truckNumber;
+    }
+
+    public String getDriverName() {
+        return driverName;
     }
 }
