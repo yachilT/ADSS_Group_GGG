@@ -33,5 +33,14 @@ public class Driver {
     public String getName() {
         return driverName;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
 }
 

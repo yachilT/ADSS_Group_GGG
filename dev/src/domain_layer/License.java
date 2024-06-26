@@ -1,9 +1,9 @@
 package domain_layer;
 
 public class License {
-    public final int allowedWeight;
+    public final float allowedWeight;
 
-    public License(int allowedWeight) {
+    public License(float allowedWeight) {
         this.allowedWeight = allowedWeight;
     }
 
