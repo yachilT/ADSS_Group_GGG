@@ -36,7 +36,7 @@ public class ShipmentHistoryWindow implements   Window{
                 }
             }
             catch (NoSuchElementException e){
-                System.out.println("Invalid input: Please enter an integer.")
+                System.out.println("Invalid input: Please enter an integer.");
             }
 
         } while (true);
@@ -46,7 +46,7 @@ public class ShipmentHistoryWindow implements   Window{
 
         int documentIndex = -1;
         do {
-            IntStream.range(0, documents.size()).forEach(index -> System.out.println((index + 1) + ". ID: " + documents.get(index).getId() + " address: " + documents.get(index).getAddress()));
+            IntStream.range(0, documents.size()).forEach(index -> System.out.println((index + 1) + ". ID: " + documents.get(index).getDestinationDocId() + " address: " + documents.get(index).getAddress()));
             try {
                 documentIndex = scanner.nextInt();
             }

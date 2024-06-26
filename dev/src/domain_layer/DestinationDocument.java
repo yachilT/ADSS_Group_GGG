@@ -9,9 +9,19 @@ public class DestinationDocument {
     final private String address;
     final private String contactName;
     final private String contactNumber;
-    private List<ProductAmount> products;
+    private final List<ProductAmount> products;
 
     final private float weight;
+
+    public DestinationDocument(int destinationDocId, int shipmentDocumentId, String address, String contactName, String contactNumber, float weight) {
+        this.destinationDocId = destinationDocId;
+        this.shipmentDocumentId = shipmentDocumentId;
+        this.address = address;
+        this.contactName = contactName;
+        this.contactNumber = contactNumber;
+        this.products = null;
+        this.weight = weight;
+    }
 
     public DestinationDocument(Destination dst, int destinationDocId, int shipmentDocumentId, float weight) {
         this.destinationDocId = destinationDocId;
@@ -23,13 +33,7 @@ public class DestinationDocument {
         this.weight = weight;
     }
 
-    public int getId() {
-        return destinationDocId;
-    }
 
-    public String getAddress() {
-        return address;
-    }
 
     @Override
     public String toString() {
@@ -37,5 +41,33 @@ public class DestinationDocument {
                 "address: " + address + " | contactName: " + contactName + " | contactNumber: " + contactNumber +
                 "\n-------------------------------------------\nproducts:\n" + products.stream().map(Object::toString).reduce("", (acc, p) -> acc + p + "\n")
                 + "Weight: " + weight + "\n-------------------------------------------\n";
+    }
+
+    public int getDestinationDocId() {
+        return destinationDocId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getShipmentDocId() {
+        return shipmentDocumentId;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public List<ProductAmount> getProducts() {
+        return products;
+    }
+
+    public float getWeight() {
+        return weight;
     }
 }
