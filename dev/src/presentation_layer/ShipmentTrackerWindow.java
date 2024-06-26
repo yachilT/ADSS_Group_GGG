@@ -4,6 +4,7 @@ import service_layer.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -82,9 +83,14 @@ public class ShipmentTrackerWindow implements Window {
         float newWeight = -1;
         System.out.print("Please weigh the truck: ");
         while (newWeight <= 0){
-            newWeight = scanner.nextInt();
-            if(newWeight <= 0)
-                System.out.println("Error: invalid weight, please reweigh again.");
+            try {
+                newWeight = scanner.nextInt();
+                if (newWeight <= 0)
+                    System.out.println("Error: invalid weight, please reweigh again.");
+            }
+            catch (NoSuchElementException e){
+                System.out.println("Invalid input: Please enter an integer.");
+            }
 
         }
         return newWeight;
@@ -99,9 +105,13 @@ public class ShipmentTrackerWindow implements Window {
                     "2. Change destination.\n" +
                     "3. Remove destination.\n" +
                     "4. Remove products.");
-            actionNumber = scanner.nextInt();
-            if (actionNumber < 0 || actionNumber > 4) {
-                System.out.println("Error: Invalid selection, please try again\n");
+            try {
+                actionNumber = scanner.nextInt();
+                if (actionNumber < 0 || actionNumber > 4)
+                    System.out.println("Error: Invalid selection, please try again\n");
+            }
+            catch (NoSuchElementException e){
+                System.out.println("Invalid input: Please enter an integer.");
             }
         }
         return actionNumber;
@@ -177,12 +187,16 @@ public class ShipmentTrackerWindow implements Window {
         do {
             System.out.println("Select a destination: ");
             IntStream.range(0,remainingDestinations.size()).forEach(index -> System.out.println((index + 1) + ". " + remainingDestinations.get(index).getAddress()));
-            int choice = scanner.nextInt();
-            if(choice <= 0 | choice > remainingDestinations.size()){
-                System.out.println("Error: Invalid selection! please select again.");
+            try {
+                int choice = scanner.nextInt();
+                if (choice <= 0 | choice > remainingDestinations.size()) {
+                    System.out.println("Error: Invalid selection! please select again.");
+                } else
+                    return choice - 1;
             }
-            else
-                return choice - 1;
+            catch (NoSuchElementException e){
+                System.out.println("Invalid input: Please enter an integer.");
+            }
         } while(true);
     }
     private List<ProductToSend> chooseProductsToRemove(Scanner scanner, DestinationToSend reachedDestination){
@@ -191,14 +205,19 @@ public class ShipmentTrackerWindow implements Window {
         do{
             System.out.println("Choose product to Remove " + (productsOfDestination.size() == originalSize ? ":" : "or choose 0 for exist:"));
             IntStream.range(0, productsOfDestination.size()).forEach(index -> System.out.println((index + 1) + ". " + productsOfDestination.get(index).getProductName()));
-            int choice = scanner.nextInt();
-            if(productsOfDestination.size() != originalSize && choice == 0)
-                break;
-            if(choice <= 0 | choice > productsOfDestination.size()){
-                System.out.println("Error: Invalid Selection! select again.\n");
-                continue;
+            try {
+                int choice = scanner.nextInt();
+                if (productsOfDestination.size() != originalSize && choice == 0)
+                    break;
+                if (choice <= 0 | choice > productsOfDestination.size()) {
+                    System.out.println("Error: Invalid Selection! select again.\n");
+                    continue;
+                }
+                productsOfDestination.remove(choice - 1);
             }
-            productsOfDestination.remove(choice - 1);
+            catch (NoSuchElementException e){
+                System.out.println("Invalid input: Please enter an integer.");
+            }
         } while(productsOfDestination.size() != 0);
         return productsOfDestination;
     }
