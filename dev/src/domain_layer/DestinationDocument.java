@@ -13,6 +13,16 @@ public class DestinationDocument {
 
     final private float weight;
 
+    public DestinationDocument(int destinationDocId, int shipmentDocumentId, String address, String contactName, String contactNumber, float weight) {
+        this.destinationDocId = destinationDocId;
+        this.shipmentDocumentId = shipmentDocumentId;
+        this.address = address;
+        this.contactName = contactName;
+        this.contactNumber = contactNumber;
+        this.products = null;
+        this.weight = weight;
+    }
+
     public DestinationDocument(Destination dst, int destinationDocId, int shipmentDocumentId, float weight) {
         this.destinationDocId = destinationDocId;
         this.shipmentDocumentId = shipmentDocumentId;
@@ -23,13 +33,7 @@ public class DestinationDocument {
         this.weight = weight;
     }
 
-    public int getId() {
-        return destinationDocId;
-    }
 
-    public String getAddress() {
-        return address;
-    }
 
     @Override
     public String toString() {
@@ -41,5 +45,32 @@ public class DestinationDocument {
 
     public void setProducts(List<ProductAmount> products) {
         this.products = products;
+    }
+    public int getDestinationDocId() {
+        return destinationDocId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getShipmentDocId() {
+        return shipmentDocumentId;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public List<ProductAmount> getProducts() {
+        return products;
+    }
+
+    public float getWeight() {
+        return weight;
     }
 }
