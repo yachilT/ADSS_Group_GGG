@@ -38,4 +38,8 @@ public class DestinationDocument {
                 "\n-------------------------------------------\nproducts:\n" + products.stream().map(Object::toString).reduce("", (acc, p) -> acc + p + "\n")
                 + "Weight: " + weight + "\n-------------------------------------------\n";
     }
+
+    public void setProducts(List<ProductAmount> products) {
+        this.products = products;
+    }
 }
