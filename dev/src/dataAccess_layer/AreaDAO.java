@@ -1,7 +1,6 @@
 package dataAccess_layer;
 
 import domain_layer.Area;
-import domain_layer.ProductAmount;
 
 import java.nio.file.Paths;
 import java.sql.*;
@@ -18,23 +17,23 @@ public class AreaDAO {
         return null;
     }
 
-    public List<String> readAllNames() {
+    public List<Area> readAll() {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        List<String> names = new ArrayList<>();
+        List<Area> areas = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
-            String selectSQL = "SELECT name FROM " + TABLE_NAME;
+            String selectSQL = "SELECT * FROM " + TABLE_NAME;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectSQL);
 
             while (rs.next()) {
-                names.add(rs.getString("name"));
+                areas.add(new Area(rs.getString("name")));
             }
-            return names;
+            return areas;
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
