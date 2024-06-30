@@ -11,10 +11,11 @@ public class ShipmentScheduler {
     private AreaFacade areaFacade;
     private final DriverFacade driverFacade;
     private final TruckFacade truckFacade;
-    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade){
+    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade, int shipmentIds){
         this.driverFacade = driverFacade;
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
+        this.shipmentIds = shipmentIds;
     }
     public int scheduleShipment(Site origin, List<Destination> destinations) throws NoSuchElementException {
         Pair<Driver, Truck> pair = findTruckAndDriver();

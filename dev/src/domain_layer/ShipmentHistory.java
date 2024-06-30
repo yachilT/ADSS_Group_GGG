@@ -17,12 +17,14 @@ public class ShipmentHistory {
         this.destDocRepo = new DestinationDocumentRepository();
     }
 
-    public void loadAll() {
+    public int loadAll() {
         List<ShipmentDocument> shipDocs = shipDocDAO.readAll();
         shipDocs.forEach(shipDoc -> {
             List<DestinationDocument> destDocs = destDocRepo.getDestDocsOfShipment(shipDoc.getShipmentId());
-            add(shipDoc, destDocs);
+            shipments.put(shipDoc, destDocs);
         });
+
+        return shipDocs.stream().map(ShipmentDocument::getShipmentId).max(Integer::compareTo).orElse(-1) + 1;
     }
 
     public boolean add(ShipmentDocument shipment, List<DestinationDocument> destinations) {

@@ -13,9 +13,8 @@ public class AreaFacade {
         areaRepository = new AreaRepository();
     }
 
-    public void LoadAll() {
-        List<Area> areas = areaRepository.getAllAreas();
-        areas.forEach(this::addArea);
+    public void loadAll() {
+        this.areas.addAll(areaRepository.getAllAreas());
     }
     public void addArea(Area area){
         areaRepository.add(area);
