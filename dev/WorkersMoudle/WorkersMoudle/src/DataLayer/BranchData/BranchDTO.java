@@ -1,4 +1,4 @@
-package DataLayer;
+package DataLayer.BranchData;
 
 import DomainLayer.Branches.Branch;
 import DomainLayer.Branches.WeeklyShifts;
