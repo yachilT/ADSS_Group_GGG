@@ -1,5 +1,6 @@
 package domain_layer;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,10 @@ public class Area {
     public Area(String areaName, Set<Site> sites){
         this.areaName = areaName;
         this.sites = sites;
+    }
+
+    public Area(String areaName) {
+        this(areaName, new HashSet<>());
     }
     public void addSite(Site s) throws Exception {
         if(!sites.add(s))
@@ -20,4 +25,5 @@ public class Area {
 
     public Set<Site> getSites() { return sites; }
     public String getAreaName() { return areaName; }
+
 }

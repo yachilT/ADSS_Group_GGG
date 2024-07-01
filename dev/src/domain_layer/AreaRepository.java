@@ -14,18 +14,17 @@ public class AreaRepository {
         this.siteDAO = new SiteDAO();
     }
 
-    public Area getArea(String name) {
-        Area area = areaDAO.read(name);
-        List<Site> sites = siteDAO.getSitesByArea(name);
+    public Area getArea(Area a) {
+        List<Site> sites = siteDAO.getSitesByArea(a.getAreaName());
         sites.forEach(s -> {
-            try{ area.addSite(s); } catch (Exception ignored) {}
+            try{ a.addSite(s); } catch (Exception ignored) {}
         }
         );
-        return area;
+        return a;
     }
 
     public List<Area> getAllAreas() {
-        List<String> names = areaDAO.readAllNames();
+        List<Area> names = areaDAO.readAll();
         return names.stream().map(this::getArea).toList();
     }
 

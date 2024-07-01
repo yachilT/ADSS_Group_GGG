@@ -3,6 +3,7 @@ package dataAccess_layer;
 import domain_layer.ShipmentDocument;
 
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,17 @@ import java.util.NoSuchElementException;
 
 public class ShipmentDocumentDAO {
     private final String TABLE_NAME = "ShipmentDocs";
-    private final String URL = "jdbc:sqlite:persisted_layer.db";
+    private final String URL;
+    public ShipmentDocumentDAO() {
+        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    }
     public void create(ShipmentDocument shipment) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         try (Connection connection = DriverManager.getConnection(URL)){
 
             String insertSQL = "INSERT INTO " + TABLE_NAME + "(shipmentId, originAddress, originContactName, originContactNumber, shipmentDate, departureTime, truckNumber, driverName) VALUES(?,?,?,?,?,?,?,?)";
@@ -37,6 +47,12 @@ public class ShipmentDocumentDAO {
     }
 
     public ShipmentDocument read(int shipmentId) throws NoSuchElementException {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE truckNumber = " + shipmentId;
         ShipmentDocument shipmentDoc = null;
         try (Connection conn = DriverManager.getConnection(URL)){
@@ -57,6 +73,12 @@ public class ShipmentDocumentDAO {
     }
 
     public List<ShipmentDocument> readAll() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME;
         List<ShipmentDocument> shipmentDocs = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)){

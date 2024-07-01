@@ -3,18 +3,25 @@ package dataAccess_layer;
 import domain_layer.Driver;
 import domain_layer.License;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DriverDAO {
-    private final   String TABLE_NAME = "Drivers";
-    private  final  String URL = "jdbc:sqlite:persisted_layer.db";
+    private final String TABLE_NAME = "Drivers";
+    private final String URL;
     public DriverDAO(){
-
+        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
     }
     public void create(Driver driver){
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         try (Connection connection = DriverManager.getConnection(URL)){
 
             String insertSQL = "INSERT INTO " + TABLE_NAME + "(driverId, driverName, license) VALUES(?,?,?)";
@@ -34,6 +41,12 @@ public class DriverDAO {
     }
 
     public Driver read(int driverId){
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE driverId = " + driverId;
         Driver driver = null;
         try (Connection conn = DriverManager.getConnection(URL)) {
@@ -52,6 +65,12 @@ public class DriverDAO {
         return driver;
     }
     public List<Driver> readAll(){
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String selectSQL = "SELECT * FROM " + TABLE_NAME;
         List<Driver> drivers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
