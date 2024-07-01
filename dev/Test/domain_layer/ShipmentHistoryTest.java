@@ -3,14 +3,19 @@ package domain_layer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShipmentHistoryTest {
+class ShipmentHistoryTest extends DBTest {
     ShipmentHistory shipmentHistory;
+
+    public ShipmentHistoryTest(String dbToCopy) throws IOException {
+        super(dbToCopy);
+    }
 
     @BeforeEach
     void setup() {
