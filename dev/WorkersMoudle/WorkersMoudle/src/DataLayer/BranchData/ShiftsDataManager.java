@@ -4,12 +4,12 @@ import DataLayer.AbstractDataManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
 
-
-
-    public ShiftsDataManager(String tableName) {
+    public static final String tableName = "ShiftToEmployeeTable";
+    public ShiftsDataManager() {
         super(tableName);
     }
 
@@ -21,5 +21,9 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
     @Override
     protected ShiftsDTO convertReaderToDTO(ResultSet resultSet) throws SQLException {
         return null;
+    }
+
+    public List<ShiftsDTO> getBranchSifts(int BID) {
+        return this.loadData().stream().filter(shift -> shift.getBID() == BID).toList();
     }
 }

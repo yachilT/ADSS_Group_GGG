@@ -97,4 +97,8 @@ public class BranchManagerService {
         return new Response(shift, null);
     }
 
+    public Response loadDatabase() {
+        branchController.loadDatabase();
+        return new Response();
+    }
 }

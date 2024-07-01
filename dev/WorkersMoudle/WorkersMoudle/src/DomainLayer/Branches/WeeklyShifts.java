@@ -1,5 +1,6 @@
 package DomainLayer.Branches;
 
+import DataLayer.BranchData.ShiftsDTO;
 import DomainLayer.Pair;
 
 import java.time.temporal.ChronoUnit;
@@ -21,6 +22,11 @@ public class WeeklyShifts {
         // Save the last day of the week
         this.lastDayOfWeek = Date.from(currentDate.toInstant().minus(1, ChronoUnit.DAYS));
     }
+
+    public WeeklyShifts(List<ShiftsDTO> shiftsDTOs){
+        //TODO
+    }
+
 
     // Getters and setters for lastDayOfWeek
     public Date getLastDayOfWeek() {

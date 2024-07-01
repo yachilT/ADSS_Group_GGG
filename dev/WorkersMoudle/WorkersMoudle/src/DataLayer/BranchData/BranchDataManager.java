@@ -52,7 +52,7 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
         List<WeeklyShifts> pastWeeks = getPastWeeks();
 
 
-        return new BranchDTO(Id, name, address,currentWeek , upcomingWeeks, pastWeeks);
+        return new BranchDTO(Id, name, address);
 
     }
 
