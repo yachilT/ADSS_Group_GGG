@@ -1,24 +1,27 @@
 package DomainLayer.Branches;
 
+import DataLayer.BranchData.BranchDTO;
+import DataLayer.BranchData.ShiftsDTO;
 import DomainLayer.Employees.Role;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 public class Branch {
-    int id;
-    String name;
-    String address;
-    WeeklyShifts currentWeek;
-    List<WeeklyShifts> upcomingweeks;
-    List<WeeklyShifts> pastweeks;
+    private int id;
+    private String name;
+    private String address;
+    private WeeklyShifts currentWeek;
+    private List<WeeklyShifts> upcomingweeks;
+    private List<WeeklyShifts> pastweeks;
 
-    public Branch(){}
+    private BranchDTO branchDTO;
 
-    public Branch(int id, String name, String address){
+    public Branch(int id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -26,17 +29,39 @@ public class Branch {
         this.upcomingweeks = new ArrayList<>();
         this.pastweeks = new ArrayList<>();
         create6weeks();
+        branchDTO = new BranchDTO(this);
     }
 
-    public Branch(int id, String name, WeeklyShifts currentWeek, List<WeeklyShifts> upcomingweeks, List<WeeklyShifts> pastweeks){
-        this.id = id;
-        this.name = name;
-        this.currentWeek = currentWeek;
-        this.upcomingweeks = upcomingweeks;
-        this.pastweeks = pastweeks;
+    public Branch(BranchDTO branchDTO, List<ShiftsDTO> Shifts) {
+        this.id = branchDTO.getId();
+        this.name = branchDTO.getName();
+        this.address = branchDTO.getAddress();
+        this.branchDTO = branchDTO;
+        manageShifts(Shifts);
     }
 
-    public void setUpShift(DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles){
+    private void manageShifts(List<ShiftsDTO> shifts) {
+        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+
+        List<List<ShiftsDTO>> groupedShifts = groupShiftsByWeek(shifts);
+
+        for (List<ShiftsDTO> weekShifts : groupedShifts) {
+
+            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts); //TODO: finish this line
+
+            //TODO: finish classifying weeks
+            if (weeklyShifts.getLastDayOfWeek().before(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                pastweeks.add(weeklyShifts);
+            } else if (weeklyShifts.getLastDayOfWeek().after(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                upcomingweeks.add(weeklyShifts);
+            } else {
+                currentWeek = weeklyShifts;
+            }
+        }
+
+    }
+
+    public void setUpShift(DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles) {
         upcomingweeks.get(0).getShift(day, partOfDay).addNeededRoles(roles);
     }
 
@@ -60,33 +85,33 @@ public class Branch {
 
     public void AddWeek(Date firstDayOfWeek) {
         if (currentWeek == null) {
-            this.currentWeek = new WeeklyShifts(firstDayOfWeek);
+            this.currentWeek = new WeeklyShifts(firstDayOfWeek, id);
         } else {
-            upcomingweeks.add(new WeeklyShifts(firstDayOfWeek));
+            upcomingweeks.add(new WeeklyShifts(firstDayOfWeek, id));
         }
     }
 
-    public String getShiftToString(Integer week, DayOfTheWeek day, PartOfDay part) throws Exception{
-        if(week ==0){
-            return currentWeek.toString(day,part);
-        }else if(week < 0){
-            week = (week*-1) - 1;
-            if(week >= pastweeks.size()){
+    public String getShiftToString(Integer week, DayOfTheWeek day, PartOfDay part) throws Exception {
+        if (week == 0) {
+            return currentWeek.toString(day, part);
+        } else if (week < 0) {
+            week = (week * -1) - 1;
+            if (week >= pastweeks.size()) {
                 return null;
             }
-            return pastweeks.get(week).toString(day,part);
+            return pastweeks.get(week).toString(day, part);
         }
         week -= 1;
-        if(week >= upcomingweeks.size()){
+        if (week >= upcomingweeks.size()) {
             throw new Exception("No such week");
         }
-        return upcomingweeks.get(week).toString(day,part);
+        return upcomingweeks.get(week).toString(day, part);
     }
 
-    public void deleteEmployeeFromShift(int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception{
-        if(upcomingweeks.get(0) != null){
-            Shift shift = upcomingweeks.get(0).getShift(day,partOfDay);
-            if(shift != null)
+    public void deleteEmployeeFromShift(int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception {
+        if (upcomingweeks.get(0) != null) {
+            Shift shift = upcomingweeks.get(0).getShift(day, partOfDay);
+            if (shift != null)
                 shift.deleteEmployee(employeeId);
             else
                 throw new Exception("Shift not found");
@@ -98,7 +123,7 @@ public class Branch {
             Calendar calendar = Calendar.getInstance();
             Date today = calendar.getTime();
 
-            if (today.after(currentWeek.getLastDayOfWeek())) {
+            if (today.after(currentWeek.getLastDayOfWeek())) { //TODO: fix this
                 pastweeks.add(currentWeek);
                 currentWeek = upcomingweeks.remove(0);
 
@@ -122,26 +147,26 @@ public class Branch {
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
 
         Date nextWeekStartDate = calendar.getTime();
-        return new WeeklyShifts(nextWeekStartDate);
+        return new WeeklyShifts(nextWeekStartDate, id);
     }
 
     public void addEmployeeToShift(Integer employee, Role role, DayOfTheWeek day, PartOfDay part) throws Exception {
-        if(employee == null){
+        if (employee == null) {
             throw new Exception("Employee is null");
         }
-        upcomingweeks.get(0).getShift(day,part).addEmployee(employee,role);
+        upcomingweeks.get(0).getShift(day, part).addEmployee(employee, role);
     }
 
     public void isWeekExists(Integer week) throws Exception {
-        if(pastweeks.isEmpty())
+        if (pastweeks.isEmpty())
             throw new Exception("No past weeks");
 
-        week = (week*-1) - 1;
-        if(week > pastweeks.size())
+        week = (week * -1) - 1;
+        if (week > pastweeks.size())
             throw new Exception("Threre is no such week");
     }
 
-    public void addNeededRoles(DayOfTheWeek day, PartOfDay part, List<Role> roles){
+    public void addNeededRoles(DayOfTheWeek day, PartOfDay part, List<Role> roles) {
         upcomingweeks.get(0).getShift(day, part).addNeededRoles(roles);
     }
 
@@ -166,22 +191,17 @@ public class Branch {
         return upcomingweeks;
     }
 
-    public void setUpcomingweeks(List<WeeklyShifts> upcomingweeks) {
-        this.upcomingweeks = upcomingweeks;
-    }
 
     public List<WeeklyShifts> getPastweeks() {
         return pastweeks;
     }
 
-    public void setPastweeks(List<WeeklyShifts> pastweeks) {
-        this.pastweeks = pastweeks;
-    }
 
-    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day,PartOfDay part, Role role) throws Exception {
-        try{
-            upcomingweeks.get(0).getShift(day,part).exchangeShift(id1,id2,role);
-        }catch (Exception e){
+
+    public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Role role) throws Exception {
+        try {
+            upcomingweeks.get(0).getShift(day, part).exchangeShift(id1, id2, role);
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -194,7 +214,42 @@ public class Branch {
         return address;
     }
 
-    public void setCurrentWeek(WeeklyShifts weeklyShifts) {
-        this.currentWeek = weeklyShifts;
+
+    private static List<List<ShiftsDTO>> groupShiftsByWeek(List<ShiftsDTO> shifts) {
+        // Sort the list of shifts by date
+        shifts.sort(Comparator.comparing(shift -> DateEncryptDecrypt.decryptDate(shift.getDate())));
+
+        List<List<ShiftsDTO>> groupedShifts = new ArrayList<>();
+        List<ShiftsDTO> currentWeek = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        Date currentSunday = null;
+
+        for (int i= 0; i< shifts.size(); i++) {
+            ShiftsDTO shift = shifts.get(i);
+
+            Date shiftDate = DateEncryptDecrypt.decryptDate(shift.getDate());
+            calendar.setTime(shiftDate);
+            // Find the Sunday of the week
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            Date sundayOfWeek = calendar.getTime();
+
+            if (!sundayOfWeek.equals(currentSunday)) {
+                // Start a new week
+                if (!currentWeek.isEmpty()) {
+                    groupedShifts.add(new ArrayList<>(currentWeek));
+                }
+                currentWeek.clear();
+                currentSunday = sundayOfWeek;
+            }
+            currentWeek.add(shift);
+        }
+
+        // Add the last week if it's not empty
+        if (!currentWeek.isEmpty()) {
+            groupedShifts.add(currentWeek);
+        }
+
+        return groupedShifts;
     }
 }

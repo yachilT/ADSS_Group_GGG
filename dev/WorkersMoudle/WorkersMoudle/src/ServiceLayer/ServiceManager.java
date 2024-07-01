@@ -42,4 +42,8 @@ public class ServiceManager {
     public BranchManagerService getBranchManagerService() {
         return this.branchManagerService;
     }
+
+    public void loadDatabase() {
+        branchManagerService.loadDatabase();
+    }
 }

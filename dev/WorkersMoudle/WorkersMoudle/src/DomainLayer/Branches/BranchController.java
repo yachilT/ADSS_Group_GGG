@@ -1,5 +1,8 @@
 package DomainLayer.Branches;
 
+import DataLayer.BranchData.BranchDTO;
+import DataLayer.BranchData.BranchDataManager;
+import DataLayer.BranchData.ShiftsDataManager;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import ServiceLayer.Response;
@@ -10,13 +13,14 @@ import java.util.List;
 public class BranchController {
 
     HashMap<Integer, Branch> branches;
-    private Integer branchCounter = 1;
+    private Integer branchCounter;
 
     EmployeeController employeeController;
 
     public BranchController(EmployeeController employeeController) {
         this.employeeController = employeeController;
         branches = new HashMap<>();
+        branchCounter = 0;
     }
 
     public Integer addBranch(String name, String address){
@@ -68,4 +72,15 @@ public class BranchController {
         branches.get(branchId).addNeededRoles(day, part, list);
     }
 
+    public void loadDatabase() {
+
+        BranchDataManager branchDataManager = new BranchDataManager();
+        ShiftsDataManager shiftDataManager = new ShiftsDataManager();
+        // Load branches from database
+        List<BranchDTO> branches = branchDataManager.loadData();
+        for (BranchDTO branch : branches) {
+            this.branches.put(branch.getId(), new Branch(branch, shiftDataManager.getBranchSifts(branch.getId())));
+            branchCounter++;
+        }
+    }
 }

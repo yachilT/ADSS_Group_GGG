@@ -1,5 +1,6 @@
 package DomainLayer.Branches;
 
+import DataLayer.BranchData.ShiftsDTO;
 import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -13,32 +14,25 @@ public class Shift {
     private HashMap<Integer, Role> employees;
     private Date date;
 
+    private ShiftsDTO shiftsDTO;
 
-    public Shift(){}
-    public Shift(Pair id) {
-        this.id = id;
-        this.neededRoles = new ArrayList<>();
-        this.employees = new HashMap<>();
-    }
 
-    public Shift(Pair id, Date date) {
+    public Shift(Pair id, Date date, int branchId) {
         this.id = id;
         this.neededRoles = new ArrayList<>();
         this.employees = new HashMap<>();
         this.date = date;
-    }
 
-    public Shift(Pair id, List<Role> neededRoles) {
-        this.id = id;
-        this.neededRoles = neededRoles;
-        this.employees = new HashMap<>();
+        shiftsDTO = new ShiftsDTO(branchId,); //TODO find roles and add needed roles
     }
-    public Shift(Pair id, List<Role> neededRoles, List<Employee> employees) {
-        this.id = id;
-        this.neededRoles = neededRoles;
+    public Shift(ShiftsDTO shiftsDTO) {
+        this.id = new Pair<>(WeeklyShifts.dateToDayOfTheWeek(DateEncryptDecrypt.decryptDate(shiftsDTO.getDate())), WeeklyShifts.intToPartOfDay(shiftsDTO.getPartOfDay()));
+        this.neededRoles = new ArrayList<>();
         this.employees = new HashMap<>();
-    }
+        this.date = DateEncryptDecrypt.decryptDate(shiftsDTO.getDate());
 
+        this.shiftsDTO = shiftsDTO;
+    }
     public void addRole(Role role){
         neededRoles.add(role);
     }
@@ -48,6 +42,7 @@ public class Shift {
             throw new Exception("Employee already in the shift");
         }
         employees.put(employee,role);
+        shiftsDTO.addEmployee(employee, role);
     }
 
     public boolean isFulfilled(){
@@ -167,6 +162,8 @@ public class Shift {
             throw new Exception("Employee not found in the shift");
         }
         employees.remove(employeeId);
+
+        shiftsDTO.removeEmployee(employeeId);
     }
 
     public String employeesToString() {
