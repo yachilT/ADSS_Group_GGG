@@ -13,13 +13,13 @@ public class Controller {
     public ShipmentSchedulerService shipmentSchedulerService;
     public ShipmentTrackerService shipmentTrackerService;
     public ShipmentHistoryService shipmentHistoryService;
-    public Controller(){
+    public Controller(String dbPath){
         scanner = new Scanner(System.in);
-        Site haifa1 = new Site("HaGanim 1, Haifa", "Yossi Cohen", "0586943858");
-        Site afula = new Site("Arlozerov 23, Afula", "Yehuda Levi", "05058939955");
-        Site haifa2 = new Site("Hertzel 12, Haifa", "Ben Zalman", "0546583385");
+//        Site haifa1 = new Site("HaGanim 1, Haifa", "Yossi Cohen", "0586943858");
+//        Site afula = new Site("Arlozerov 23, Afula", "Yehuda Levi", "05058939955");
+//        Site haifa2 = new Site("Hertzel 12, Haifa", "Ben Zalman", "0546583385");
 
-        AreaFacade areaFacade = new AreaFacade();
+        AreaFacade areaFacade = new AreaFacade(dbPath);
         areaFacade.loadAll();
 //        List<Area> areas = List.of(
 //                new Area("North", Set.of(
@@ -47,13 +47,13 @@ public class Controller {
         //areas.forEach(areaFacade::addArea);
         areaService = new AreaService(areaFacade);
 
-        TruckFacade truckFacade = new TruckFacade();
+        TruckFacade truckFacade = new TruckFacade(dbPath);
         truckFacade.loadAll();
 
 //        truckFacade.addTruck(0, "Toyota", 100, 1000);
 //        truckFacade.addTruck(1, "Mitsubishi", 200, 2000);
 
-        DriverFacade driverFacade = new DriverFacade();
+        DriverFacade driverFacade = new DriverFacade(dbPath);
         driverFacade.loadAll();
 //        driverFacade.addDriver(new Driver(0, "Rami Hen", new License(2100)));
 //        driverFacade.addDriver(new Driver(1, "Yossi Cohen", new License(1100)));
@@ -67,7 +67,7 @@ public class Controller {
 //                LocalTime.now().toString(),
 //                0,
 //                "Rami Hen");
-        ShipmentHistory shipmentHistory = new ShipmentHistory();
+        ShipmentHistory shipmentHistory = new ShipmentHistory(dbPath);
         int startingIndex = shipmentHistory.loadAll();
 
         ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,truckFacade, startingIndex);

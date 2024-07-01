@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
 public class ShipmentDocumentDAO {
     private final String TABLE_NAME = "ShipmentDocs";
     private final String URL;
-    public ShipmentDocumentDAO() {
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public ShipmentDocumentDAO(String dbPath) {
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
     public void create(ShipmentDocument shipment) {
         try {

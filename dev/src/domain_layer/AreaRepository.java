@@ -9,8 +9,8 @@ public class AreaRepository {
     private AreaDAO areaDAO;
     private SiteDAO siteDAO;
 
-    public AreaRepository() {
-        this.areaDAO = new AreaDAO();
+    public AreaRepository(String dbPath) {
+        this.areaDAO = new AreaDAO(dbPath);
         this.siteDAO = new SiteDAO();
     }
 

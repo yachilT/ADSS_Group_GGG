@@ -11,8 +11,8 @@ public class DestinationDocumentDAO {
     private final String TABLE_NAME = "DestinationDocs";
     private final String URL;
 
-    public DestinationDocumentDAO() {
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public DestinationDocumentDAO(String dbPath) {
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
 
     public void create(DestinationDocument dstDoc) {

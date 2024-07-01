@@ -8,9 +8,9 @@ import java.util.Set;
 public class AreaFacade {
     private final Set<Area> areas;
     private AreaRepository areaRepository;
-    public AreaFacade(){
+    public AreaFacade(String dbPath){
         areas = new HashSet<>();
-        areaRepository = new AreaRepository();
+        areaRepository = new AreaRepository(dbPath);
     }
 
     public void loadAll() {

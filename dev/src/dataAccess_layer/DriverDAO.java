@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
 public class DriverDAO {
     private final String TABLE_NAME = "Drivers";
     private final String URL;
-    public DriverDAO(){
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public DriverDAO(String dbPath){
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
     public void create(Driver driver){
         try {

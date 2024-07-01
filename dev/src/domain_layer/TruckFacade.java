@@ -9,9 +9,9 @@ public class TruckFacade {
     private final List<Truck> trucks;
     private final TruckDAO truckDAO;
 
-    public TruckFacade() {
+    public TruckFacade(String dbPath) {
         trucks = new ArrayList<>();
-        truckDAO = new TruckDAO();
+        truckDAO = new TruckDAO(dbPath);
     }
 
     public void addTruck(int truckNumber, String model, float emptyWeight, float maxWeight) {

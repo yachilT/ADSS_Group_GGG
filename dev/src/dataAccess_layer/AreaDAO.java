@@ -10,11 +10,8 @@ import java.util.List;
 public class AreaDAO {
     private String TABLE_NAME = "Areas";
     private String URL;
-    public AreaDAO() {
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
-    }
-    public Area read(String name) {
-        return null;
+    public AreaDAO(String dbPath) {
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
 
     public List<Area> readAll() {
@@ -26,6 +23,7 @@ public class AreaDAO {
 
         List<Area> areas = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
+
             String selectSQL = "SELECT * FROM " + TABLE_NAME;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(selectSQL);

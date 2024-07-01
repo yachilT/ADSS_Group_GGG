@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
 public class TruckDAO {
     private final String TABLE_NAME = "Trucks";
     private final String URL;
-    public TruckDAO(){
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public TruckDAO(String dbPath){
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
 
     public void create(Truck truck){

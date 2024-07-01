@@ -13,8 +13,8 @@ import java.util.NoSuchElementException;
 public class ProductDAO {
     private final String TABLE_NAME = "Products";
     private final String URL;
-    public ProductDAO() {
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public ProductDAO(String dbPath) {
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
 
     public List<ProductAmount> getProductsByDstId(int destDocId) throws NoSuchElementException{

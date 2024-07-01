@@ -11,10 +11,10 @@ public class ShipmentHistory {
     private ShipmentDocumentDAO shipDocDAO;
     private DestinationDocumentRepository destDocRepo;
 
-    public ShipmentHistory() {
+    public ShipmentHistory(String dbPath) {
         this.shipments = new HashMap<>();
-        this.shipDocDAO = new ShipmentDocumentDAO();
-        this.destDocRepo = new DestinationDocumentRepository();
+        this.shipDocDAO = new ShipmentDocumentDAO(dbPath);
+        this.destDocRepo = new DestinationDocumentRepository(dbPath);
     }
 
     public int loadAll() {

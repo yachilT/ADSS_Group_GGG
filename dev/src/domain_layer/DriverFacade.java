@@ -10,9 +10,9 @@ public class DriverFacade {
     final private Set<Driver> drivers;
     private final DriverDAO driverDAO;
 
-    public DriverFacade() {
+    public DriverFacade(String dbPath) {
         drivers = new HashSet<>();
-        driverDAO = new DriverDAO();
+        driverDAO = new DriverDAO(dbPath);
     }
     public void loadAll() {
         List<Driver> drivers = driverDAO.readAll();

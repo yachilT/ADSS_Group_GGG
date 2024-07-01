@@ -9,9 +9,9 @@ public class DestinationDocumentRepository {
     DestinationDocumentDAO destinationDocumentDAO;
     ProductDAO productDAO;
 
-    public DestinationDocumentRepository() {
-        destinationDocumentDAO = new DestinationDocumentDAO();
-        productDAO = new ProductDAO();
+    public DestinationDocumentRepository(String dbPath) {
+        destinationDocumentDAO = new DestinationDocumentDAO(dbPath);
+        productDAO = new ProductDAO(dbPath);
     }
 
     public DestinationDocument get(int id) {
