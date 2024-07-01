@@ -40,21 +40,25 @@ public class Branch {
         manageShifts(Shifts);
     }
 
-    private void manageShifts(List<ShiftsDTO> shifts) {//TODO
+    private void manageShifts(List<ShiftsDTO> shifts) {
         LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
 
+        List<List<ShiftsDTO>> groupedShifts = groupShiftsByWeek(shifts);
 
-        for (ShiftsDTO shift : shifts) {
-            if (shift.getDate().equals(sunday.toString())) {
+        for (List<ShiftsDTO> weekShifts : groupedShifts) {
 
+            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts); //TODO: finish this line
+
+            //TODO: finish classifying weeks
+            if (weeklyShifts.getLastDayOfWeek().before(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                pastweeks.add(weeklyShifts);
+            } else if (weeklyShifts.getLastDayOfWeek().after(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                upcomingweeks.add(weeklyShifts);
             } else {
-                for (WeeklyShifts week : upcomingweeks) {
-                    if (week.getFirstDayOfWeek().toString().equals(shift.getDate())) {
-                        week.addShift(shift.getPartOfDay(), shift.getEID());
-                    }
-                }
+                currentWeek = weeklyShifts;
             }
         }
+
     }
 
     public void setUpShift(DayOfTheWeek day, PartOfDay partOfDay, List<Role> roles) {
@@ -81,9 +85,9 @@ public class Branch {
 
     public void AddWeek(Date firstDayOfWeek) {
         if (currentWeek == null) {
-            this.currentWeek = new WeeklyShifts(firstDayOfWeek);
+            this.currentWeek = new WeeklyShifts(firstDayOfWeek, id);
         } else {
-            upcomingweeks.add(new WeeklyShifts(firstDayOfWeek));
+            upcomingweeks.add(new WeeklyShifts(firstDayOfWeek, id));
         }
     }
 
@@ -119,7 +123,7 @@ public class Branch {
             Calendar calendar = Calendar.getInstance();
             Date today = calendar.getTime();
 
-            if (today.after(currentWeek.getLastDayOfWeek())) {
+            if (today.after(currentWeek.getLastDayOfWeek())) { //TODO: fix this
                 pastweeks.add(currentWeek);
                 currentWeek = upcomingweeks.remove(0);
 
@@ -143,7 +147,7 @@ public class Branch {
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
 
         Date nextWeekStartDate = calendar.getTime();
-        return new WeeklyShifts(nextWeekStartDate);
+        return new WeeklyShifts(nextWeekStartDate, id);
     }
 
     public void addEmployeeToShift(Integer employee, Role role, DayOfTheWeek day, PartOfDay part) throws Exception {
@@ -187,17 +191,12 @@ public class Branch {
         return upcomingweeks;
     }
 
-    public void setUpcomingweeks(List<WeeklyShifts> upcomingweeks) {
-        this.upcomingweeks = upcomingweeks;
-    }
 
     public List<WeeklyShifts> getPastweeks() {
         return pastweeks;
     }
 
-    public void setPastweeks(List<WeeklyShifts> pastweeks) {
-        this.pastweeks = pastweeks;
-    }
+
 
     public void exchangeShift(Integer id1, Integer id2, DayOfTheWeek day, PartOfDay part, Role role) throws Exception {
         try {
@@ -215,13 +214,10 @@ public class Branch {
         return address;
     }
 
-    public void setCurrentWeek(WeeklyShifts weeklyShifts) {
-        this.currentWeek = weeklyShifts;
-    }
 
     private static List<List<ShiftsDTO>> groupShiftsByWeek(List<ShiftsDTO> shifts) {
         // Sort the list of shifts by date
-        Collections.sort(shifts, (shift1, shift2) -> shift1.getDate().compareTo(shift2.getDate()));
+        shifts.sort(Comparator.comparing(shift -> DateEncryptDecrypt.decryptDate(shift.getDate())));
 
         List<List<ShiftsDTO>> groupedShifts = new ArrayList<>();
         List<ShiftsDTO> currentWeek = new ArrayList<>();
@@ -229,14 +225,16 @@ public class Branch {
         Calendar calendar = Calendar.getInstance();
         Date currentSunday = null;
 
-        for (ShiftsDTO shift : shifts) {
-            Date shiftDate = java.sql.Date.valueOf(shift.getDate());// not right //TODO
+        for (int i= 0; i< shifts.size(); i++) {
+            ShiftsDTO shift = shifts.get(i);
+
+            Date shiftDate = DateEncryptDecrypt.decryptDate(shift.getDate());
             calendar.setTime(shiftDate);
             // Find the Sunday of the week
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             Date sundayOfWeek = calendar.getTime();
 
-            if (currentSunday == null || !sundayOfWeek.equals(currentSunday)) {
+            if (!sundayOfWeek.equals(currentSunday)) {
                 // Start a new week
                 if (!currentWeek.isEmpty()) {
                     groupedShifts.add(new ArrayList<>(currentWeek));

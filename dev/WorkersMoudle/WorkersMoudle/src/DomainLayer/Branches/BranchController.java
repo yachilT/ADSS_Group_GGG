@@ -73,10 +73,10 @@ public class BranchController {
     }
 
     public void loadDatabase() {
-        // Load branches from database
+
         BranchDataManager branchDataManager = new BranchDataManager();
         ShiftsDataManager shiftDataManager = new ShiftsDataManager();
-
+        // Load branches from database
         List<BranchDTO> branches = branchDataManager.loadData();
         for (BranchDTO branch : branches) {
             this.branches.put(branch.getId(), new Branch(branch, shiftDataManager.getBranchSifts(branch.getId())));

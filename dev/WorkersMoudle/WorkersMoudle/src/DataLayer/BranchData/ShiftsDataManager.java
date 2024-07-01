@@ -13,6 +13,15 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
         super(tableName);
     }
 
+    public void addEmployeeToShift(int bid, int eID, String date, int partOfDay) {
+     //TODO
+    }
+
+    public void deleteEmployeeFromShift(int bid, int eID, String date, int partOfDay) {
+     //TODO
+    }
+
+
     @Override
     public boolean insertDTO(ShiftsDTO dto) {
         return false;

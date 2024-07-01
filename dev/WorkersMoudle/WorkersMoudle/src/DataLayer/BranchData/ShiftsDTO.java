@@ -1,27 +1,37 @@
 package DataLayer.BranchData;
 
+import DomainLayer.Employees.Role;
+
+import java.util.HashMap;
+import java.util.List;
+
 public class ShiftsDTO {
-    public ShiftsDTO() {
-    }
+
 
     private int BID;
-    private int EID;
     private String date;
     private int partOfDay;
 
-    public ShiftsDTO(int BID, int EID, String date, int partOfDay) {
+    private HashMap<Role,Integer> EIDs;
+
+    private List<Role> neededRoles;
+
+
+
+    public ShiftsDTO(int BID, HashMap<Role,Integer> EIDs, String date, int partOfDay, List<Role> neededRoles) {
         this.BID = BID;
-        this.EID = EID;
+        this.EIDs = EIDs;
         this.date = date;
         this.partOfDay = partOfDay;
+        this.neededRoles = neededRoles;
     }
 
     public int getBID() {
         return BID;
     }
 
-    public int getEID() {
-        return EID;
+    public List<Integer> getEIDs() {
+        return EIDs.values().stream().toList();
     }
 
     public String getDate() {
@@ -32,20 +42,20 @@ public class ShiftsDTO {
         return partOfDay;
     }
 
-    public void setBID(int BID) {
-        this.BID = BID;
-    }
-
-    public void setEID(int EID) {
-        this.EID = EID;
-    }
-
     public void setDate(String date) {
         this.date = date;
     }
 
-    public void setPartOfDay(int partOfDay) {
-        this.partOfDay = partOfDay;
+    public void addEmployee(int eID, Role role) {
+        EIDs.put(role, eID);
+        new ShiftsDataManager().addEmployeeToShift(this.BID, eID, this.date, this.partOfDay);
+        //TODO: add role to neededRoles
+    }
+
+    public void removeEmployee(int eID) {
+        EIDs.remove(eID);
+        new ShiftsDataManager().deleteEmployeeFromShift(this.BID, eID, this.date, this.partOfDay);
+        //TODO: remove role from neededRoles
     }
 
 }
