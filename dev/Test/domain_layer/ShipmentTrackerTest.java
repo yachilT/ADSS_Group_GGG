@@ -27,7 +27,7 @@ class ShipmentTrackerTest {
     void changeTruck_OK() {
         try {
             shipmentTracker.next();
-            TruckFacade truckFacade = new TruckFacade();
+            TruckFacade truckFacade = new TruckFacade(false, "");
             truckFacade.addTruck(1, "Mitsubishi", 200, 1300);
             shipmentTracker.changeTruck(truckFacade, 1200);
             assert true;
@@ -40,7 +40,7 @@ class ShipmentTrackerTest {
     void changeTruck_NoRelevantTruck() {
         try {
             shipmentTracker.next();
-            TruckFacade truckFacade = new TruckFacade();
+            TruckFacade truckFacade = new TruckFacade(false, "");
             truckFacade.addTruck(1, "Mitsubishi", 200, 1300);
             shipmentTracker.changeTruck(truckFacade, 1500);
             fail("Should throw a NoSuchElementException");

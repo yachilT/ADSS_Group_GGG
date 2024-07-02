@@ -10,11 +10,13 @@ public class ShipmentHistory {
 
     private ShipmentDocumentDAO shipDocDAO;
     private DestinationDocumentRepository destDocRepo;
+    private boolean persist;
 
-    public ShipmentHistory(String dbPath) {
+    public ShipmentHistory(boolean persist, String dbPath) {
         this.shipments = new HashMap<>();
         this.shipDocDAO = new ShipmentDocumentDAO(dbPath);
         this.destDocRepo = new DestinationDocumentRepository(dbPath);
+        this. persist = persist;
     }
 
     public int loadAll() {
@@ -31,9 +33,10 @@ public class ShipmentHistory {
         if (shipments.containsKey(shipment)) {
             return false;
         }
-
-        shipDocDAO.create(shipment);
-        destinations.forEach(destDoc -> destDocRepo.create(destDoc));
+        if (persist) {
+            shipDocDAO.create(shipment);
+            destinations.forEach(destDoc -> destDocRepo.create(destDoc));
+        }
 
         shipments.put(shipment, destinations);
         return true;

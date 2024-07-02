@@ -9,17 +9,20 @@ import java.util.Set;
 public class DriverFacade {
     final private Set<Driver> drivers;
     private final DriverDAO driverDAO;
+    private boolean persist;
 
-    public DriverFacade(String dbPath) {
+    public DriverFacade(boolean persist, String dbPath) {
         drivers = new HashSet<>();
         driverDAO = new DriverDAO(dbPath);
+        this.persist = persist;
     }
     public void loadAll() {
         List<Driver> drivers = driverDAO.readAll();
         this.drivers.addAll(drivers);
     }
     public void addDriver(Driver driver) {
-        driverDAO.create(driver);
+        if (persist)
+            driverDAO.create(driver);
         drivers.add(driver);
     }
 

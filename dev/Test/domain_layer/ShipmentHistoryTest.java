@@ -10,16 +10,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShipmentHistoryTest extends DBTest {
+class ShipmentHistoryTest {
     ShipmentHistory shipmentHistory;
 
-    public ShipmentHistoryTest(String dbToCopy) throws IOException {
-        super(dbToCopy);
-    }
 
     @BeforeEach
     void setup() {
-        shipmentHistory = new ShipmentHistory();
+        shipmentHistory = new ShipmentHistory(false, "");
     }
     @Test
     void getDestinations() {

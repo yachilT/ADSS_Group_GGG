@@ -14,9 +14,9 @@ class ShipmentSchedulerTest {
     ShipmentScheduler shipmentScheduler;
     @BeforeEach
     void setUp() {
-        driverFacade = new DriverFacade();
-        truckFacade = new TruckFacade();
-        shipmentScheduler = new ShipmentScheduler(driverFacade, truckFacade);
+        driverFacade = new DriverFacade(false, "");
+        truckFacade = new TruckFacade(false, "");
+        shipmentScheduler = new ShipmentScheduler(driverFacade, truckFacade, 0);
 
     }
 

@@ -8,15 +8,19 @@ import java.util.List;
 public class TruckFacade {
     private final List<Truck> trucks;
     private final TruckDAO truckDAO;
+    private boolean persist;
 
-    public TruckFacade(String dbPath) {
+    public TruckFacade(boolean persist, String dbPath) {
         trucks = new ArrayList<>();
         truckDAO = new TruckDAO(dbPath);
+        this.persist = persist;
     }
 
     public void addTruck(int truckNumber, String model, float emptyWeight, float maxWeight) {
         Truck truck = new Truck(truckNumber, model, emptyWeight, maxWeight);
-        truckDAO.create(truck);
+
+        if (persist)
+            truckDAO.create(truck);
         trucks.add(truck);
     }
 
