@@ -6,5 +6,6 @@ public enum Role {
     Usher,
     StoreKeeper,
     Butcher,
-    CheeseMan
+    CheeseMan,
+    Driver
 }

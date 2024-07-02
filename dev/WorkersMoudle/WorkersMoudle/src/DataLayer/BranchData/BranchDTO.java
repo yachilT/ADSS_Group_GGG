@@ -28,6 +28,9 @@ public class BranchDTO {
 
         branchDataManager = new BranchDataManager();
 
+    }
+
+    public void insertDTO(){
         branchDataManager.insertDTO(this);
     }
 

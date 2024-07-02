@@ -21,7 +21,6 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
     }
 
 
-
     @Override
     public boolean insertDTO(BranchDTO dto) {
         int result = -1;
@@ -67,4 +66,5 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
     private WeeklyShifts getCurrentWeek() {
         return null;
     }
+
 }
