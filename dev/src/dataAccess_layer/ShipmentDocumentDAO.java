@@ -53,7 +53,7 @@ public class ShipmentDocumentDAO {
             e.printStackTrace();
         }
 
-        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE truckNumber = " + shipmentId;
+        String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE shipmentId = " + shipmentId;
         ShipmentDocument shipmentDoc = null;
         try (Connection conn = DriverManager.getConnection(URL)){
 
