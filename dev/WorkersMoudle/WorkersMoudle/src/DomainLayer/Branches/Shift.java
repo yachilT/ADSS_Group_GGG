@@ -1,6 +1,7 @@
 package DomainLayer.Branches;
 
 import DataLayer.BranchData.ShiftsDTO;
+import DataLayer.DateEncryptDecrypt;
 import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -17,19 +18,20 @@ public class Shift {
     private ShiftsDTO shiftsDTO;
 
 
-    public Shift(Pair id, Date date, int branchId) {
+    public Shift(Pair id, Date date, int branchId, PartOfDay partOfDay) {
         this.id = id;
         this.neededRoles = new ArrayList<>();
         this.employees = new HashMap<>();
         this.date = date;
 
-        shiftsDTO = new ShiftsDTO(branchId,); //TODO find roles and add needed roles
+        shiftsDTO = new ShiftsDTO(branchId,employees, date, partOfDay, neededRoles);
+        shiftsDTO.insertDTO();
     }
     public Shift(ShiftsDTO shiftsDTO) {
-        this.id = new Pair<>(WeeklyShifts.dateToDayOfTheWeek(DateEncryptDecrypt.decryptDate(shiftsDTO.getDate())), WeeklyShifts.intToPartOfDay(shiftsDTO.getPartOfDay()));
+        this.id = new Pair<>(WeeklyShifts.dateToDayOfTheWeek(shiftsDTO.getDate()), shiftsDTO.getPartOfDay());
         this.neededRoles = new ArrayList<>();
         this.employees = new HashMap<>();
-        this.date = DateEncryptDecrypt.decryptDate(shiftsDTO.getDate());
+        this.date =shiftsDTO.getDate();
 
         this.shiftsDTO = shiftsDTO;
     }

@@ -2,6 +2,7 @@ package DomainLayer.Branches;
 
 import DataLayer.BranchData.BranchDTO;
 import DataLayer.BranchData.ShiftsDTO;
+import DataLayer.DateEncryptDecrypt;
 import DomainLayer.Employees.Role;
 
 
@@ -30,6 +31,8 @@ public class Branch {
         this.pastweeks = new ArrayList<>();
         create6weeks();
         branchDTO = new BranchDTO(this);
+
+        branchDTO.insertDTO();
     }
 
     public Branch(BranchDTO branchDTO, List<ShiftsDTO> Shifts) {
@@ -47,9 +50,9 @@ public class Branch {
 
         for (List<ShiftsDTO> weekShifts : groupedShifts) {
 
-            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts); //TODO: finish this line
+            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts);
 
-            //TODO: finish classifying weeks
+
             if (weeklyShifts.getLastDayOfWeek().before(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
                 pastweeks.add(weeklyShifts);
             } else if (weeklyShifts.getLastDayOfWeek().after(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
@@ -217,7 +220,7 @@ public class Branch {
 
     private static List<List<ShiftsDTO>> groupShiftsByWeek(List<ShiftsDTO> shifts) {
         // Sort the list of shifts by date
-        shifts.sort(Comparator.comparing(shift -> DateEncryptDecrypt.decryptDate(shift.getDate())));
+        shifts.sort(Comparator.comparing(shift -> shift.getDate()));
 
         List<List<ShiftsDTO>> groupedShifts = new ArrayList<>();
         List<ShiftsDTO> currentWeek = new ArrayList<>();
@@ -228,7 +231,7 @@ public class Branch {
         for (int i= 0; i< shifts.size(); i++) {
             ShiftsDTO shift = shifts.get(i);
 
-            Date shiftDate = DateEncryptDecrypt.decryptDate(shift.getDate());
+            Date shiftDate = shift.getDate();
             calendar.setTime(shiftDate);
             // Find the Sunday of the week
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);

@@ -8,24 +8,30 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WeeklyShifts {
+    private static final int INT_MORNING = 0;
+
     private HashMap<DayOfTheWeek, Pair<Shift,Shift>> shifts;
     private Date firstDayOfWeek;
+
+    private Date lastDayOfWeek;
 
 
     public WeeklyShifts(Date firstDayOfWeek, int branchId) {
         Date currentDate = firstDayOfWeek;
         this.shifts = new HashMap<>();
         for (DayOfTheWeek day : DayOfTheWeek.values()) {
-            shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), currentDate, branchId), new Shift(new Pair<>(day, PartOfDay.Evening), currentDate,branchId))); // Initialize shift
+            shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), currentDate, branchId, PartOfDay.Morning ),
+                    new Shift(new Pair<>(day, PartOfDay.Evening), currentDate,branchId, PartOfDay.Evening))); // Initialize shift
             // Move to the next day
             currentDate = Date.from(currentDate.toInstant().plus(1, ChronoUnit.DAYS));
         }
 
         this.firstDayOfWeek = firstDayOfWeek;
+        this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
     }
 
     public WeeklyShifts(List<ShiftsDTO> shiftsDTOs){
-        firstDayOfWeek = DateEncryptDecrypt.decryptDate(shiftsDTOs.get(0).getDate());
+        firstDayOfWeek = shiftsDTOs.get(0).getDate();
         shifts = new HashMap<>();
 
         DayOfTheWeek[] days = DayOfTheWeek.values();
@@ -33,13 +39,13 @@ public class WeeklyShifts {
         for(int i =0; i<days.length; i++){
             DayOfTheWeek day = days[i];
 
-            shiftsDTOs = shiftsDTOs.stream().filter(shiftDTO -> dateToDayOfTheWeek(DateEncryptDecrypt.decryptDate(shiftDTO.getDate())) == day).collect(Collectors.toList());
+            shiftsDTOs = shiftsDTOs.stream().filter(shiftDTO -> dateToDayOfTheWeek(shiftDTO.getDate()) == day).collect(Collectors.toList());
 
             if(shiftsDTOs.size() != 2){
                 throw new IllegalArgumentException("ShiftsDTOs size is not 2");
             }
             ShiftsDTO shiftDTO1 = shiftsDTOs.remove(0);
-            Shift shift1 = new Shift(shiftDTO1); //TODO finish constractor
+            Shift shift1 = new Shift(shiftDTO1);
 
             ShiftsDTO shiftDTO2 = shiftsDTOs.remove(0);
             Shift shift2 = new Shift(shiftDTO2);
@@ -87,12 +93,11 @@ public class WeeklyShifts {
         return DayOfTheWeek.values()[dayOfWeek - 1];
     }
 
-    public static PartOfDay intToPartOfDay(int part){
-        if(part == 0)
-            return PartOfDay.Morning;
-        return PartOfDay.Evening;
+
+
+
+    public Date getLastDayOfWeek() {
+        return lastDayOfWeek;
     }
-
-
 }
 

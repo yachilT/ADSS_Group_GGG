@@ -1,4 +1,4 @@
-package DomainLayer.Branches;
+package DataLayer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
