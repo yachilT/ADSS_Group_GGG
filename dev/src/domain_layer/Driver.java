@@ -49,7 +49,7 @@ public class Driver {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Driver driver = (Driver) o;
-        return id == driver.id && available == driver.available && Objects.equals(driverName, driver.driverName) && Objects.equals(driversLicense, driver.driversLicense);
+        return id == driver.id && available == driver.available && Objects.equals(driverName, driver.driverName) && driversLicense.equals(driver.driversLicense);
     }
 
 }

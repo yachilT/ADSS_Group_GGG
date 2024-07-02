@@ -90,8 +90,8 @@ public class DestinationDocumentDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        if(lst.isEmpty())
-            throw new NoSuchElementException("Error: No destinationDocs found for Shipment ID: " +  shipmentDocId);
+//        if(lst.isEmpty())
+//            throw new NoSuchElementException("Error: No destinationDocs found for Shipment ID: " +  shipmentDocId);
         return  lst;
     }
 }

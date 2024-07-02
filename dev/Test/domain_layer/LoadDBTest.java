@@ -5,10 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.util.HashSet;
 
@@ -24,7 +21,7 @@ class LoadDBTest extends DBTest {
     ShipmentHistory shipmentHistory;
 
 
-    public LoadDBTest(String dbToCopy) throws IOException {
+    public LoadDBTest() throws IOException {
         super("EmptyDB.db");
     }
 
@@ -90,7 +87,7 @@ class LoadDBTest extends DBTest {
             fail();
         }
         driverFacade.loadAll();
-        assertTrue(driverFacade.getDrivers().contains(testDriver));
+        assertTrue(driverFacade.getDrivers().stream().toList().contains(testDriver));
     }
     @Test
     void loadArea(){
@@ -98,7 +95,7 @@ class LoadDBTest extends DBTest {
         Site site = new Site("Hashalom 15", "David", "050");
         Set<Site> sites = new HashSet<>();
         sites.add(site);
-        Area area = new Area("Lala land", sites);
+        Area area = new Area("LalaLand", sites);
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -121,7 +118,7 @@ class LoadDBTest extends DBTest {
             fail();
         }
     // ---------------------------------------------------------------------------------------------------------------------
-        TABLE_NAME = "Areas";
+        String Areas_table = "Areas";
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -129,13 +126,14 @@ class LoadDBTest extends DBTest {
         }
 
         try (Connection conn = DriverManager.getConnection(URL)) {
-            String insertSQL = "INSERT INTO " + TABLE_NAME + "(name) VALUES(?)";
+            String insertSQL = "INSERT INTO " + Areas_table + "(name) VALUES(?)";
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
             pstmt.setString(1, area.getAreaName());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             fail();
         }
+
         areaFacade.loadAll();
         assertTrue(areaFacade.getAreas().contains(area));
     }
@@ -171,7 +169,7 @@ class LoadDBTest extends DBTest {
             fail();
         }
         shipmentHistory.loadAll();
-        assertTrue(shipmentHistory.getShipmentDocs().contains(testDoc));
+        assertTrue(shipmentHistory.getShipmentDocs().stream().toList().contains((testDoc)));
     }
 
 }

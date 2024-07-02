@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
 public class SiteDAO {
     private final String TABLE_NAME = "Sites";
     private final String URL;
-    public SiteDAO() {
-        URL = "jdbc:sqlite:" + Paths.get("persisted_layer.db").toAbsolutePath().toString().replace("\\", "/");
+    public SiteDAO(String dbPath) {
+        URL = "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
     }
     public List<Site> getSitesByArea(String name) {
         try {
@@ -24,9 +24,9 @@ public class SiteDAO {
 
         List<Site> sites = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL)) {
-            String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE areaName = '" + name + "'";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(selectSQL);
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE areaName = ?");
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 sites.add(new Site(rs.getString("address"), rs.getString("contactName"), rs.getString("contactNumber")));

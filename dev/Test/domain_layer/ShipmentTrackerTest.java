@@ -18,7 +18,7 @@ class ShipmentTrackerTest {
         shipmentTracker = new ShipmentTracker(new Shipment(0, LocalDateTime.now(), new Site("HaGanim 1, Haifa", "Yossi Cohen", "0586943858"), new LinkedList<>(Arrays.asList(
                 new Destination(new Site("Arlozerov 23, Afula", "Yehuda Levi", "05058939955"), new LinkedList<>(Arrays.asList(new ProductAmount("Milk", 10), new ProductAmount("Eggs", 20)))),
                 new Destination(new Site("Hertzel 12, Haifa", "Ben Zalman", "0546583385"), new LinkedList<>(Arrays.asList(new ProductAmount("Bread", 20)))))
-        ), new Truck(0, "Toyota", 100, 1000), new Driver(0, "Rami Hen", new License(2100))), new ShipmentHistory());
+        ), new Truck(0, "Toyota", 100, 1000), new Driver(0, "Rami Hen", new License(2100))), new ShipmentHistory(false, ""));
 
     }
 

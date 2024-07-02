@@ -16,7 +16,7 @@ public class StoreDocsTest extends DBTest{
 
     private ShipmentHistory sh;
     public StoreDocsTest() throws IOException {
-        super("empty.db");
+        super("EmptyDB.db");
     }
 
     @BeforeEach
@@ -41,12 +41,12 @@ public class StoreDocsTest extends DBTest{
 
             if (rs.next()) {
                 assertTrue(rs.getInt("shipmentId") == 0
-                        && rs.getString("originAddress").equals("origin")
-                        && rs.getString("originContactName").equals("Mr. origin")
-                        && rs.getString("originContactNumber").equals("+origin-phone-number")
-                        && rs.getString("shipmentDate").equals("+origin-phone-number")
-                        && rs.getInt("truckNumber") == 0
-                        && rs.getString("driverName").equals("origin-driver"));
+                        && rs.getString("originAddress").equals(s.getOriginAddress())
+                        && rs.getString("originContactName").equals(s.getOriginContactName())
+                        && rs.getString("originContactNumber").equals(s.getOriginContactNumber())
+                        && rs.getString("shipmentDate").equals(s.getShipmentDate())
+                        && rs.getInt("truckNumber") == s.getTruckNumber()
+                        && rs.getString("driverName").equals(s.getDriverName()));
             }
             else
                 fail("Table is empty");
@@ -67,10 +67,9 @@ public class StoreDocsTest extends DBTest{
         sh.add(s, dsts);
         try (Connection conn = DriverManager.getConnection(URL)) {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM ShipmentDocs");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM DestinationDocs");
 
             int count = 0;
-
             while (rs.next() && count < dsts.size()) {
                 if (!(rs.getInt("destinationDocId") == dsts.get(count).getDestinationDocId()
                         && rs.getInt("shipmentDocId") == dsts.get(count).getShipmentDocId()
@@ -82,14 +81,14 @@ public class StoreDocsTest extends DBTest{
 
                 List<ProductAmount> prods = dsts.get(count).getProducts();
                 PreparedStatement productStatement = conn.prepareStatement("SELECT * FROM Products WHERE destinationDocId = ?");
-                productStatement.setInt(1, rs.getInt("shipmentDocId"));
+                productStatement.setInt(1, rs.getInt("destinationDocId"));
 
 
                 ResultSet rsProd = productStatement.executeQuery();
                 int countProd = 0;
                 while (rsProd.next() && countProd < prods.size()) {
-                    if (!(rs.getString("productName").equals(prods.get(countProd).getProductName())
-                            && rs.getInt("productAmount") == prods.get(countProd).getAmount()))
+                    if (!(rsProd.getString("productName").equals(prods.get(countProd).getProductName())
+                            && rsProd.getInt("productAmount") == prods.get(countProd).getAmount()))
                         fail();
                     countProd++;
                 }

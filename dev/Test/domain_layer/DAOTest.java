@@ -21,8 +21,8 @@ public class DAOTest extends DBTest{
     TruckDAO truckDAO;
     DriverDAO driverDAO;
     ShipmentDocumentDAO shipmentDocumentDAO;
-    public DAOTest(String dbToCopy) throws IOException {
-        super(dbToCopy);
+    public DAOTest() throws IOException {
+        super("EmptyDB.db");
     }
     @BeforeEach
     void setup() {

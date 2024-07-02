@@ -11,7 +11,7 @@ public class AreaRepository {
 
     public AreaRepository(String dbPath) {
         this.areaDAO = new AreaDAO(dbPath);
-        this.siteDAO = new SiteDAO();
+        this.siteDAO = new SiteDAO(dbPath);
     }
 
     public Area getArea(Area a) {
