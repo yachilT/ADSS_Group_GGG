@@ -11,4 +11,8 @@ public class DBTest {
         testDBPath = dbToCopy + " - copy";
         Files.copy(new File(dbToCopy).toPath(), new File(dbToCopy).toPath());
     }
+
+    public void deleteDB() throws IOException {
+        Files.delete(new File(testDBPath).toPath());
+    }
 }
