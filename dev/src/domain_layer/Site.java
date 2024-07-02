@@ -1,5 +1,7 @@
 package domain_layer;
 
+import java.util.Objects;
+
 public class Site {
     private String address;
     private String contactName;
@@ -34,4 +36,16 @@ public class Site {
         this.weight = weight;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Site site = (Site) o;
+        return weight == site.weight && Objects.equals(address, site.address) && Objects.equals(contactName, site.contactName) && Objects.equals(contactNumber, site.contactNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, contactName, contactNumber, weight);
+    }
 }

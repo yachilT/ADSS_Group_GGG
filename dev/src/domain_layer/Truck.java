@@ -51,4 +51,13 @@ public class Truck {
     public int getNumber() {
         return truckNumber;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Truck))
+            return false;
+        Truck tObj = (Truck)obj;
+        return truckNumber == tObj.truckNumber && model.equals(tObj.model) && emptyWeight == tObj.emptyWeight && maxWeight == tObj.maxWeight;
+    }
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class StoreDocsTest extends DBTest{
@@ -24,8 +25,8 @@ public class StoreDocsTest extends DBTest{
     @Test
     void SaveShipmentTest() {
 
-        try (DriverManager.getConnection())
         ShipmentDocument s = new ShipmentDocument(0, "origin", "Mr. origin", "+origin-phone-number", "or/ig/in", "or:ig:in", 0, "origin-driver");
+        
 
 
     }

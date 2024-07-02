@@ -1,5 +1,7 @@
 package domain_layer;
 
+import java.util.Objects;
+
 public class Driver {
     private int id;
     private String driverName;
@@ -40,6 +42,14 @@ public class Driver {
 
     public String getDriverName() {
         return driverName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id == driver.id && available == driver.available && Objects.equals(driverName, driver.driverName) && Objects.equals(driversLicense, driver.driversLicense);
     }
 
 }
