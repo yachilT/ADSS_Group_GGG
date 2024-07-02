@@ -68,4 +68,5 @@ public class ShipmentDocument {
     public String getDriverName() {
         return driverName;
     }
+
 }

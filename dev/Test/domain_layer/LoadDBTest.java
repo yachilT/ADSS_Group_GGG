@@ -9,10 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,10 +30,11 @@ class LoadDBTest extends DBTest {
 
     @BeforeEach
     void setup() {
+        try{createDB();} catch (IOException io) {io.printStackTrace();}
         areaFacade = new AreaFacade(testDBPath);
-        truckFacade = new TruckFacade(testDBPath);
-        driverFacade = new DriverFacade(testDBPath);
-        shipmentHistory = new ShipmentHistory(testDBPath);
+        truckFacade = new TruckFacade(true, testDBPath);
+        driverFacade = new DriverFacade(true, testDBPath);
+        shipmentHistory = new ShipmentHistory(true, testDBPath);
     }
     @AfterEach
     void tearDown() {try{deleteDB();} catch (IOException io) {io.printStackTrace();};}
@@ -94,10 +94,84 @@ class LoadDBTest extends DBTest {
     }
     @Test
     void loadArea(){
+        String TABLE_NAME = "Sites";
         Site site = new Site("Hashalom 15", "David", "050");
         Set<Site> sites = new HashSet<>();
         sites.add(site);
         Area area = new Area("Lala land", sites);
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            fail();
+        }
 
+        try (Connection connection = DriverManager.getConnection(URL)){
+
+            String insertSQL = "INSERT INTO " + TABLE_NAME + "(address, areaName, contactName, contactNumber) VALUES(?,?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(insertSQL);
+
+            pstmt.setString(1, site.getAddress());
+            pstmt.setString(2, area.getAreaName());
+            pstmt.setString(3, site.getContactName());
+            pstmt.setString(4, site.getContactNumber());
+
+            pstmt.executeUpdate();
+        }
+        catch (SQLException ex) {
+            fail();
+        }
+    // ---------------------------------------------------------------------------------------------------------------------
+        TABLE_NAME = "Areas";
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            fail();
+        }
+
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            String insertSQL = "INSERT INTO " + TABLE_NAME + "(name) VALUES(?)";
+            PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+            pstmt.setString(1, area.getAreaName());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            fail();
+        }
+        areaFacade.loadAll();
+        assertTrue(areaFacade.getAreas().contains(area));
     }
+    @Test
+    void loadShipmentDoc(){
+        String TABLE_NAME = "ShipmentDocs";
+        ShipmentDocument testDoc = new ShipmentDocument(1111, "Orange", "Orange the man", "+972Orange", "Or:an:ge", "Or:an:ge", 11,"Orange");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(URL)){
+
+            String insertSQL = "INSERT INTO " + TABLE_NAME + "(shipmentId, originAddress, originContactName, originContactNumber, shipmentDate, departureTime, truckNumber, driverName) VALUES(?,?,?,?,?,?,?,?)";
+            PreparedStatement pstmt = connection.prepareStatement(insertSQL);
+
+            pstmt.setInt(1, testDoc.getShipmentId());
+            pstmt.setString(2, testDoc.getOriginAddress());
+            pstmt.setString(3, testDoc.getOriginContactName());
+            pstmt.setString(4, testDoc.getOriginContactNumber());
+            pstmt.setString(5, testDoc.getShipmentDate());
+            pstmt.setString(6, testDoc.getDepartureTime());
+            pstmt.setInt(7, testDoc.getTruckNumber());
+            pstmt.setString(8, testDoc.getDriverName());
+
+
+
+            pstmt.executeUpdate();
+        }
+        catch (SQLException ex){
+            fail();
+        }
+        shipmentHistory.loadAll();
+        assertTrue(shipmentHistory.getShipmentDocs().contains(testDoc));
+    }
+
 }
