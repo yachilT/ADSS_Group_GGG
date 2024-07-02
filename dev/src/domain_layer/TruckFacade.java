@@ -23,9 +23,11 @@ public class TruckFacade {
     public List<Truck> getAvailableTrucks() {
         return trucks.stream().filter(Truck::isAvailable).toList();
     }
+    public List<Truck> getTrucks() {return trucks;}
 
-    public void loadAll() {
+    public boolean loadAll() {
         List<Truck> trucks = truckDAO.readAll();
         this.trucks.addAll(trucks);
+        return false;
     }
 }

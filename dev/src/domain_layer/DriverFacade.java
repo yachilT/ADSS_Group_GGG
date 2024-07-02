@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class DriverFacade {
-    final private Set<Driver> drivers;
+    private final Set<Driver> drivers;
     private final DriverDAO driverDAO;
 
     public DriverFacade(String dbPath) {
@@ -22,7 +22,9 @@ public class DriverFacade {
         driverDAO.create(driver);
         drivers.add(driver);
     }
-
+    public Set<Driver> getDrivers(){
+        return drivers;
+    }
     public List<Driver> getAvailableDrivers() {
         return drivers.stream().filter(Driver::isAvailable).toList();
     }

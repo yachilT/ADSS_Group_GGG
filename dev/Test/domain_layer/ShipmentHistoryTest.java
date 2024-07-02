@@ -1,5 +1,6 @@
 package domain_layer;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,8 @@ class ShipmentHistoryTest extends DBTest {
     void setup() {
         shipmentHistory = new ShipmentHistory();
     }
+    @AfterEach
+    void tearDown() {try{deleteDB();} catch (IOException io) {io.printStackTrace();};}
     @Test
     void getDestinations() {
         ShipmentDocument shipmentDocument = new ShipmentDocument(1, "HaGanim 1, Haifa", "Yossi Cohen", "0586943858", LocalDate.now().toString(), LocalTime.now().toString(), 0, "Rami Hen");
