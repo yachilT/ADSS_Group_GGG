@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractDataManager<T> {
     // The database file name
-    public static final String BRANCH_DB = "branch.db";
+    public static final String BRANCH_DB = "Workers.db";
     // The connection string
     protected String connectionString;
     // The SQL table name

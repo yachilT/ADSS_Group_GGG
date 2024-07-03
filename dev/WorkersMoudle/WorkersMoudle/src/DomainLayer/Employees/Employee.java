@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import DataLayer.EmployeeDTO;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
@@ -23,6 +24,8 @@ public class Employee {
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
 
+    private EmployeeDTO employeeDTO;
+
     public Employee(){}
 
     public Employee(Integer id, String name, List<Role> roles,
@@ -40,13 +43,19 @@ public class Employee {
         this.dateLeft = null;
         shiftPreferences = new ArrayList<>();
         shiftCantWork = new ArrayList<>();
+        employeeDTO = new EmployeeDTO(this);
     }
 
     public boolean isNew(){
         return password == null;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password) throws Exception{
+        try{
+            employeeDTO.setPassword(password);
+            this.password = password;
+        }catch (Exception e) {
+            throw e;
+        }
     }
 
     //getters and setters
@@ -62,6 +71,10 @@ public class Employee {
         return name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -74,8 +87,13 @@ public class Employee {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(List<Role> roles) throws Exception{
+        try{
+            employeeDTO.setRoles(roles);
+            this.roles = roles;
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     public int getBankAccountNumber() {
@@ -114,8 +132,13 @@ public class Employee {
         return dateLeft;
     }
 
-    public void setDateLeft(Date dateLeft) {
-        this.dateLeft = dateLeft;
+    public void setDateLeft(Date dateLeft) throws Exception {
+        try {
+            employeeDTO.setDateLeft(dateLeft);
+            this.dateLeft = dateLeft;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public List<Pair<DayOfTheWeek, PartOfDay>> getShiftPreferences() {
@@ -126,26 +149,48 @@ public class Employee {
         return shiftCantWork;
     }
 
-    public void addShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) {
-        shiftPreferences.add(shift);
+    public void addShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception{
+        try{
+            employeeDTO.addShiftPreference(shift);
+            shiftPreferences.add(shift);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public void addShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) {
-        shiftCantWork.add(shift);
+    public void addShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
+        try{
+            employeeDTO.addShiftCantWork(shift);
+            shiftCantWork.add(shift);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void removeShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
         if (!shiftPreferences.contains(shift)) {
             throw new Exception("Shift not found in preferences");
         }
-        shiftPreferences.remove(shift);
+
+        try{
+            employeeDTO.removeShiftPreference(shift);
+            shiftPreferences.remove(shift);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void removeShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
         if (!shiftCantWork.contains(shift)) {
             throw new Exception("Shift not found in cant work shifts");
         }
-        shiftCantWork.remove(shift);
+
+        try{
+            employeeDTO.removeShiftCantWork(shift);
+            shiftCantWork.remove(shift);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override

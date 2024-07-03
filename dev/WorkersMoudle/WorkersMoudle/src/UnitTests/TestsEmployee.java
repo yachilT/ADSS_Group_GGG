@@ -53,7 +53,11 @@ public class TestsEmployee {
 
     @Test
     public void testSetPassword() {
-        employee.setPassword("password123");
+        try {
+            employee.setPassword("password123");
+        } catch (Exception e) {
+            fail("Exception thrown");
+        }
         assertTrue(employee.checkPassword("password123"));
         assertFalse(employee.checkPassword("wrongpassword"));
     }
@@ -77,7 +81,11 @@ public class TestsEmployee {
         assertEquals(2, employee.getBranchId());
 
         Date leaveDate = new Date();
-        employee.setDateLeft(leaveDate);
+        try {
+            employee.setDateLeft(leaveDate);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
         assertEquals(leaveDate, employee.getDateLeft());
     }
 
