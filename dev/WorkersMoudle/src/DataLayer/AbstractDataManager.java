@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractDataManager<T> {
     // The database file name
-    public static final String dbPath = "workers.db";
+    public String dbPath = "workers.db";
     // The connection string
     protected String connectionString;
     // The SQL table name
@@ -20,7 +20,9 @@ public abstract class AbstractDataManager<T> {
         this.tableName = tableName;
     }
 
-
+    public void testMode() {
+        this.connectionString =  "jdbc:sqlite:" + Paths.get("test.db").toAbsolutePath().toString().replace("\\", "/");
+    }
 
     // Abstract method that should insert a new DTO to the table
     public abstract boolean insertDTO(T dto);

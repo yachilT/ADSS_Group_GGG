@@ -13,7 +13,7 @@ public class CreateSystemWindow extends Window {
 
     @Override
     public void run() {
-
+        serviceManager.getEmployeeService().loadDatabase();
         Response response =null;
         boolean flag =true;
 
@@ -37,6 +37,12 @@ public class CreateSystemWindow extends Window {
         int bankAccountNum;
         double salary;
         String password;
+
+        if(!serviceManager.getEmployeeService().isHRExist().ErrorOccured()) {
+            Integer a = 0;
+            return new Response(a);
+        }
+
         System.out.println("CreateSystem");
         System.out.println("Enter HR Manager details");
         System.out.print("Name:");

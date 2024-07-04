@@ -33,7 +33,22 @@ public class EmployeeDTO {
     }
 
     public EmployeeDTO(Employee employee, Integer manager) {
-        this(employee.getId(), employee.getName(), employee.getPassword(), employee.getRoles(), employee.getBankAccountNumber(), employee.getSalary(), employee.getDateJoined(), employee.getBranchId(), employee.getDateLeft(), employee.getShiftPreferences(), employee.getShiftCantWork(),manager);
+        this.id = employee.getId();
+        this.name = employee.getName();
+        this.password = employee.getPassword();
+        this.roles = employee.getRoles();
+        this.bankAccountNumber = employee.getBankAccountNumber();
+        this.salary = employee.getSalary();
+        this.dateJoined = employee.getDateJoined();
+        this.branchId = employee.getBranchId();
+        this.dateLeft = employee.getDateLeft();
+        this.shiftPreferences = employee.getShiftPreferences();
+        this.shiftCantWork = employee.getShiftCantWork();
+        this.manager = manager;
+
+        employeeDataManager = new EmployeeDataManager();
+
+        employeeDataManager.insertDTO(this);
     }
 
     public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager) {
@@ -52,8 +67,8 @@ public class EmployeeDTO {
 
         employeeDataManager = new EmployeeDataManager();
 
-        employeeDataManager.insertDTO(this);
     }
+
 
     private void update() throws Exception{
         if(!employeeDataManager.updateDTO(this))
@@ -233,6 +248,10 @@ public class EmployeeDTO {
 
     public void setShiftCantWork(List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork){
         this.shiftCantWork = shiftCantWork;
+    }
+
+    public void testMode(){
+        this.employeeDataManager.testMode();
     }
 
 }

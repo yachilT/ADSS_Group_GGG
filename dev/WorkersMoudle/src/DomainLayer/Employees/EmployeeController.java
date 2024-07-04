@@ -110,6 +110,11 @@ public class EmployeeController {
             throw new Exception("Employee not found");
     }
 
+    public void isHrManagerExist() throws Exception{
+        if(hrManager == null)
+            throw new Exception("HR manager not found");
+    }
+
 
     public void enterPreferences(Integer id, DayOfTheWeek day, PartOfDay part) throws Exception {
         if(employees.get(id) == null){
@@ -245,7 +250,7 @@ public class EmployeeController {
         EmployeeDataManager employeeDataManager = new EmployeeDataManager();
         List<EmployeeDTO> employees;
         try {
-            employees = employeeDataManager.loadData();
+            employees = employeeDataManager.loadDatabase();
         } catch (Exception e) {
             throw new Exception("Error loading employees data");
         }
@@ -257,5 +262,15 @@ public class EmployeeController {
             else
                 this.employees.put(employee.getId(), new Employee(employee));
         }
+    }
+
+    public void testMode(){
+        for(Employee employee : employees.values()){
+            employee.testMode();
+        }
+        for(BranchManager manager : branchManagers.values()){
+            manager.testMode();
+        }
+        hrManager.testMode();
     }
 }

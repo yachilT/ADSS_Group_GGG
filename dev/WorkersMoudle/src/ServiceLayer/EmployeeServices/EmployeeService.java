@@ -147,6 +147,15 @@ public class EmployeeService {
         return new Response();
     }
 
+    public Response isHRExist(){
+        try{
+            employeeController.isHrManagerExist();
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
+
     public Response getBranchId(Integer id) {
         try {
             return new Response(employeeController.getBranchId(id));
@@ -161,6 +170,11 @@ public class EmployeeService {
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+        return new Response();
+    }
+
+    public Response testMode(){
+        employeeController.testMode();
         return new Response();
     }
 }
