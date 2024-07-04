@@ -175,6 +175,7 @@ public class EmployeeService {
 
     public Response testMode(){
         employeeController.testMode();
+        branchController.testMode();
         return new Response();
     }
 }

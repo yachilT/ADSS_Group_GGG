@@ -273,4 +273,9 @@ public class EmployeeController {
         }
         hrManager.testMode();
     }
+
+    public void deleteData() {
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        employeeDataManager.deleteData();
+    }
 }

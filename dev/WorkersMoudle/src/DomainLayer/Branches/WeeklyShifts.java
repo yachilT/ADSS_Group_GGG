@@ -27,7 +27,7 @@ public class WeeklyShifts {
         }
 
         this.firstDayOfWeek = firstDayOfWeek;
-        this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
+        this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(5, ChronoUnit.DAYS));
     }
 
     public WeeklyShifts(List<ShiftsDTO> shiftsDTOs){
@@ -39,15 +39,19 @@ public class WeeklyShifts {
         for(int i =0; i<days.length; i++){
             DayOfTheWeek day = days[i];
 
-            shiftsDTOs = shiftsDTOs.stream().filter(shiftDTO -> dateToDayOfTheWeek(shiftDTO.getDate()) == day).collect(Collectors.toList());
+            List<ShiftsDTO> shiftsDTOs2 = shiftsDTOs.stream().filter(shiftDTO -> dateToDayOfTheWeek(shiftDTO.getDate()) == day).collect(Collectors.toList());
 
-            if(shiftsDTOs.size() != 2){
-                throw new IllegalArgumentException("ShiftsDTOs size is not 2");
-            }
-            ShiftsDTO shiftDTO1 = shiftsDTOs.remove(0);
+            if(shiftsDTOs2.isEmpty())
+                continue;
+
+            ShiftsDTO shiftDTO1 = shiftsDTOs2.remove(0);
             Shift shift1 = new Shift(shiftDTO1);
 
-            ShiftsDTO shiftDTO2 = shiftsDTOs.remove(0);
+
+            if(shiftsDTOs2.isEmpty())
+                continue;
+
+            ShiftsDTO shiftDTO2 = shiftsDTOs2.remove(0);
             Shift shift2 = new Shift(shiftDTO2);
 
 

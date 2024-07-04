@@ -58,4 +58,7 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
     }
 
 
+    public String getConnectionString() {
+        return connectionString;
+    }
 }

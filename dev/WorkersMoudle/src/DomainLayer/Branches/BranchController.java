@@ -83,4 +83,16 @@ public class BranchController {
             branchCounter++;
         }
     }
+
+    public void testMode() {
+        BranchDataManager branchDataManager = new BranchDataManager();
+        ShiftsDataManager shiftDataManager = new ShiftsDataManager();
+        branchDataManager.testMode();
+        shiftDataManager.testMode();
+    }
+
+    public void deleteData() {
+        new BranchDataManager().deleteData();
+        new ShiftsDataManager().deleteData();
+    }
 }

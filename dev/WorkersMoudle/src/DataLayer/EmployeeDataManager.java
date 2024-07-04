@@ -17,7 +17,7 @@ import java.util.List;
 
 public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     // Constants related to the Users database schema
-    public static final String EMPLOYEE_TABLE = "EmployeeTable";
+    public static String EMPLOYEE_TABLE = "EmployeeTable";
     public static final String ID_COLUMN = "EID";
     public static final String NAME_COLUMN = "NAME";
     public static final String PASSWORD_COLUMN = "PASSWORD";
@@ -401,5 +401,104 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return employees;
     }
+    @Override
+    public boolean deleteData() {
+        int res = -1;
+        String[] queries = {
+                "DELETE FROM RolesTable;",
+                "DELETE FROM PreferencesTable;",
+                "DELETE FROM CantWorkTable;",
+                "DELETE FROM EmployeeTable;"
+        };
 
+        try (Connection connection = DriverManager.getConnection(this.connectionString)) {
+            connection.setAutoCommit(false); // Begin transaction
+
+            try {
+                for (String query : queries) {
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        res = statement.executeUpdate();
+                        if ((res <= 0)) {
+                            //failed
+                            // for debugging
+                        }
+                    }
+                    connection.commit(); // Commit transaction
+                }
+                connection.setAutoCommit(true); // Reset to default
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false; // Return false if connection fails
+            }
+
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        public int getNumOfRoles(Integer id) {
+        String query = "SELECT COUNT(*) FROM RolesTable WHERE EID = ?";
+        int result = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager.getConnection(this.connectionString);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int getNumOfShiftsPreferences(Integer id) {
+        String query = "SELECT COUNT(*) FROM PreferencesTable WHERE EID = ?";
+        int result = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager.getConnection(this.connectionString);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int getNumOfShiftsCantWork(Integer id) {
+        String query = "SELECT COUNT(*) FROM CantWorkTable WHERE EID = ?";
+        int result = 0;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try (Connection connection = DriverManager.getConnection(this.connectionString);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            result = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String getConnectionString() {
+        return this.connectionString;
+    }
 }

@@ -99,6 +99,17 @@ public class BranchManagerService {
 
     public Response loadDatabase() {
         branchController.loadDatabase();
+        try {
+            employeeController.loadDatabase();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return new Response();
+    }
+
+    public void deleteData() {
+        branchController.deleteData();
+        employeeController.deleteData();
+
     }
 }

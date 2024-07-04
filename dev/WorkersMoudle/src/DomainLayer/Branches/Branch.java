@@ -220,7 +220,8 @@ public class Branch {
 
     private static List<List<ShiftsDTO>> groupShiftsByWeek(List<ShiftsDTO> shifts) {
         // Sort the list of shifts by date
-        shifts.sort(Comparator.comparing(shift -> shift.getDate()));
+        LinkedList<ShiftsDTO> mutableListShifts = new LinkedList<ShiftsDTO>(shifts);
+        mutableListShifts.sort(Comparator.comparing(shift -> shift.getDate()));
 
         List<List<ShiftsDTO>> groupedShifts = new ArrayList<>();
         List<ShiftsDTO> currentWeek = new ArrayList<>();

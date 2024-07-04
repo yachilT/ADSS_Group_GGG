@@ -190,15 +190,19 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
 
     public static List<ShiftsDTO> combineShifts(List<ShiftsDTO> shifts) {
         // Create a map to group and combine shifts
-        Map<String, ShiftsDTO> combinedShiftsMap = new HashMap<>();
 
+        HashMap<String, ShiftsDTO> keyToShift = new HashMap<>();
         for (ShiftsDTO shift : shifts) {
             String key = generateKey(shift.getBID(), shift.getDate(), shift.getPartOfDay());
-            combinedShiftsMap.merge(key, shift, ShiftsDTO::combineShifts);
+           if(keyToShift.containsKey(key)){
+               keyToShift.put(key, keyToShift.remove(key).combineShifts(shift));
+           }else {
+               keyToShift.put(key, shift);
+           }// never thought I will use sort from the DS course lol
         }
 
         // Convert the map values to a list
-        return new ArrayList<>(combinedShiftsMap.values());
+        return new ArrayList<>(keyToShift.values());
     }
 
     private static String generateKey(int BID, Date date, PartOfDay partOfDay) {

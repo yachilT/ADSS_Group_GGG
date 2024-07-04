@@ -86,7 +86,7 @@ public class ShiftsDTO {
     }
 
     public ShiftsDTO combineShifts(ShiftsDTO otherShift){
-        if(this.BID != otherShift.BID || this.date != otherShift.date || this.partOfDay != otherShift.partOfDay )
+        if(this.BID != otherShift.BID || !this.date.equals(otherShift.date) || this.partOfDay != otherShift.partOfDay )
             throw new IllegalArgumentException("Shifts must be of the same branch, date and part of day to be combined");
 
         ShiftsDTO shiftsDTO = new ShiftsDTO(this.BID, this.EIDs, this.date, this.partOfDay, this.neededRoles);
