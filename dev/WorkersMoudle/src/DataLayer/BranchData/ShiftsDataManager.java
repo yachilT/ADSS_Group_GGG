@@ -44,7 +44,11 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, dto.getBID());
-            statement.setInt(2, dto.getEIDs().get(0));
+            Integer eid =null;
+            if(!dto.getEIDs().isEmpty()){
+                eid = dto.getEIDs().get(0);
+            }
+            statement.setInt(2, eid);
             statement.setString(3, DateEncryptDecrypt.encryptDate(dto.getDate()));
             statement.setInt(4, partOfDayToInt(dto.getPartOfDay()));
             statement.setInt(5, rolesToInt(dto.getNeededRoles()));

@@ -15,6 +15,7 @@ public class ShiftsDTO {
     public final static String COLUMN_NAME_EID = "EID";
     public static final String COLUMN_NAME_ROLES = "ROLES";
     public static final String COLUMN_NAME_E_ROLE = "EROLE";
+    private static final Integer NOT_REAL_EMP = -1;
 
 
     private int BID;
@@ -31,15 +32,21 @@ public class ShiftsDTO {
 
 
     public ShiftsDTO(int BID, HashMap<Integer, Role> EIDs, Date date, PartOfDay partOfDay, List<Role> neededRoles) {
+        EIDs.remove(NOT_REAL_EMP);
+
         this.BID = BID;
         this.EIDs = EIDs;
         this.date = date;
         this.partOfDay = partOfDay;
         this.neededRoles = new HashSet<>(neededRoles);
         this.shiftsDataManager = new ShiftsDataManager();
+
+
     }
     public void insertDTO(){
         shiftsDataManager.insertDTO(this);
+        if (!neededRoles.isEmpty())
+            shiftsDataManager.insertDTO(this);
     }
 
     public int getBID() {
@@ -71,6 +78,10 @@ public class ShiftsDTO {
     }
 
     public void addNeededRoles(List<Role> neededRoles) {
+        if(EIDs.isEmpty()) {
+            EIDs.put(NOT_REAL_EMP,Role.Cashier);
+            insertDTO();
+        }
         this.neededRoles.addAll(neededRoles);
         shiftsDataManager.addNeededRoles(BID, date, partOfDay, this.neededRoles.stream().toList());
     }
