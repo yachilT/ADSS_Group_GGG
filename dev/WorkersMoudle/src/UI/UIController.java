@@ -23,6 +23,7 @@ public class UIController {
         else
             new CreateSystemWindow(ServiceManager.getInstance()).run();
 
+
         Window nextWindow = null;
         boolean exit = false;
         do{
