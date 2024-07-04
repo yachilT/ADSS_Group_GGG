@@ -27,11 +27,12 @@ public class WeeklyShifts {
         }
 
         this.firstDayOfWeek = firstDayOfWeek;
-        this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(5, ChronoUnit.DAYS));
+        this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
     }
 
     public WeeklyShifts(List<ShiftsDTO> shiftsDTOs){
         firstDayOfWeek = shiftsDTOs.get(0).getDate();
+        lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
         shifts = new HashMap<>();
 
         DayOfTheWeek[] days = DayOfTheWeek.values();

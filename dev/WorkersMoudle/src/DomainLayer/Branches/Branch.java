@@ -40,7 +40,11 @@ public class Branch {
         this.name = branchDTO.getName();
         this.address = branchDTO.getAddress();
         this.branchDTO = branchDTO;
+        this.upcomingweeks = new ArrayList<>();
+        this.pastweeks = new ArrayList<>();
+
         manageShifts(Shifts);
+        create6weeks();
     }
 
     private void manageShifts(List<ShiftsDTO> shifts) {
@@ -60,6 +64,8 @@ public class Branch {
             } else {
                 currentWeek = weeklyShifts;
             }
+
+
         }
 
     }
@@ -90,6 +96,8 @@ public class Branch {
         if (currentWeek == null) {
             this.currentWeek = new WeeklyShifts(firstDayOfWeek, id);
         } else {
+            if(upcomingweeks.stream().anyMatch(week -> week.getFirstDayOfWeek().equals(firstDayOfWeek)))
+                return;
             upcomingweeks.add(new WeeklyShifts(firstDayOfWeek, id));
         }
     }
