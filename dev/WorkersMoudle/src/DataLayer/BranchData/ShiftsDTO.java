@@ -3,9 +3,8 @@ package DataLayer.BranchData;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.Role;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ShiftsDTO {
 
@@ -24,7 +23,7 @@ public class ShiftsDTO {
 
     private HashMap<Integer,Role> EIDs;
 
-    private List<Role> neededRoles;
+    private Set<Role> neededRoles;
 
     private ShiftsDataManager shiftsDataManager;
 
@@ -36,7 +35,7 @@ public class ShiftsDTO {
         this.EIDs = EIDs;
         this.date = date;
         this.partOfDay = partOfDay;
-        this.neededRoles = neededRoles;
+        this.neededRoles = new HashSet<>(neededRoles);
         this.shiftsDataManager = new ShiftsDataManager();
     }
     public void insertDTO(){
@@ -68,12 +67,12 @@ public class ShiftsDTO {
 
         HashMap<Integer, Role> newEmp = new HashMap<>();
         newEmp.put(eID, role);
-        new ShiftsDataManager().addEmployeeToShift(BID, newEmp, date, partOfDay, neededRoles);
+        new ShiftsDataManager().addEmployeeToShift(BID, newEmp, date, partOfDay, neededRoles.stream().toList());
     }
 
     public void addNeededRoles(List<Role> neededRoles) {
         this.neededRoles.addAll(neededRoles);
-        shiftsDataManager.addNeededRoles(BID, date, partOfDay, this.neededRoles);
+        shiftsDataManager.addNeededRoles(BID, date, partOfDay, this.neededRoles.stream().toList());
     }
 
     public void removeEmployee(int eID) {
@@ -82,21 +81,21 @@ public class ShiftsDTO {
         removedEmp.put(eID, EIDs.get(eID));
 
         EIDs.remove(eID);
-        new ShiftsDataManager().deleteEmployeeFromShift(BID, removedEmp, date, partOfDay, neededRoles);
+        new ShiftsDataManager().deleteEmployeeFromShift(BID, removedEmp, date, partOfDay, neededRoles.stream().toList());
     }
 
     public ShiftsDTO combineShifts(ShiftsDTO otherShift){
         if(this.BID != otherShift.BID || !this.date.equals(otherShift.date) || this.partOfDay != otherShift.partOfDay )
             throw new IllegalArgumentException("Shifts must be of the same branch, date and part of day to be combined");
 
-        ShiftsDTO shiftsDTO = new ShiftsDTO(this.BID, this.EIDs, this.date, this.partOfDay, this.neededRoles);
+        ShiftsDTO shiftsDTO = new ShiftsDTO(this.BID, this.EIDs, this.date, this.partOfDay, this.neededRoles.stream().toList());
         shiftsDTO.EIDs.putAll(otherShift.EIDs);
         return shiftsDTO;
     }
 
 
     public List<Role> getNeededRoles() {
-        return neededRoles;
+        return neededRoles.stream().toList();
     }
 
     public Role getRole(int eID){

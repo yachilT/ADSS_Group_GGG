@@ -56,9 +56,6 @@ public class Shift {
     }
 
 
-    public void removeEmployee(Employee employee){
-        employees.remove(employee);
-    }
 
 
     //getters and setters
