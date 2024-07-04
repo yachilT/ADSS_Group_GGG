@@ -126,15 +126,8 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
     private List<Role> intToRoles(int roles) {
         List<Role> neededRoles = new ArrayList<>();
         while (roles > 0) {
-            switch (roles % 10) {
-                case 1 -> neededRoles.add(Role.ShiftManager);
-                case 2 -> neededRoles.add(Role.Cashier);
-                case 3 -> neededRoles.add(Role.Usher);
-                case 4 -> neededRoles.add(Role.StoreKeeper);
-                case 5 -> neededRoles.add(Role.Butcher);
-                case 6 -> neededRoles.add(Role.CheeseMan);
-                case 7 -> neededRoles.add(Role.Driver);
-            }
+             neededRoles.add(Role.values()[roles%10 -1]);
+
             roles = roles / 10;
         }
         return neededRoles;
@@ -144,15 +137,7 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
         int res = 0;
         for (Role role : roles) {
             res*= 10;
-            res += switch (role) {
-                case ShiftManager -> 1;
-                case Cashier -> 2;
-                case Usher -> 3;
-                case StoreKeeper -> 4;
-                case Butcher -> 5;
-                case CheeseMan -> 6;
-                case Driver -> 7;
-            };
+            res += role.ordinal() +1;
         }
         return res;
     }
