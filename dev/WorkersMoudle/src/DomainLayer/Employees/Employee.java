@@ -252,5 +252,9 @@ public class Employee {
         return output;
     }
 
+    public void testMode(){
+        this.employeeDTO.testMode();
+    }
+
 }
 
