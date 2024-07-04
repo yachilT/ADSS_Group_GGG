@@ -57,7 +57,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             }
             statement.setInt(5, dto.getBankAccountNumber());
             statement.setDouble(6, dto.getSalary());
-            statement.setDate(7, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setString(7, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
             statement.setInt(8, dto.getManager());  // Set manager
 
             result = statement.executeUpdate();
@@ -164,7 +164,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             }
             statement.setInt(4, dto.getBankAccountNumber());
             statement.setDouble(5, dto.getSalary());
-            statement.setDate(6, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setString(6, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
             statement.setInt(7, dto.getManager());  // Set manager
             statement.setInt(8, dto.getId());
 
@@ -272,7 +272,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
         String password = reader.getString(PASSWORD_COLUMN);
         int bankAccountNumber = reader.getInt(BANKACCOUNT_COLUMN);
         double salary = reader.getDouble(SALARY_COLUMN);
-        Date dateJoined = reader.getDate(DATEJOINED_COLUMN);
+        Date dateJoined = DateEncryptDecrypt.decryptDate(reader.getString(DATEJOINED_COLUMN));
         Integer manager = reader.getObject(MANAGER_COLUMN) != null ? reader.getInt(MANAGER_COLUMN) : null;  // Read manager
 
         // Fetch roles, shift preferences, and shift can't work times
@@ -357,6 +357,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
                 PartOfDay partOfDay = PartOfDay.values()[resultSet.getInt("PARTOFDAY")];
                 cantWork.add(new Pair<>(day, partOfDay));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
