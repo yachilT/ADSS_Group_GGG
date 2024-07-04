@@ -54,7 +54,7 @@ public class Branch {
 
         for (List<ShiftsDTO> weekShifts : groupedShifts) {
 
-            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts);
+            WeeklyShifts weeklyShifts = new WeeklyShifts(weekShifts, this.id );
 
 
             if (weeklyShifts.getLastDayOfWeek().before(Date.from(sunday.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {

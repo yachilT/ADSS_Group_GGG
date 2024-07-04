@@ -168,6 +168,8 @@ public class Employee {
 
     public void addShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception{
         try{
+            if(shiftCantWork.stream().anyMatch(s -> s.getKey().equals(shift.getKey()) && s.getValue().equals(shift.getValue())))
+                throw new Exception("Shift already in cant work shifts");
             employeeDTO.addShiftPreference(shift);
             shiftPreferences.add(shift);
         } catch (Exception e) {
@@ -177,6 +179,8 @@ public class Employee {
 
     public void addShiftCantWork(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception {
         try{
+            if(shiftPreferences.stream().anyMatch(s -> s.getKey().equals(shift.getKey()) && s.getValue().equals(shift.getValue())))
+                throw new Exception("Shift already in preferences");
             employeeDTO.addShiftCantWork(shift);
             shiftCantWork.add(shift);
         } catch (Exception e) {

@@ -255,10 +255,14 @@ public class EmployeeController {
             throw new Exception("Error loading employees data");
         }
         for (EmployeeDTO employee : employees) {
-            if(employee.getManager()==2)
+            if(employee.getManager()==2) {
                 hrManager = new HRManager(employee);
-            else if(employee.getManager()==1)
+                this.employees.put(hrManager.getId(), hrManager);
+            }
+            else if(employee.getManager()==1) {
                 branchManagers.put(employee.getBranchId(), new BranchManager(employee));
+                this.employees.put(employee.getId(), new BranchManager(employee));
+            }
             else
                 this.employees.put(employee.getId(), new Employee(employee));
         }

@@ -30,7 +30,7 @@ public class WeeklyShifts {
         this.lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
     }
 
-    public WeeklyShifts(List<ShiftsDTO> shiftsDTOs){
+    public WeeklyShifts(List<ShiftsDTO> shiftsDTOs, int BID){
         firstDayOfWeek = shiftsDTOs.get(0).getDate();
         lastDayOfWeek = Date.from(firstDayOfWeek.toInstant().plus(6, ChronoUnit.DAYS));
         shifts = new HashMap<>();
@@ -48,12 +48,11 @@ public class WeeklyShifts {
             ShiftsDTO shiftDTO1 = shiftsDTOs2.remove(0);
             Shift shift1 = new Shift(shiftDTO1);
 
-
-            if(shiftsDTOs2.isEmpty())
-                continue;
-
-            ShiftsDTO shiftDTO2 = shiftsDTOs2.remove(0);
-            Shift shift2 = new Shift(shiftDTO2);
+            Shift shift2= null;
+            if(!shiftsDTOs2.isEmpty()){
+                ShiftsDTO shiftDTO2 = shiftsDTOs2.remove(0);
+                shift2 = new Shift(shiftDTO2);
+            }
 
 
             if(shift1.getId().getValue() == PartOfDay.Morning)
@@ -63,7 +62,20 @@ public class WeeklyShifts {
 
         }
 
+        for (DayOfTheWeek day : DayOfTheWeek.values()) {
+            if (!shifts.containsKey(day))
+                shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), firstDayOfWeek, BID, PartOfDay.Morning),
+                        new Shift(new Pair<>(day, PartOfDay.Evening), firstDayOfWeek, 0, PartOfDay.Evening)));
+            else if(shifts.get(day).getKey() == null)
+                    shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), firstDayOfWeek, BID, PartOfDay.Morning),
+                            shifts.get(day).getValue()));
+            else if (shifts.get(day).getValue() == null)
+                shifts.put(day, new Pair<>(shifts.get(day).getKey(),
+                        new Shift(new Pair<>(day, PartOfDay.Evening), firstDayOfWeek, BID, PartOfDay.Evening)));
+
+        }
     }
+
 
 
     // Getters and setters for firstDayOfWeek
