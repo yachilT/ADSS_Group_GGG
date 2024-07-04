@@ -24,12 +24,12 @@ public class Employee {
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
 
-    private EmployeeDTO employeeDTO;
+    protected EmployeeDTO employeeDTO;
 
     public Employee(){}
 
     public Employee(Integer id, String name, List<Role> roles,
-                    int bankAccountNumber, double salary, int branchId) throws Exception {
+                    int bankAccountNumber, double salary, int branchId, Integer manager) throws Exception {
         if(salary < 0)
             throw new Exception("Salary must be positive");
         this.id = id;
@@ -43,8 +43,10 @@ public class Employee {
         this.dateLeft = null;
         shiftPreferences = new ArrayList<>();
         shiftCantWork = new ArrayList<>();
-        employeeDTO = new EmployeeDTO(this);
+        employeeDTO = new EmployeeDTO(this, manager);
     }
+
+
 
     public Employee(EmployeeDTO employeeDTO){
         this.employeeDTO = employeeDTO;

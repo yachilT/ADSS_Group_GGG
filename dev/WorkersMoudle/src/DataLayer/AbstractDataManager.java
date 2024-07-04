@@ -16,7 +16,7 @@ public abstract class AbstractDataManager<T> {
 
     // Constructor initializes the connectionString and tableName parameters
     public AbstractDataManager(String tableName) {
-        connectionString =  Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
+        connectionString =  "jdbc:sqlite:" + Paths.get(dbPath).toAbsolutePath().toString().replace("\\", "/");
         this.tableName = tableName;
     }
 

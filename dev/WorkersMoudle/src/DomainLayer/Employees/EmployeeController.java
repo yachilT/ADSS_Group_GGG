@@ -39,7 +39,7 @@ public class EmployeeController {
         if(!branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
 
-        Employee employee = new Employee(idCounter, name, roles, bankAccountNumber, salary, branchId);
+        Employee employee = new Employee(idCounter, name, roles, bankAccountNumber, salary, branchId,0);
         employees.put(idCounter++, employee);
         return employee.getId();
     }
@@ -49,7 +49,7 @@ public class EmployeeController {
         if(branchManagers.containsKey(branchId))
             throw new Exception("Branch already has a manager");
 
-        BranchManager branchManager = new BranchManager(idCounter++, name, new ArrayList<Role>(), bankAccountNumber, salary, branchId);
+        BranchManager branchManager = new BranchManager(idCounter++, name, new ArrayList<Role>(), bankAccountNumber, salary, branchId,1);
         branchManagers.put(branchManager.getId(), branchManager);
         employees.put(branchManager.getId(), branchManager);
         return branchManager.getId();
@@ -244,9 +244,9 @@ public class EmployeeController {
             throw new Exception("Error loading employees data");
         }
         for (EmployeeDTO employee : employees) {
-            if(employee.getManager()==3)
+            if(employee.getManager()==2)
                 hrManager = new HRManager(employee);
-            else if(employee.getManager()==2)
+            else if(employee.getManager()==1)
                 branchManagers.put(employee.getId(), new BranchManager(employee));
             else
                 this.employees.put(employee.getId(), new Employee(employee));

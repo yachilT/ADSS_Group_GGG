@@ -37,6 +37,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     @Override
     public boolean insertDTO(EmployeeDTO dto){
         int result = -1;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String query = "INSERT INTO " + this.tableName + " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED, MANAGER) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
@@ -70,6 +75,14 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
     private boolean insertRoles(EmployeeDTO employeeDTO, Connection connection) {
         boolean result = true;
+        if(employeeDTO.getRoles().isEmpty())
+            return result;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String insertRoleQuery = "INSERT INTO RolesTable (EID, ROLE) VALUES (?, ?)";
         try (PreparedStatement insertRoleStatement = connection.prepareStatement(insertRoleQuery)) {
             for (Role role : employeeDTO.getRoles()) {
@@ -88,6 +101,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
     private boolean insertPref(EmployeeDTO employeeDTO, Connection connection) {
         boolean result = true;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String insertPrefQuery = "INSERT INTO PreferencesTable (EID, DAY, PARTOFDAY) VALUES (?, ?, ?)";
         String insertCantWorkQuery = "INSERT INTO CantWorkTable (EID, DAY, PARTOFDAY) VALUES (?, ?, ?)";
 
@@ -118,7 +136,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     }
 
     public boolean updateDTO(EmployeeDTO dto) {
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         int result = -1;
         String query = "UPDATE " + this.tableName + " SET " +
                 "BID = ?, " +
@@ -194,7 +216,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
     private boolean updatePref(EmployeeDTO dto, Connection connection) {
         boolean result = true;
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String deletePrefQuery = "DELETE FROM PreferencesTable WHERE EID = ?";
         String deleteCantWorkQuery = "DELETE FROM CantWorkTable WHERE EID = ?";
         String insertPrefQuery = "INSERT INTO PreferencesTable (EID, DAY, PARTOFDAY) VALUES (?, ?, ?)";
@@ -254,15 +280,18 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
         List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences = fetchShiftPreferences(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork = fetchShiftCantWork(id);
 
-        EmployeeDTO output = new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, null, shiftPreferences, shiftCantWork);
-        output.setManager(manager);  // Set manager
+        EmployeeDTO output = new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, null, shiftPreferences, shiftCantWork, manager);
         return output;
     }
 
     private List<Role> fetchRoles(int employeeId) throws SQLException {
         List<Role> roles = new ArrayList<>();
         String query = "SELECT ROLE FROM RolesTable WHERE EID = ?";
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -284,7 +313,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     private List<Pair<DayOfTheWeek, PartOfDay>> fetchShiftPreferences(int employeeId) throws SQLException {
         List<Pair<DayOfTheWeek, PartOfDay>> preferences = new ArrayList<>();
         String query = "SELECT DAY, PARTOFDAY FROM PreferencesTable WHERE EID = ?";
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -308,7 +341,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         List<Pair<DayOfTheWeek, PartOfDay>> cantWork = new ArrayList<>();
         String query = "SELECT DAY, PARTOFDAY FROM CantWorkTable WHERE EID = ?";
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -332,7 +369,11 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     public List<EmployeeDTO> loadDatabase() throws Exception{
         List<EmployeeDTO> employees = new ArrayList<>();
         String query = "SELECT * FROM " + EMPLOYEE_TABLE;
-
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

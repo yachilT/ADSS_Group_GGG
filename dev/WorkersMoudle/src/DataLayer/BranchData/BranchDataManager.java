@@ -10,9 +10,9 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
 
     public static final String TABLE_NAME = "BranchTable";
     public static final String WEEKLY_SHIFTS_TABLE_NAME = "ShiftToEmployeeTable";
-    public static final String ID_COLUMN = "Id";
-    public static final String NAME_COLUMN = "Name";
-    public static final String ADDRESS_COLUMN = "Address";
+    public static final String ID_COLUMN = "ID";
+    public static final String NAME_COLUMN = "NAME";
+    public static final String ADDRESS_COLUMN = "ADDRESS";
     public static final int ID_COLUMN_ORDINAL = 1;
 
 
@@ -24,13 +24,14 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
     @Override
     public boolean insertDTO(BranchDTO dto) {
         int result = -1;
-        String query = "INSERT INTO " + this.tableName + " (" + ID_COLUMN + ", " + ID_COLUMN + ") VALUES (?, ?)";
+        String query = "INSERT INTO " + this.tableName + " (" + ID_COLUMN + ", " + NAME_COLUMN + ", "+ ADDRESS_COLUMN + ") VALUES (?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, dto.getName());
-            statement.setString(2, dto.getAddress());
+            statement.setInt(1, dto.getId());
+            statement.setString(2, dto.getName());
+            statement.setString(3, dto.getAddress());
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,25 +47,9 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
         String address = resultSet.getString(ID_COLUMN_ORDINAL + 2);
 
 
-        WeeklyShifts currentWeek = getCurrentWeek();
-        List<WeeklyShifts> upcomingWeeks = getUpcomingWeeks();
-        List<WeeklyShifts> pastWeeks = getPastWeeks();
-
-
         return new BranchDTO(Id, name, address);
 
     }
 
-    private List<WeeklyShifts> getPastWeeks() {
-        return null;
-    }
-
-    private List<WeeklyShifts> getUpcomingWeeks() {
-        return null;
-    }
-
-    private WeeklyShifts getCurrentWeek() {
-        return null;
-    }
 
 }

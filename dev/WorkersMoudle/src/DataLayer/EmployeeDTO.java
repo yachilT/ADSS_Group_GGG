@@ -32,11 +32,11 @@ public class EmployeeDTO {
 
     }
 
-    public EmployeeDTO(Employee employee) {
-        this(employee.getId(), employee.getName(), employee.getPassword(), employee.getRoles(), employee.getBankAccountNumber(), employee.getSalary(), employee.getDateJoined(), employee.getBranchId(), employee.getDateLeft(), employee.getShiftPreferences(), employee.getShiftCantWork());
+    public EmployeeDTO(Employee employee, Integer manager) {
+        this(employee.getId(), employee.getName(), employee.getPassword(), employee.getRoles(), employee.getBankAccountNumber(), employee.getSalary(), employee.getDateJoined(), employee.getBranchId(), employee.getDateLeft(), employee.getShiftPreferences(), employee.getShiftCantWork(),manager);
     }
 
-    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork) {
+    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -48,7 +48,7 @@ public class EmployeeDTO {
         this.dateLeft = dateLeft;
         this.shiftPreferences = shiftPreferences;
         this.shiftCantWork = shiftCantWork;
-        this.manager = 0;
+        this.manager = manager;
 
         employeeDataManager = new EmployeeDataManager();
 

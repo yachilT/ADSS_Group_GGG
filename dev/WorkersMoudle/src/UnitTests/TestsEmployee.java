@@ -26,7 +26,7 @@ public class TestsEmployee {
     public void setUp() throws Exception {
         roles = new ArrayList<>();
         roles.add(Role.Butcher);
-        employee = new Employee(1, "John Doe", roles, 123456, 50000, 1);
+        employee = new Employee(1, "John Doe", roles, 123456, 50000, 1,0);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class TestsEmployee {
     @Test
     public void testConstructorNegativeSalary() {
         Exception exception = assertThrows(Exception.class, () -> {
-            new Employee(2, "Jane Doe", roles, 123456, -5000, 1);
+            new Employee(2, "Jane Doe", roles, 123456, -5000, 1,0);
         });
         assertEquals("Salary must be positive", exception.getMessage());
     }
