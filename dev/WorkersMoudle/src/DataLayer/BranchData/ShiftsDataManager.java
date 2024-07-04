@@ -37,7 +37,7 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String query = "INSERT INTO " + this.tableName + " (" + ShiftsDTO.COLUMN_NAME_BID + ", " + ShiftsDTO.COLUMN_NAME_DATE + ", " + ShiftsDTO.COLUMN_NAME_PART_OF_DAY + ", " + ShiftsDTO.COLUMN_NAME_ROLES + ", " + ShiftsDTO.COLUMN_NAME_EID + ", " + ShiftsDTO.COLUMN_NAME_E_ROLE + ") " +
+        String query = "INSERT INTO " + this.tableName + " (" + ShiftsDTO.COLUMN_NAME_BID + ", " + ShiftsDTO.COLUMN_NAME_EID + ", " + ShiftsDTO.COLUMN_NAME_DATE + ", " + ShiftsDTO.COLUMN_NAME_PART_OF_DAY + ", " + ShiftsDTO.COLUMN_NAME_ROLES + ", " + ShiftsDTO.COLUMN_NAME_E_ROLE + ") " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);

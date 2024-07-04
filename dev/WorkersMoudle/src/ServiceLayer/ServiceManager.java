@@ -46,4 +46,6 @@ public class ServiceManager {
     public void loadDatabase() {
         branchManagerService.loadDatabase();
     }
+
+    public void deleteDatabase() {branchManagerService.deleteDatabase();}
 }

@@ -15,14 +15,21 @@ public class UIController {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Run example? (Y/Other)");
-        String input = scanner.nextLine();
-        boolean runExample = input.equals("Y");
-        if(runExample)
-            example();
-        else
-            new CreateSystemWindow(ServiceManager.getInstance()).run();
+//        System.out.println("Run example? (Y/Other)");
+//        String input = scanner.nextLine();
+//        boolean runExample = input.equals("Y");
+//        if(runExample)
+//            example();
+//        else
 
+        System.out.println("Load data or start new system? (L/New)");
+
+        if(scanner.nextLine().equals("L"))
+            ServiceManager.getInstance().loadDatabase();
+        else {
+            ServiceManager.getInstance().deleteDatabase();
+            new CreateSystemWindow(ServiceManager.getInstance()).run();
+        }
         Window nextWindow = null;
         boolean exit = false;
         do{

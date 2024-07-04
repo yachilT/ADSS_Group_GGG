@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5a49cad2-c58d-4aaf-b8a0-4cb2fd7d333d" name="Changes" comment="fix">
-      <change beforePath="$PROJECT_DIR$/dev.iml" beforeDir="false" />
-    </list>
+    <list default="true" id="5a49cad2-c58d-4aaf-b8a0-4cb2fd7d333d" name="Changes" comment="fix" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,9 +35,9 @@
     "Application.UIController.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "214444655__325908598",
+    "git-widget-placeholder": "9bd04457",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/dorsteinlauf/Desktop/ADSS_Group_GGG/dev",
+    "last_opened_file_path": "D:/SE_projects/Analysis and Design of Software Systems/ADSS_Group_GGG/dev/WorkersMoudle",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }

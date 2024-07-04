@@ -3,6 +3,7 @@ package DomainLayer.Branches;
 import DataLayer.BranchData.BranchDTO;
 import DataLayer.BranchData.BranchDataManager;
 import DataLayer.BranchData.ShiftsDataManager;
+import DataLayer.EmployeeDataManager;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import ServiceLayer.Response;
@@ -82,5 +83,11 @@ public class BranchController {
             this.branches.put(branch.getId(), new Branch(branch, shiftDataManager.getBranchSifts(branch.getId())));
             branchCounter++;
         }
+    }
+
+    public void deleteDatabase() {
+        new BranchDataManager().deleteData();
+        new ShiftsDataManager().deleteData();
+        new EmployeeDataManager().deleteData();
     }
 }
