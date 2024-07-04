@@ -25,7 +25,6 @@ public class Shift {
         this.date = date;
 
         shiftsDTO = new ShiftsDTO(branchId,employees, date, partOfDay, neededRoles);
-        shiftsDTO.insertDTO();
     }
     public Shift(ShiftsDTO shiftsDTO) {
         this.id = new Pair<>(WeeklyShifts.dateToDayOfTheWeek(shiftsDTO.getDate()), shiftsDTO.getPartOfDay());
@@ -56,6 +55,7 @@ public class Shift {
         return true;
     }
 
+
     public void removeEmployee(Employee employee){
         employees.remove(employee);
     }
@@ -80,6 +80,7 @@ public class Shift {
 
     public void addNeededRoles(List<Role> neededRoles){
         this.neededRoles.addAll(neededRoles);
+        shiftsDTO.addNeededRoles(neededRoles);
     }
 
 

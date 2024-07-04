@@ -24,6 +24,12 @@ public class BranchDataManager extends AbstractDataManager<BranchDTO> {
     @Override
     public boolean insertDTO(BranchDTO dto) {
         int result = -1;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         String query = "INSERT INTO " + this.tableName + " (" + ID_COLUMN + ", " + NAME_COLUMN + ", "+ ADDRESS_COLUMN + ") VALUES (?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);

@@ -69,7 +69,11 @@ public class ShiftsDTO {
         HashMap<Integer, Role> newEmp = new HashMap<>();
         newEmp.put(eID, role);
         new ShiftsDataManager().addEmployeeToShift(BID, newEmp, date, partOfDay, neededRoles);
+    }
 
+    public void addNeededRoles(List<Role> neededRoles) {
+        this.neededRoles.addAll(neededRoles);
+        shiftsDataManager.addNeededRoles(BID, date, partOfDay, this.neededRoles);
     }
 
     public void removeEmployee(int eID) {

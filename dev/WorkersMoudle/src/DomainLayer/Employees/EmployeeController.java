@@ -50,7 +50,7 @@ public class EmployeeController {
             throw new Exception("Branch already has a manager");
 
         BranchManager branchManager = new BranchManager(idCounter++, name, new ArrayList<Role>(), bankAccountNumber, salary, branchId,1);
-        branchManagers.put(branchManager.getId(), branchManager);
+        branchManagers.put(branchManager.getBranchId(), branchManager);
         employees.put(branchManager.getId(), branchManager);
         return branchManager.getId();
     }
@@ -186,7 +186,13 @@ public class EmployeeController {
         employees.get(id).setPassword(password);
     }
     public boolean isManager(Integer id) {
-        return branchManagers.containsKey(id) || id == hrManager.getId();
+        boolean output = false;
+        for(BranchManager manager : branchManagers.values()){
+            if(manager.getId() == id){
+                output = true;
+            }
+        }
+        return output || id == hrManager.getId();
     }
 
     public boolean isHR(Integer id) {
@@ -247,7 +253,7 @@ public class EmployeeController {
             if(employee.getManager()==2)
                 hrManager = new HRManager(employee);
             else if(employee.getManager()==1)
-                branchManagers.put(employee.getId(), new BranchManager(employee));
+                branchManagers.put(employee.getBranchId(), new BranchManager(employee));
             else
                 this.employees.put(employee.getId(), new Employee(employee));
         }

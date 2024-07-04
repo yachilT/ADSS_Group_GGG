@@ -32,6 +32,11 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
     @Override
     public boolean insertDTO(ShiftsDTO dto) {
         int result = -1;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String query = "INSERT INTO " + this.tableName + " (" + ShiftsDTO.COLUMN_NAME_BID + ", " + ShiftsDTO.COLUMN_NAME_DATE + ", " + ShiftsDTO.COLUMN_NAME_PART_OF_DAY + ", " + ShiftsDTO.COLUMN_NAME_ROLES + ", " + ShiftsDTO.COLUMN_NAME_EID + ", " + ShiftsDTO.COLUMN_NAME_E_ROLE + ") " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -77,6 +82,11 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
 
     protected boolean deleteDTO(ShiftsDTO dto) {
         int res = -1;
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String query = "DELETE FROM " + tableName +
                 " WHERE " + ShiftsDTO.COLUMN_NAME_BID + " = "+dto.getBID() + " AND " + ShiftsDTO.COLUMN_NAME_DATE + " = "+ DateEncryptDecrypt.encryptDate(dto.getDate())
                 +" AND " + ShiftsDTO.COLUMN_NAME_PART_OF_DAY + " = "+ partOfDayToInt(dto.getPartOfDay());
@@ -145,6 +155,36 @@ public class ShiftsDataManager extends AbstractDataManager<ShiftsDTO> {
             };
         }
         return res;
+    }
+
+    public void addNeededRoles(int bid, Date date, PartOfDay partOfDay, List<Role> neededRoles) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        String query = "UPDATE " + this.tableName + " SET " +
+                ShiftsDTO.COLUMN_NAME_ROLES + " = ? " +
+                "WHERE " + ShiftsDTO.COLUMN_NAME_BID + " = ? " +
+                "AND " + ShiftsDTO.COLUMN_NAME_PART_OF_DAY + " = ?" +
+                "AND " + ShiftsDTO.COLUMN_NAME_DATE + " = ?";
+
+        try (Connection connection = DriverManager.getConnection(this.connectionString);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, rolesToInt(neededRoles));
+            statement.setInt(2, bid);
+            statement.setInt(3, partOfDayToInt(partOfDay));
+            statement.setString(4, DateEncryptDecrypt.encryptDate(date));
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
