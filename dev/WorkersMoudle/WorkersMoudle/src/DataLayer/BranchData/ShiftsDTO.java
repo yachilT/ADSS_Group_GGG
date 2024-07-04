@@ -14,8 +14,8 @@ public class ShiftsDTO {
     public final static String COLUMN_NAME_DATE = "DATE";
     public final static String COLUMN_NAME_PART_OF_DAY = "PART_OF_DAY";
     public final static String COLUMN_NAME_EID = "EID";
-    public static final String COLUMN_NAME_ROLES = ;
-    public static final String COLUMN_NAME_E_ROLE = ;
+    public static final String COLUMN_NAME_ROLES = "ROLES";
+    public static final String COLUMN_NAME_E_ROLE = "EROLE";
 
 
     private int BID;

@@ -2,6 +2,7 @@ package DataLayer;
 
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
 
@@ -24,6 +25,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     public static final String SALARY_COLUMN = "SALARY";
     public static final String DATEJOINED_COLUMN = "DATEJOINED";
     public static final String BRANCHID_COLUMN = "BID";
+    public static final String MANAGER_COLUMN = "MANAGER";
 
     // More columns needed
     public static final int ID_COLUMN_ORDINAL = 1;
@@ -35,7 +37,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     @Override
     public boolean insertDTO(EmployeeDTO dto) {
         int result = -1;
-        String query = "INSERT INTO " + this.tableName + " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO " + this.tableName + " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED, MANAGER) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -51,6 +53,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setInt(5, dto.getBankAccountNumber());
             statement.setDouble(6, dto.getSalary());
             statement.setDate(7, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setInt(8, dto.getManager());  // Set manager
 
             result = statement.executeUpdate();
 
@@ -124,7 +127,8 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
                 "PASSWORD = ?, " +
                 "BANKACCOUNT = ?, " +
                 "SALARY = ?, " +
-                "DATEJOINED = ? " +
+                "DATEJOINED = ?, " +
+                "MANAGER = ? " +  // Update manager
                 "WHERE EID = ?";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
@@ -140,7 +144,8 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setInt(4, dto.getBankAccountNumber());
             statement.setDouble(5, dto.getSalary());
             statement.setDate(6, new java.sql.Date(dto.getDateJoined().getTime()));
-            statement.setInt(7, dto.getId());
+            statement.setInt(7, dto.getManager());  // Set manager
+            statement.setInt(8, dto.getId());
 
             result = statement.executeUpdate();
 
@@ -230,22 +235,24 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     }
 
     @Override
-    protected EmployeeDTO convertReaderToDTO(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt(ID_COLUMN);
-        String name = resultSet.getString(NAME_COLUMN);
-        String password = resultSet.getString(PASSWORD_COLUMN);
-        int bankAccountNumber = resultSet.getInt(BANKACCOUNT_COLUMN);
-        double salary = resultSet.getDouble(SALARY_COLUMN);
-        Date dateJoined = resultSet.getDate(DATEJOINED_COLUMN);
-        int branchId = resultSet.getInt(BRANCHID_COLUMN);
+    protected EmployeeDTO convertReaderToDTO(ResultSet reader) throws SQLException {
+        int id = reader.getInt(ID_COLUMN);
+        int branchId = reader.getInt(BRANCHID_COLUMN);
+        String name = reader.getString(NAME_COLUMN);
+        String password = reader.getString(PASSWORD_COLUMN);
+        int bankAccountNumber = reader.getInt(BANKACCOUNT_COLUMN);
+        double salary = reader.getDouble(SALARY_COLUMN);
+        Date dateJoined = reader.getDate(DATEJOINED_COLUMN);
+        Integer manager = reader.getObject(MANAGER_COLUMN) != null ? reader.getInt(MANAGER_COLUMN) : null;  // Read manager
 
+        // Fetch roles, shift preferences, and shift can't work times
         List<Role> roles = fetchRoles(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences = fetchShiftPreferences(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork = fetchShiftCantWork(id);
 
-        Date dateLeft = null;  // Assuming the employee hasn't left yet
-
-        return new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, dateLeft, shiftPreferences, shiftCantWork);
+        EmployeeDTO output = new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, null, shiftPreferences, shiftCantWork);
+        output.setManager(manager);  // Set manager
+        return output;
     }
 
     private List<Role> fetchRoles(int employeeId) throws SQLException {
@@ -315,4 +322,37 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return cantWork;
     }
+
+
+    public List<EmployeeDTO> loadDatabase() throws Exception{
+        List<EmployeeDTO> employees = new ArrayList<>();
+        String query = "SELECT * FROM " + EMPLOYEE_TABLE;
+
+        try (Connection connection = DriverManager.getConnection(this.connectionString);
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Convert the main employee data
+                EmployeeDTO employeeDTO = convertReaderToDTO(resultSet);
+
+                // Fetch and set roles
+                employeeDTO.loadRoles(fetchRoles(employeeDTO.getId()));
+
+                // Fetch and set shift preferences
+                employeeDTO.setShiftPreferences(fetchShiftPreferences(employeeDTO.getId()));
+
+                // Fetch and set shift can't work times
+                employeeDTO.setShiftCantWork(fetchShiftCantWork(employeeDTO.getId()));
+
+                // Add the fully populated employeeDTO to the list
+                employees.add(employeeDTO);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return employees;
+    }
+
 }

@@ -154,4 +154,13 @@ public class EmployeeService {
             return new Response(e.getMessage());
         }
     }
+
+    public Response loadDatabase() {
+        try {
+            employeeController.loadDatabase();
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
 }

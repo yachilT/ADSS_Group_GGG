@@ -1,5 +1,7 @@
 package DomainLayer.Employees;
 
+import DataLayer.EmployeeDTO;
+
 import java.util.List;
 
 public class HRManager extends BranchManager {
@@ -8,5 +10,9 @@ public class HRManager extends BranchManager {
         if(password == null || password.isEmpty())
             throw new Exception("Password cannot be empty");
         this.setPassword(password);
+    }
+
+    public HRManager(EmployeeDTO employeeDTO){
+        super(employeeDTO);
     }
 }

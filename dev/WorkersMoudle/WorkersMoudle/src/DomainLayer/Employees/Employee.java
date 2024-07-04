@@ -46,6 +46,21 @@ public class Employee {
         employeeDTO = new EmployeeDTO(this);
     }
 
+    public Employee(EmployeeDTO employeeDTO){
+        this.employeeDTO = employeeDTO;
+        this.id = employeeDTO.getId();
+        this.name = employeeDTO.getName();
+        this.password = employeeDTO.getPassword();
+        this.roles = employeeDTO.getRoles();
+        this.bankAccountNumber = employeeDTO.getBankAccountNumber();
+        this.salary = employeeDTO.getSalary();
+        this.dateJoined = employeeDTO.getDateJoined();
+        this.branchId = employeeDTO.getBranchId();
+        this.dateLeft = employeeDTO.getDateLeft();
+        this.shiftPreferences = employeeDTO.getShiftPreferences();
+        this.shiftCantWork = employeeDTO.getShiftCantWork();
+    }
+
     public boolean isNew(){
         return password == null;
     }

@@ -1,5 +1,7 @@
 package DomainLayer.Employees;
 
+import DataLayer.EmployeeDTO;
+
 import java.util.List;
 
 public class BranchManager extends Employee {
@@ -8,6 +10,9 @@ public class BranchManager extends Employee {
 
     }
 
+    public BranchManager(EmployeeDTO employee) {
+        super(employee);
+    }
 
 
 

@@ -1,5 +1,7 @@
 package DomainLayer.Employees;
 
+import DataLayer.EmployeeDTO;
+import DataLayer.EmployeeDataManager;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
@@ -231,5 +233,23 @@ public class EmployeeController {
             throw new Exception("Employee can't work at this time");
         }
 
+    }
+
+    public void loadDatabase() throws Exception{
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        List<EmployeeDTO> employees;
+        try {
+            employees = employeeDataManager.loadData();
+        } catch (Exception e) {
+            throw new Exception("Error loading employees data");
+        }
+        for (EmployeeDTO employee : employees) {
+            if(employee.getManager()==3)
+                hrManager = new HRManager(employee);
+            else if(employee.getManager()==2)
+                branchManagers.put(employee.getId(), new BranchManager(employee));
+            else
+                this.employees.put(employee.getId(), new Employee(employee));
+        }
     }
 }

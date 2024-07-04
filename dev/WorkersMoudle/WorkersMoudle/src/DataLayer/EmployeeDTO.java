@@ -24,6 +24,8 @@ public class EmployeeDTO {
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
 
+    private Integer manager;
+
     private EmployeeDataManager employeeDataManager;
 
     public EmployeeDTO(){
@@ -46,6 +48,7 @@ public class EmployeeDTO {
         this.dateLeft = dateLeft;
         this.shiftPreferences = shiftPreferences;
         this.shiftCantWork = shiftCantWork;
+        this.manager = 0;
 
         employeeDataManager = new EmployeeDataManager();
 
@@ -63,6 +66,14 @@ public class EmployeeDTO {
 
     public String getName() {
         return name;
+    }
+
+    public void setManager(Integer manager){
+        this.manager = manager;
+    }
+
+    public Integer getManager(){
+        return manager;
     }
 
     public void setName(String name) throws Exception{
@@ -104,6 +115,10 @@ public class EmployeeDTO {
             this.roles = temp;
             throw e;
         }
+    }
+
+    public void loadRoles(List<Role> roles){
+        this.roles = roles;
     }
 
     public int getBankAccountNumber() {
@@ -164,15 +179,8 @@ public class EmployeeDTO {
         return shiftPreferences;
     }
 
-    public void setShiftPreferences(List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences) throws Exception{
-        List<Pair<DayOfTheWeek, PartOfDay>> temp = this.shiftPreferences;
+    public void setShiftPreferences(List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences){
         this.shiftPreferences = shiftPreferences;
-        try{
-            update();
-        }catch (Exception e){
-            this.shiftPreferences = temp;
-            throw e;
-        }
     }
 
     public void addShiftPreference(Pair<DayOfTheWeek, PartOfDay> shift) throws Exception{
@@ -223,15 +231,8 @@ public class EmployeeDTO {
         return shiftCantWork;
     }
 
-    public void setShiftCantWork(List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork) throws Exception{
-        List<Pair<DayOfTheWeek, PartOfDay>> temp = this.shiftCantWork;
+    public void setShiftCantWork(List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork){
         this.shiftCantWork = shiftCantWork;
-        try{
-            update();
-        }catch (Exception e){
-            this.shiftCantWork = temp;
-            throw e;
-        }
     }
 
 }
