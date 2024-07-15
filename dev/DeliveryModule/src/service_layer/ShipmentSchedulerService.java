@@ -41,4 +41,7 @@ public class ShipmentSchedulerService {
             return new Response<>("Error: " + e.getMessage());
         }
     }
+    public Response<List<Integer>> getShipmentIds() {
+        return new Response<>(shipmentScheduler.getShipmentIds());
+    }
 }

@@ -21,4 +21,6 @@ public class ShipmentHistoryService {
         return shipmentHistory.getDestinations(shipmentDoc);
     }
 
+
+
 }

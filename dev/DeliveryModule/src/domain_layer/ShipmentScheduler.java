@@ -48,6 +48,10 @@ public class ShipmentScheduler {
 
     }
 
+    public List<Integer> getShipmentIds() {
+        return shipments.stream().map(Shipment::getShipmentId).toList();
+    }
+
     private class Pair<D,B> {
         D first;
         B second;

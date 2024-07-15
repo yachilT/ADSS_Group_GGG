@@ -3,11 +3,8 @@ package presentation_layer;
 
 import service_layer.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.stream.IntStream;
 
 
@@ -58,7 +55,8 @@ public class ScheduleShipmentWindow implements Window {
                 if (origin == null)
                     invalidError();
             }
-            catch (NoSuchElementException e){
+            catch (InputMismatchException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
         }

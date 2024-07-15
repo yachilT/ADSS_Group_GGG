@@ -1,6 +1,9 @@
 package domain_layer;
 
-import dataAccess_layer.*;
+import dataAccess_layer.DriverDAO;
+import dataAccess_layer.ProductDAO;
+import dataAccess_layer.ShipmentDocumentDAO;
+import dataAccess_layer.TruckDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +14,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 
 public class DAOTest extends DBTest{

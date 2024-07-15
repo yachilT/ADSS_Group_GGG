@@ -11,13 +11,15 @@ public class MainMenuWindow implements Window{
     public Window run(Controller controller){
         open = true;
         while(open){
-            System.out.println("Main Menu:\n" + "1 - Schedule shipment.\n" + "2 - Show shipment's history.\n" + "0 - Exist");
+            System.out.println("Main Menu:\n" + "1 - Schedule shipment.\n" + "2 - Show shipment's history.\n" + "3 - Select Shipment" + "0 - Exist");
             String input = scanner.next();
             switch(input){
                 case "1":
                     return new ScheduleShipmentWindow();
                 case "2":
                     return new ShipmentHistoryWindow();
+                case "3":
+                    return new ShipmentSelectorWindow();
                 case "0":
                     close();
                     break;
