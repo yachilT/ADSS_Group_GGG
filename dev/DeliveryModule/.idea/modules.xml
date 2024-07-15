@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+<<<<<<< HEAD:dev/DeliveryModule/.idea/modules.xml
+      <module fileurl="file://$PROJECT_DIR$/DeliveryModule.iml" filepath="$PROJECT_DIR$/DeliveryModule.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/dev.iml" filepath="$PROJECT_DIR$/.idea/dev.iml" />
+>>>>>>> master:dev/.idea/modules.xml
+    </modules>
+  </component>
+</project>
