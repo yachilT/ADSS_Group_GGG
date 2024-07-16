@@ -1,6 +1,9 @@
 package service_layer;
 
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import domain_layer.*;
+import interfaces.StorekeeperChecker;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -11,8 +14,8 @@ public class ShipmentTrackerService {
     private final ShipmentScheduler shipmentScheduler;
     private final TruckFacade truckFacade;
     private final ShipmentHistory shipmentHistory;
-    private final Predicate<String> storekeeperChecker;
-    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory, Predicate<String> storekeeperChecker) {
+    private final StorekeeperChecker storekeeperChecker;
+    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory, StorekeeperChecker storekeeperChecker) {
         this.shipmentScheduler = scheduler;
         this.shipmentTrackers = new HashMap<>();
         this.truckFacade = truckFacade;

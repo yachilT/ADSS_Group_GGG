@@ -1,4 +1,6 @@
 package domain_layer;
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import interfaces.DriverGetter;
 import interfaces.StorekeeperAssigner;
 
@@ -27,20 +29,20 @@ public class ShipmentScheduler {
         this.driverGetter = driverGetter;
         this.storekeeperAssigner = storekeeperAssigner;
     }
-    public int scheduleShipment(Site origin, List<Destination> destinations) throws NoSuchElementException {
-        Pair<Driver, Truck> pair = findTruckAndDriver();
+    public int scheduleShipment(Site origin, List<Destination> destinations, DayOfTheWeek day, PartOfDay part) throws NoSuchElementException {
+        Pair<Driver, Truck> pair = findTruckAndDriver(origin, day, part);
         Driver driver = pair.first;
         Truck truck = pair.second;
-        destinations.forEach(d -> storekeeperAssigner.assign(d.getSite().getAddress()));
+        destinations.forEach(d -> storekeeperAssigner.assign(d.getSite().getAddress(), day, part));
 
-        Shipment shipment = new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver);
+        Shipment shipment = new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver, day, part);
         this.shipments.add(shipment);
         return shipment.getShipmentId();
     }
-    private Pair<Driver,Truck> findTruckAndDriver() throws  NoSuchElementException{
+    private Pair<Driver,Truck> findTruckAndDriver(Site origin, DayOfTheWeek day, PartOfDay part) throws  NoSuchElementException{
 
         for(Truck truck : truckFacade.getAvailableTrucks()){
-            Driver driver = driverGetter.getDriver(truck::isCompatible);
+            Driver driver = driverGetter.getDriver(origin.getAddress(), day, part, truck::isCompatible);
             if (driver != null){
                 return new Pair<>(driver, truck);
             }
