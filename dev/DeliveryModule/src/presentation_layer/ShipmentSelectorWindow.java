@@ -18,11 +18,14 @@ public class ShipmentSelectorWindow implements Window{
                 return new MainMenuWindow();
             }
 
-            System.out.println("Choose a shipment to track or choose 0 for exit:\n" + shipmentIds.stream().reduce("", (acc, id) -> acc + i.getAndIncrement() + ". " + id + "\n", (acc1, acc2) -> acc1 + acc2) + "0. Return to the main menu");
-            try {
-                int choice = scanner.nextInt();
+            System.out.println("Choose a shipment to track or choose 0 for exit:");
+            shipmentIds.forEach((id) -> System.out.println(i.getAndIncrement() + ". " + id));
+            System.out.println( "0. Return to the main menu");
 
-                if (choice == 0) {
+            try {
+                int choice = scanner.nextInt() - 1;
+
+                if (choice == -1) {
                     return new MainMenuWindow();
                 } else if (shipmentIds.contains(choice)) {
                     return new ShipmentTrackerWindow(choice);
@@ -30,8 +33,8 @@ public class ShipmentSelectorWindow implements Window{
                     System.out.println("Error: Invalid Selection, try again.\n");
                 }
             }  catch(Exception e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
-                continue;
             }
         } while(true);
     }

@@ -89,6 +89,7 @@ public class ShipmentTrackerWindow implements Window {
                     System.out.println("Error: invalid weight, please reweigh again.");
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
 
@@ -111,6 +112,7 @@ public class ShipmentTrackerWindow implements Window {
                     System.out.println("Error: Invalid selection, please try again\n");
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
         }
@@ -195,6 +197,7 @@ public class ShipmentTrackerWindow implements Window {
                     return choice - 1;
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
         } while(true);
@@ -216,6 +219,7 @@ public class ShipmentTrackerWindow implements Window {
                 productsOfDestination.remove(choice - 1);
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
         } while(productsOfDestination.size() != 0);
