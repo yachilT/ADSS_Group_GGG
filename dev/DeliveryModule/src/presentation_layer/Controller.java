@@ -6,6 +6,9 @@ import service_layer.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Controller {
     public Scanner scanner;
@@ -13,7 +16,11 @@ public class Controller {
     public ShipmentSchedulerService shipmentSchedulerService;
     public ShipmentTrackerService shipmentTrackerService;
     public ShipmentHistoryService shipmentHistoryService;
-    public Controller(String dbPath){
+
+    public Controller(String dbPath,
+                      Function<Predicate<Driver>, Driver> driverGetter,
+                      Consumer<String> storeKeeperAssigner,
+                      Predicate<String> storeKeeperChecker){
         scanner = new Scanner(System.in);
 //        Site haifa1 = new Site("HaGanim 1, Haifa", "Yossi Cohen", "0586943858");
 //        Site afula = new Site("Arlozerov 23, Afula", "Yehuda Levi", "05058939955");
@@ -70,14 +77,18 @@ public class Controller {
         ShipmentHistory shipmentHistory = new ShipmentHistory(true, dbPath);
         int startingIndex = shipmentHistory.loadAll();
 
-        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,truckFacade, startingIndex);
+        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,
+                truckFacade,
+                startingIndex,
+                driverGetter,
+                storeKeeperAssigner);
         shipmentSchedulerService = new ShipmentSchedulerService(shipmentScheduler, areaFacade);
 //        shipmentHistory.add(shipmentDocument, List.of(
 //                new DestinationDocument(new Destination(haifa1, List.of(new ProductAmount("Milk", 10))), 12, 100, 900),
 //                new DestinationDocument(new Destination(haifa2, List.of(new ProductAmount("bread", 100), new ProductAmount("cheese", 200))), 13, 100,800)));
         shipmentHistoryService = new ShipmentHistoryService(shipmentHistory);
 
-        shipmentTrackerService = new ShipmentTrackerService(shipmentScheduler, truckFacade, shipmentHistory);
+        shipmentTrackerService = new ShipmentTrackerService(shipmentScheduler, truckFacade, shipmentHistory, storeKeeperChecker);
     }
     public void run(){
         Window window = new MainMenuWindow();

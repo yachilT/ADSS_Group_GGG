@@ -4,17 +4,17 @@ import DomainLayer.Employees.Role;
 import ServiceLayer.BranchManegerServices.BranchManagerService;
 import ServiceLayer.EmployeeServices.EmployeeService;
 import ServiceLayer.HRManegerServices.HRManagerService;
-import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
+import dev.ServiceCoordinator;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class UIController {
 
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ServiceCoordinator serviceCoordinator = new ServiceCoordinator();
 //        System.out.println("Run example? (Y/Other)");
 //        String input = scanner.nextLine();
 //        boolean runExample = input.equals("Y");
