@@ -1,4 +1,7 @@
 package domain_layer;
+import interfaces.DriverGetter;
+import interfaces.StorekeeperAssigner;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +17,9 @@ public class ShipmentScheduler {
     private AreaFacade areaFacade;
     private final DriverFacade driverFacade;
     private final TruckFacade truckFacade;
-    private final Function<Predicate<Driver>, Driver> driverGetter;
-    private final Consumer<String> storekeeperAssigner;
-    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade, int shipmentIds, Function<Predicate<Driver>, Driver> driverGetter, Consumer<String> storekeeperAssigner) {
+    private final DriverGetter driverGetter;
+    private final StorekeeperAssigner storekeeperAssigner;
+    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade, int shipmentIds, DriverGetter driverGetter, StorekeeperAssigner storekeeperAssigner) {
         this.driverFacade = driverFacade;
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
@@ -28,7 +31,7 @@ public class ShipmentScheduler {
         Pair<Driver, Truck> pair = findTruckAndDriver();
         Driver driver = pair.first;
         Truck truck = pair.second;
-        destinations.forEach(d -> storekeeperAssigner.accept(d.getSite().getAddress()));
+        destinations.forEach(d -> storekeeperAssigner.assign(d.getSite().getAddress()));
 
         Shipment shipment = new Shipment(shipmentIds++, LocalDateTime.now(), origin, destinations, truck, driver);
         this.shipments.add(shipment);
@@ -37,7 +40,7 @@ public class ShipmentScheduler {
     private Pair<Driver,Truck> findTruckAndDriver() throws  NoSuchElementException{
 
         for(Truck truck : truckFacade.getAvailableTrucks()){
-            Driver driver = driverGetter.apply(truck::isCompatible);
+            Driver driver = driverGetter.getDriver(truck::isCompatible);
             if (driver != null){
                 return new Pair<>(driver, truck);
             }

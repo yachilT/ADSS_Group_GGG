@@ -1,6 +1,9 @@
 package presentation_layer;
 
 import domain_layer.*;
+import interfaces.DriverGetter;
+import interfaces.StorekeeperAssigner;
+import interfaces.StorekeeperChecker;
 import service_layer.*;
 
 import java.time.LocalDate;
@@ -18,9 +21,9 @@ public class Controller {
     public ShipmentHistoryService shipmentHistoryService;
 
     public Controller(String dbPath,
-                      Function<Predicate<Driver>, Driver> driverGetter,
-                      Consumer<String> storeKeeperAssigner,
-                      Predicate<String> storeKeeperChecker){
+                      DriverGetter driverGetter,
+                      StorekeeperAssigner storeKeeperAssigner,
+                      StorekeeperChecker storeKeeperChecker){
         scanner = new Scanner(System.in);
 //        Site haifa1 = new Site("HaGanim 1, Haifa", "Yossi Cohen", "0586943858");
 //        Site afula = new Site("Arlozerov 23, Afula", "Yehuda Levi", "05058939955");
