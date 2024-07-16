@@ -36,6 +36,7 @@ public class ShipmentHistoryWindow implements   Window{
                 }
             }
             catch (NoSuchElementException e){
+                controller.scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
 
@@ -51,6 +52,7 @@ public class ShipmentHistoryWindow implements   Window{
                 documentIndex = scanner.nextInt();
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
                 continue;
             }
@@ -73,6 +75,7 @@ public class ShipmentHistoryWindow implements   Window{
                         System.out.println("Error: Invalid Selection\n");
                 }
                 catch (NoSuchElementException e){
+                    scanner.next();
                     System.out.println("Invalid input: Please enter an integer.");
                 }
             } while (documentIndex <= 0 || documentIndex > documents.size());

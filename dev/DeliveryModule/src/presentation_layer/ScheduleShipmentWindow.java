@@ -1,10 +1,13 @@
 package presentation_layer;
 
 
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import service_layer.*;
 
 import java.util.*;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 
@@ -13,6 +16,9 @@ public class ScheduleShipmentWindow implements Window {
         super();
     }
     public Window run(Controller controller){
+        DayOfTheWeek dayOfTheWeek = selectDayOfWeek(controller.scanner);
+        PartOfDay partOfDay = selectPartOfDay(controller.scanner);
+
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
 
@@ -40,6 +46,46 @@ public class ScheduleShipmentWindow implements Window {
             System.out.println("Shipment Scheduled successfully!");
             return new ShipmentTrackerWindow(response.getObject());
         }
+    }
+
+    private DayOfTheWeek selectDayOfWeek(Scanner scanner) {
+        DayOfTheWeek dayOfTheWeek = null;
+
+        while(dayOfTheWeek == null){
+            AtomicInteger i = new AtomicInteger(1);
+            System.out.println("Please select a day of the week from the options below: ");
+            DayOfTheWeek[] days = DayOfTheWeek.values();
+            Arrays.stream(days).forEach((day) -> System.out.println(i.getAndIncrement() + ". " + day));
+            try {
+                int choice = scanner.nextInt() - 1;
+                dayOfTheWeek = days[choice];
+                }
+            catch (InputMismatchException ex){
+                scanner.next();
+                System.out.println("Invalid input: Please enter an integer.");
+            }
+        }
+        return dayOfTheWeek;
+    }
+
+    private PartOfDay selectPartOfDay(Scanner scanner) {
+        PartOfDay partOfDay = null;
+
+        while(partOfDay == null){
+            AtomicInteger i = new AtomicInteger(1);
+            System.out.println("Please select a part of the day from the options below: ");
+            PartOfDay[] partsOfDay = PartOfDay.values();
+            Arrays.stream(partsOfDay).forEach((part) -> System.out.println(i.getAndIncrement() + ". " + part));
+            try {
+                int choice = scanner.nextInt() - 1;
+                partOfDay = partsOfDay[choice];
+            }
+            catch (InputMismatchException ex){
+                scanner.next();
+                System.out.println("Invalid input: Please enter an integer.");
+            }
+        }
+        return partOfDay;
     }
 
     private SiteToSend chooseOrigin(List<SiteToSend> sites, Scanner scanner){
@@ -76,6 +122,7 @@ public class ScheduleShipmentWindow implements Window {
                     invalidError();
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
 
@@ -99,6 +146,7 @@ public class ScheduleShipmentWindow implements Window {
                     destinations.add(createDestination(sites.remove(destIndex - 1), scanner));
             }
             catch (NoSuchElementException e){
+                scanner.next();
                 System.out.println("Invalid input: Please enter an integer.");
             }
         }
@@ -130,6 +178,7 @@ public class ScheduleShipmentWindow implements Window {
 
                 }
                 catch (NoSuchElementException e) {
+                    scanner.next();
                     System.out.println("Invalid input: Please enter an integer.");
                 }
             }
