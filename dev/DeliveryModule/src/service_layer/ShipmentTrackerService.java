@@ -26,7 +26,9 @@ public class ShipmentTrackerService {
     public Response<ShipmentToSend> trackShipment(int shipmentId){
         try {
             Shipment shipment = shipmentScheduler.departShipment(shipmentId);
-            shipment.checkStorekeeper(storekeeperChecker);
+            if (shipment.checkStorekeeper(storekeeperChecker)) {
+                return new Response<>("Error: Some destinations doesn't have storekeeper assigned");
+            }
             ShipmentTracker tracker = new ShipmentTracker(shipment, shipmentHistory);
             shipmentTrackers.put(shipmentId, tracker);
             return new Response<>(new ShipmentToSend(shipment));

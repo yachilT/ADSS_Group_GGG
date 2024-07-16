@@ -18,12 +18,14 @@ public class Shipment {
     private Driver driver;
     private DayOfTheWeek day;
     private PartOfDay part;
-    public Shipment(int shipmentId, LocalDateTime departureDateTime, Site origin, List<Destination> destinations, Truck truck, Driver driver){
+    public Shipment(int shipmentId, LocalDateTime departureDateTime, Site origin, List<Destination> destinations, Truck truck, Driver driver, DayOfTheWeek day, PartOfDay part) {
         this.shipmentId = shipmentId;
         this.departureDateTime = departureDateTime;
 
         this.origin = origin;
         this.destinations = destinations;
+        this.day = day;
+        this.part = part;
 
         this.truck = truck;
         this.truck.assignDelivery();
@@ -81,7 +83,7 @@ public class Shipment {
         return destinations.size();
     }
 
-    public boolean checkStorekeeper(StorekeeperChecker storekeeperChecker, DayOfTheWeek day, PartOfDay part) {
+    public boolean checkStorekeeper(StorekeeperChecker storekeeperChecker) {
         return destinations.stream().allMatch(d -> storekeeperChecker.check(d.getSite().getAddress(), day, part));
     }
     public List<Destination> getDestinationsFrom(int currentDstIndex) {
