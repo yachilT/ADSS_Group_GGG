@@ -1,9 +1,6 @@
 package service_layer;
 
-import domain_layer.AreaFacade;
-import domain_layer.Destination;
-import domain_layer.ShipmentScheduler;
-import domain_layer.Site;
+import domain_layer.*;
 
 import java.util.ArrayList;
 import java.util.List;

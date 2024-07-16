@@ -4,6 +4,7 @@ import service_layer.SiteToSend;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Shipment {
     private final Site origin;
@@ -50,8 +51,6 @@ public class Shipment {
         return destinations.get(currentDstIndex);
     }
 
-
-
     public Truck getTruck() {
         return truck;
     }
@@ -77,7 +76,9 @@ public class Shipment {
         return destinations.size();
     }
 
-
+    public boolean checkStorekeeper(Predicate<String> storekeeperChecker) {
+        return destinations.stream().allMatch(d -> storekeeperChecker.test(d.getSite().getAddress()));
+    }
     public List<Destination> getDestinationsFrom(int currentDstIndex) {
         return destinations.subList(currentDstIndex + 1, destinations.size());
     }

@@ -3,6 +3,7 @@ package service_layer;
 import domain_layer.*;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ShipmentTrackerService {
@@ -10,18 +11,20 @@ public class ShipmentTrackerService {
     private final ShipmentScheduler shipmentScheduler;
     private final TruckFacade truckFacade;
     private final ShipmentHistory shipmentHistory;
-    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory){
+    private final Predicate<String> storekeeperChecker;
+    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory, Predicate<String> storekeeperChecker) {
         this.shipmentScheduler = scheduler;
         this.shipmentTrackers = new HashMap<>();
         this.truckFacade = truckFacade;
         this.shipmentHistory = shipmentHistory;
+        this.storekeeperChecker = storekeeperChecker;
     }
 
     public Response<ShipmentToSend> trackShipment(int shipmentId){
         try {
             Shipment shipment = shipmentScheduler.departShipment(shipmentId);
+            shipment.checkStorekeeper(storekeeperChecker);
             ShipmentTracker tracker = new ShipmentTracker(shipment, shipmentHistory);
-
             shipmentTrackers.put(shipmentId, tracker);
             return new Response<>(new ShipmentToSend(shipment));
         }
