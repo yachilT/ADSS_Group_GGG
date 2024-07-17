@@ -96,6 +96,7 @@ public class WeeklyShifts {
         return shifts.get(day).getValue();
     }
 
+
     public String toString(DayOfTheWeek day, PartOfDay part){
         if(part == PartOfDay.Morning)
             return shifts.get(day).getKey().toString();

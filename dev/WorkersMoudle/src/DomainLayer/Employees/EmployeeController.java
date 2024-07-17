@@ -246,6 +246,13 @@ public class EmployeeController {
 
     }
 
+    public void setDriver(Integer id, Integer weight) throws Exception {
+        if(employees.get(id) == null){
+            throw new Exception("Employee not found");
+        }
+        employees.get(id).setWeight(weight);
+    }
+
     public void loadDatabase() throws Exception{
         EmployeeDataManager employeeDataManager = new EmployeeDataManager();
         List<EmployeeDTO> employees;

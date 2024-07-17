@@ -34,6 +34,7 @@ public class AddEmpWindow extends Window {
         boolean flag = true;
         List<Role> list = new ArrayList<>();
         int counter = 0;
+        Integer weight = null;
 
         while(flag){
             System.out.println("Choose a role to add:");
@@ -50,7 +51,6 @@ public class AddEmpWindow extends Window {
             do {
                 choice = scanner.nextLine();
             }while(choice.equals(""));
-
             switch (choice) {
                 case "1" -> {
                     list.add(Role.Cashier);
@@ -71,6 +71,14 @@ public class AddEmpWindow extends Window {
                 case "5" -> {
                     list.add(Role.Driver);
                     counter++;
+                    System.out.println("Enter the weight for the driver:");
+                    while (weight == null) {
+                        try {
+                            weight = Integer.parseInt(scanner.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Please enter a valid number for the weight.");
+                        }
+                    }
                 }
                 case "6" -> {
                     list.add(Role.Butcher);
@@ -90,7 +98,7 @@ public class AddEmpWindow extends Window {
             }
         }
 
-        Response response = serviceManager.getBranchManagerService().empRegister(name,bankAccountNum,salary,branchId,list);
+        Response response = serviceManager.getBranchManagerService().empRegister(name,bankAccountNum,salary,branchId,list, weight);
         if(response.ErrorOccured()){
             System.out.println(response.GetErrorMessage());
             return;

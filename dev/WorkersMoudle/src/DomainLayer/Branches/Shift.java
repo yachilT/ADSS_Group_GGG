@@ -80,6 +80,14 @@ public class Shift {
         shiftsDTO.addNeededRoles(neededRoles);
     }
 
+    public boolean isThereADriver() {
+        for (Role role : employees.values()) {
+            if (role == Role.Driver) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void exchangeShift(Integer id1, Integer id2, Role role2) throws Exception {
         if(!employees.containsKey(id1)){

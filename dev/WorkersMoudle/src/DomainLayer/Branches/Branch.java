@@ -119,6 +119,31 @@ public class Branch {
         return upcomingweeks.get(week).toString(day, part);
     }
 
+    public boolean isThereADriver(Date date, PartOfDay partOfDay) {
+        DayOfTheWeek day = DayOfTheWeek.Sunday;
+        if(date.getDay() == 2)
+            day = DayOfTheWeek.Monday;
+        else if (date.getDay() == 3)
+            day = DayOfTheWeek.Tuesday;
+        else if (date.getDay() == 4)
+            day = DayOfTheWeek.Wednesday;
+        else if (date.getDay() == 5)
+            day = DayOfTheWeek.Thursday;
+        else if (date.getDay() == 6)
+            day = DayOfTheWeek.Friday;
+
+        Shift shift;
+        if(currentWeek.getLastDayOfWeek().before(date) || currentWeek.getLastDayOfWeek().equals(date)) {
+            shift = currentWeek.getShift(day,partOfDay);
+        }else{
+            shift = upcomingweeks.get(0).getShift(day,partOfDay);
+        }
+        if(shift != null){
+            return shift.isThereADriver();
+        }
+        return false;
+    }
+
     public void deleteEmployeeFromShift(int employeeId, DayOfTheWeek day, PartOfDay partOfDay) throws Exception {
         if (upcomingweeks.get(0) != null) {
             Shift shift = upcomingweeks.get(0).getShift(day, partOfDay);
