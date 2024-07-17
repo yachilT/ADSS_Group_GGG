@@ -3,7 +3,9 @@ package DomainLayer.Branches;
 import DataLayer.BranchData.BranchDTO;
 import DataLayer.BranchData.ShiftsDTO;
 import DataLayer.DateEncryptDecrypt;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.Role;
+import ServiceLayer.Driver;
 
 
 import java.time.DayOfWeek;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Branch {
     private int id;
@@ -288,5 +291,13 @@ public class Branch {
         }
 
         return groupedShifts;
+    }
+
+    public boolean isAssigned(DayOfTheWeek day, PartOfDay part, Role role) {
+        return upcomingweeks.getFirst().getShift(day, part).isAssigned(role);
+    }
+
+    public boolean assignDriver(DayOfTheWeek day, PartOfDay part, Employee driver) {
+        return upcomingweeks.getFirst().getShift(day, part).assignDriver(driver);
     }
 }

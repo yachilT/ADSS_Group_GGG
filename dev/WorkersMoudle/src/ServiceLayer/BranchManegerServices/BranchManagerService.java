@@ -4,6 +4,7 @@ import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Branches.Shift;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -131,12 +132,26 @@ public class BranchManagerService {
 
 
     public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) {
-        throw new UnsupportedOperationException();
-    } //TODO
+        try {
+            int bId = branchController.findBranchByAdress(address);
+            List<Employee> driver = employeeController.getDriver(driverPred, bId,new Pair<DayOfTheWeek,PartOfDay>(day, part));
+            if(driver.isEmpty())
+                throw new Exception("No suitable driver found");
+
+            return new Response(branchController.assignDriver(driver.getFirst(), day, part, address));
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+    }
 
     public Response isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) {
-
+        try {
+            return new Response(branchController.isAssigned(address, day, part, role));
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
     }
+
 }
 
 

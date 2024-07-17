@@ -11,6 +11,7 @@ import ServiceLayer.Response;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class EmployeeController {
 
@@ -329,5 +330,12 @@ public class EmployeeController {
     public void deleteData() {
         EmployeeDataManager employeeDataManager = new EmployeeDataManager();
         employeeDataManager.deleteData();
+    }
+
+    public List<Employee> getDriver(Predicate<Driver> driverPred, int bId, Pair<DayOfTheWeek, PartOfDay> shift) {
+        return employees.values().stream().filter(employee -> employee.getBranchId() == bId
+                && employee.getRoles().contains(Role.Driver)
+                && driverPred.test(new Driver(employee.getId(), employee.getName(), new License(employee.getWeight())))
+                && employee.isFree(shift)).toList();
     }
 }
