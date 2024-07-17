@@ -5,6 +5,7 @@ import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
 import ServiceLayer.BranchManegerServices.BranchManagerService;
+import ServiceLayer.Driver;
 import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 import UI.EmployeeUI.EmpMainWindow;
@@ -29,13 +30,7 @@ public class LoginWindow extends Window{
 
     public LoginWindow(ServiceManager serviceManager) {
         super(serviceManager);
-        deliveryController = new Controller(new Controller(deliveryDB,
-                (Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) -> {
-                    Response res = serviceManager.getBranchManagerService().assignDriver(driverPred, day, part, address);
-                    return res.ErrorOccured() ? null : (Driver)res.GetReturnValue();
-                },
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper)));
+
     }
 
     @Override
@@ -122,10 +117,10 @@ public class LoginWindow extends Window{
                 this.nextWindow = new Controller(deliveryDB,
                 (Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) -> {
                     Response res = serviceManager.getEmployeeService().assignDriver(driverPred, day, part, address);
-                    return res.ErrorOccured() ? null : (Driver)res.GetReturnValue();
+                    return res.ErrorOccured() ? null : (Driver) res.GetReturnValue();
                 },
                 (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper)).run();
+                (String address, DayOfTheWeek day, PartOfDay part) -> (Boolean) serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper).ReturnValue).run();
             else
                 this.nextWindow = new ManagerMainWindow(this.serviceManager, id, branchId);
         }else

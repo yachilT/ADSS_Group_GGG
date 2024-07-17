@@ -7,6 +7,7 @@ import DomainLayer.Branches.Shift;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
+import ServiceLayer.Driver;
 import ServiceLayer.Response;
 import jdk.jshell.spi.ExecutionControl;
 
@@ -132,6 +133,10 @@ public class BranchManagerService {
     public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) {
         throw new UnsupportedOperationException();
     } //TODO
+
+    public Response isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) {
+
+    }
 }
 
 

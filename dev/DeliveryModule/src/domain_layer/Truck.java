@@ -1,5 +1,7 @@
 package domain_layer;
 
+import ServiceLayer.Driver;
+
 public class Truck {
     private int truckNumber;
     private String model;
