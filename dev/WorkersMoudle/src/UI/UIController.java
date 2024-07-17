@@ -5,7 +5,7 @@ import ServiceLayer.BranchManegerServices.BranchManagerService;
 import ServiceLayer.EmployeeServices.EmployeeService;
 import ServiceLayer.HRManegerServices.HRManagerService;
 import ServiceLayer.ServiceManager;
-import dev.ServiceCoordinator;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,7 +14,6 @@ public class UIController {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ServiceCoordinator serviceCoordinator = new ServiceCoordinator();
 //        System.out.println("Run example? (Y/Other)");
 //        String input = scanner.nextLine();
 //        boolean runExample = input.equals("Y");
@@ -62,10 +61,10 @@ public class UIController {
         // Create Employees
         ArrayList<Role> roles = new ArrayList<>();
         roles.add(Role.Cashier); roles.add(Role.ShiftManager); roles.add(Role.Usher);
-        branchManagerService.empRegister("Yossi", 233323, 10000, 1, roles);
+        branchManagerService.empRegister("Yossi", 233323, 10000, 1, roles,null);
         ArrayList<Role> roles2 = new ArrayList<>();
         roles2.add(Role.Cashier); roles2.add(Role.Usher);
-        branchManagerService.empRegister("Moshe", 233324, 10000, 1, roles2);
+        branchManagerService.empRegister("Moshe", 233324, 10000, 1, roles2,null);
 
     }
 

@@ -7,6 +7,7 @@ import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import ServiceLayer.Response;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,6 +56,13 @@ public class BranchController {
         }
     }
 
+    public boolean isThereADriver(Integer branchId, Date date, PartOfDay partOfDay) throws Exception{
+        if(!branches.containsKey(branchId))
+            throw new Exception("Branch not found");
+
+        return branches.get(branchId).isThereADriver(date, partOfDay);
+    }
+
     public void isWeekExists(Integer branchId,Integer week) throws Exception {
         if(branches.containsKey(branchId))
             branches.get(branchId).isWeekExists(week);
@@ -70,6 +78,14 @@ public class BranchController {
             throw new Exception("No Roles Were added");
 
         branches.get(branchId).addNeededRoles(day, part, list);
+    }
+
+    public Integer getBranchId(String address) throws Exception{
+        for(Branch branch : branches.values()){
+            if(branch.getAddress().equals(address))
+                return branch.getId();
+        }
+        throw new Exception("Branch not found");
     }
 
     public void loadDatabase() {
@@ -96,6 +112,7 @@ public class BranchController {
         new ShiftsDataManager().deleteData();
     }
 
+
     public int findBranchByAdress(String address) throws Exception {
         for (Branch branch : branches.values()) {
             if (branch.getAddress().equals(address))
@@ -104,3 +121,6 @@ public class BranchController {
         throw new Exception("Branch not found");
     }
 }
+
+}
+

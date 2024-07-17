@@ -24,6 +24,11 @@ public class AreaService {
         for(Site s: areaFacade.getSites())
             sites.add(new SiteToSend(s));
         return sites;
+    }
 
+    public Response<Object> addSite(String address, String contactName, String contactNumber, String areaName) {
+        try { areaFacade.addSite(address, contactName, contactNumber, areaName); }
+        catch (Exception e) { return new Response<>(e.getMessage()); }
+        return new Response<>();
     }
 }

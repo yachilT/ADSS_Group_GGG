@@ -1,5 +1,7 @@
 package service_layer;
 
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import domain_layer.*;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class ShipmentSchedulerService {
         this.areaFacade = areaFacade;
     }
 
-    public Response<Integer> scheduleShipment(SiteToSend originToSend, List<DestinationToSend> sitesToSend) {
+    public Response<Integer> scheduleShipment(SiteToSend originToSend, List<DestinationToSend> sitesToSend, DayOfTheWeek day, PartOfDay part) {
         List<Site> originList = areaFacade.getSites().stream().filter(s -> s.getAddress().equals(originToSend.getAddress())).toList();
         if (originList.size() != 1) {
             return new Response<>("Error: Origin not found");
@@ -33,7 +35,7 @@ public class ShipmentSchedulerService {
 
 
         try {
-            return new Response<>(shipmentScheduler.scheduleShipment(originList.get(0), dsts));
+            return new Response<>(shipmentScheduler.scheduleShipment(originList.get(0), dsts, day, part));
         } catch (NoSuchElementException e) {
             return new Response<>("Error: " + e.getMessage());
         }

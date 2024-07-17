@@ -5,9 +5,12 @@ import DataLayer.EmployeeDataManager;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
+import ServiceLayer.Driver;
+import ServiceLayer.License;
 import ServiceLayer.Response;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class EmployeeController {
 
@@ -29,8 +32,10 @@ public class EmployeeController {
     }
 
     public Integer setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
+
     double hrManagerSalary, int hrManagerBranchId) throws Exception{
         hrManager = new HRManager(hrManagerName, hrManagerPassword, new LinkedList<Role>(),
+
                 hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
         employees.put(hrManager.getId(), hrManager);
         return hrManager.getId();
@@ -50,7 +55,7 @@ public class EmployeeController {
     }
 
     public Integer addEmployee(String name, List<Role> roles,
-                            int bankAccountNumber, double salary, int branchId) throws Exception {
+                               int bankAccountNumber, double salary, int branchId) throws Exception {
 
         if(!branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
@@ -260,6 +265,26 @@ public class EmployeeController {
             throw new Exception("Employee can't work at this time");
         }
 
+    }
+
+    public Driver assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, Integer bId){
+        for(Employee employee : employees.values()){
+            if(employee.getBranchId()==bId && employee.getRoles().contains(Role.Driver)){
+                Driver driver = new Driver(employee.getId(),employee.getName(),new License(employee.getWeight()));
+                if(driverPred.test(driver)){
+                    return driver;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public void setDriver(Integer id, Float weight) throws Exception {
+        if(employees.get(id) == null){
+            throw new Exception("Employee not found");
+        }
+        employees.get(id).setWeight(weight);
     }
 
     public void loadDatabase() throws Exception{

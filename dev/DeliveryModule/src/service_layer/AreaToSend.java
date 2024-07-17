@@ -20,4 +20,7 @@ public class AreaToSend {
     public List<SiteToSend> getSites() {
         return new ArrayList<>(sites);
     }
+    public Area toArea() {
+        return new Area(areaName, sites.stream().map(SiteToSend::toSite).collect(Collectors.toSet()));
+    }
 }

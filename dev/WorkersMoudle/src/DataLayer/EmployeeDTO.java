@@ -20,6 +20,7 @@ public class EmployeeDTO {
     private Date dateJoined;
     private int branchId;
     private Date dateLeft;
+    private Float weight;
 
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
@@ -45,13 +46,14 @@ public class EmployeeDTO {
         this.shiftPreferences = employee.getShiftPreferences();
         this.shiftCantWork = employee.getShiftCantWork();
         this.manager = manager;
+        this.weight = employee.getWeight();
 
         employeeDataManager = new EmployeeDataManager();
 
         employeeDataManager.insertDTO(this);
     }
 
-    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager) {
+    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager, Float weight) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -64,6 +66,7 @@ public class EmployeeDTO {
         this.shiftPreferences = shiftPreferences;
         this.shiftCantWork = shiftCantWork;
         this.manager = manager;
+        this.weight = weight;
 
         employeeDataManager = new EmployeeDataManager();
 
@@ -73,6 +76,19 @@ public class EmployeeDTO {
     private void update() throws Exception{
         if(!employeeDataManager.updateDTO(this))
             throw new Exception("Failed to update");
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) throws Exception{
+        this.weight = weight;
+        try {
+            update();
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     public Integer getId() {

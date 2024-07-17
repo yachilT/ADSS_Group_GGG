@@ -6,32 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TruckFacade {
-    private final List<Truck> trucks;
-    private final TruckDAO truckDAO;
-    private boolean persist;
+
+    private final TruckRepository truckRepository;
 
     public TruckFacade(boolean persist, String dbPath) {
-        trucks = new ArrayList<>();
-        truckDAO = new TruckDAO(dbPath);
-        this.persist = persist;
+        truckRepository = new TruckRepository(persist, dbPath);
     }
 
     public void addTruck(int truckNumber, String model, float emptyWeight, float maxWeight) {
-        Truck truck = new Truck(truckNumber, model, emptyWeight, maxWeight);
-
-        if (persist)
-            truckDAO.create(truck);
-        trucks.add(truck);
+        truckRepository.addTruck(new Truck(truckNumber, model, emptyWeight, maxWeight));
     }
 
     public List<Truck> getAvailableTrucks() {
-        return trucks.stream().filter(Truck::isAvailable).toList();
+        return truckRepository.getAvailableTrucks().stream().toList();
     }
-    public List<Truck> getTrucks() {return trucks;}
+    public List<Truck> getTrucks() {return truckRepository.getTrucks();}
 
-    public boolean loadAll() {
-        List<Truck> trucks = truckDAO.readAll();
-        this.trucks.addAll(trucks);
-        return false;
+    public void loadAll() {
+        truckRepository.loadAll();
     }
 }

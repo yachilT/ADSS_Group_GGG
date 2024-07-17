@@ -1,4 +1,7 @@
 package domain_layer;
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
+import interfaces.StorekeeperChecker;
 import service_layer.SiteToSend;
 
 import java.time.LocalDate;
@@ -13,12 +16,16 @@ public class Shipment {
     private LocalDateTime departureDateTime;
     private Truck truck;
     private Driver driver;
-    public Shipment(int shipmentId, LocalDateTime departureDateTime, Site origin, List<Destination> destinations, Truck truck, Driver driver){
+    private DayOfTheWeek day;
+    private PartOfDay part;
+    public Shipment(int shipmentId, LocalDateTime departureDateTime, Site origin, List<Destination> destinations, Truck truck, Driver driver, DayOfTheWeek day, PartOfDay part) {
         this.shipmentId = shipmentId;
         this.departureDateTime = departureDateTime;
 
         this.origin = origin;
         this.destinations = destinations;
+        this.day = day;
+        this.part = part;
 
         this.truck = truck;
         this.truck.assignDelivery();
@@ -76,8 +83,8 @@ public class Shipment {
         return destinations.size();
     }
 
-    public boolean checkStorekeeper(Predicate<String> storekeeperChecker) {
-        return destinations.stream().allMatch(d -> storekeeperChecker.test(d.getSite().getAddress()));
+    public boolean checkStorekeeper(StorekeeperChecker storekeeperChecker) {
+        return destinations.stream().allMatch(d -> storekeeperChecker.check(d.getSite().getAddress(), day, part));
     }
     public List<Destination> getDestinationsFrom(int currentDstIndex) {
         return destinations.subList(currentDstIndex + 1, destinations.size());
@@ -114,5 +121,12 @@ public class Shipment {
 
     public List<Destination> getDestinations() {
         return destinations;
+    }
+    public DayOfTheWeek getDay() {
+        return day;
+    }
+
+    public PartOfDay getPart() {
+        return part;
     }
 }

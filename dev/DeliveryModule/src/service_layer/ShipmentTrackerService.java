@@ -1,6 +1,9 @@
 package service_layer;
 
+import DomainLayer.Branches.DayOfTheWeek;
+import DomainLayer.Branches.PartOfDay;
 import domain_layer.*;
+import interfaces.StorekeeperChecker;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -11,8 +14,8 @@ public class ShipmentTrackerService {
     private final ShipmentScheduler shipmentScheduler;
     private final TruckFacade truckFacade;
     private final ShipmentHistory shipmentHistory;
-    private final Predicate<String> storekeeperChecker;
-    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory, Predicate<String> storekeeperChecker) {
+    private final StorekeeperChecker storekeeperChecker;
+    public ShipmentTrackerService(ShipmentScheduler scheduler, TruckFacade truckFacade, ShipmentHistory shipmentHistory, StorekeeperChecker storekeeperChecker) {
         this.shipmentScheduler = scheduler;
         this.shipmentTrackers = new HashMap<>();
         this.truckFacade = truckFacade;
@@ -23,7 +26,9 @@ public class ShipmentTrackerService {
     public Response<ShipmentToSend> trackShipment(int shipmentId){
         try {
             Shipment shipment = shipmentScheduler.departShipment(shipmentId);
-            shipment.checkStorekeeper(storekeeperChecker);
+            if (shipment.checkStorekeeper(storekeeperChecker)) {
+                return new Response<>("Error: Some destinations doesn't have storekeeper assigned");
+            }
             ShipmentTracker tracker = new ShipmentTracker(shipment, shipmentHistory);
             shipmentTrackers.put(shipmentId, tracker);
             return new Response<>(new ShipmentToSend(shipment));
