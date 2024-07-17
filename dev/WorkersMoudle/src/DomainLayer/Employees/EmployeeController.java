@@ -11,11 +11,14 @@ import java.util.*;
 
 public class EmployeeController {
 
-    private static final int INITIAL_ID = 0;
+
+
+    private static final int INITIAL_ID = 3;
     private Map<Integer, Employee> employees; // empId -> employee
     private Map<Integer, BranchManager> branchManagers; // branch id -> branch manager
     private HRManager hrManager;
     private List<Integer> employeesLoggedInIds; // list of employees ids that are logged in
+    private DeliveryManager deliveryManager;
 
     private Integer idCounter;
     public EmployeeController() {
@@ -27,10 +30,23 @@ public class EmployeeController {
 
     public Integer setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
     double hrManagerSalary, int hrManagerBranchId) throws Exception{
-        hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
+        hrManager = new HRManager(hrManagerName, hrManagerPassword, new LinkedList<Role>(),
                 hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
         employees.put(hrManager.getId(), hrManager);
         return hrManager.getId();
+    }
+
+    public Integer setDeliveryManager(String deliveryManagerName, String deliveryManagerPassword, int deliveryManagerBankAccountNumber,
+
+    double deliveryManagerSalary, int deliveryManagerBranchId) throws Exception{
+        deliveryManager = new DeliveryManager(deliveryManagerName, new LinkedList<Role>(), deliveryManagerPassword,
+                deliveryManagerBankAccountNumber, deliveryManagerSalary, deliveryManagerBranchId);
+        employees.put(deliveryManager.getId(), deliveryManager);
+        return deliveryManager.getId();
+    }
+
+    public boolean isDeliveryManager(Integer id) {
+        return id == deliveryManager.getId();
     }
 
     public Integer addEmployee(String name, List<Role> roles,
@@ -197,7 +213,7 @@ public class EmployeeController {
                 output = true;
             }
         }
-        return output || id == hrManager.getId();
+        return output || id == hrManager.getId() || id == deliveryManager.getId();
     }
 
     public boolean isHR(Integer id) {
@@ -255,17 +271,24 @@ public class EmployeeController {
             throw new Exception("Error loading employees data");
         }
         for (EmployeeDTO employee : employees) {
-            if(employee.getManager()==2) {
+            if(employee.getManager().equals(HRManager.MANGER_OF_HR)) {
                 hrManager = new HRManager(employee);
                 this.employees.put(hrManager.getId(), hrManager);
             }
-            else if(employee.getManager()==1) {
+            else if(employee.getManager().equals(HRManager.HR_MANAGER_ID)) {
                 branchManagers.put(employee.getBranchId(), new BranchManager(employee));
                 this.employees.put(employee.getId(), new BranchManager(employee));
+            }
+            else if(employee.getManager().equals(DeliveryManager.DELIVERY_MANAGER_ID)) {
+                deliveryManager = new DeliveryManager(employee);
+                this.employees.put(deliveryManager.getId(), deliveryManager);
             }
             else
                 this.employees.put(employee.getId(), new Employee(employee));
         }
+
+        if(!employees.isEmpty())
+            idCounter = employees.stream().map(EmployeeDTO::getId).max(Integer::compare).get() + 1;
     }
 
     public void testMode(){

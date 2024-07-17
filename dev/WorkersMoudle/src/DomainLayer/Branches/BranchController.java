@@ -95,4 +95,12 @@ public class BranchController {
         new BranchDataManager().deleteData();
         new ShiftsDataManager().deleteData();
     }
+
+    public int findBranchByAdress(String address) throws Exception {
+        for (Branch branch : branches.values()) {
+            if (branch.getAddress().equals(address))
+                return branch.getId();
+        }
+        throw new Exception("Branch not found");
+    }
 }
