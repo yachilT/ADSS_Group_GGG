@@ -27,5 +27,6 @@ public class AreaService {
 
     }
 
-    
+    public void addSite(String address, String contactName, String contactNumber, AreaToSend a) {
+    }
 }
