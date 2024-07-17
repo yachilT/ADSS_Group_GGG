@@ -16,14 +16,14 @@ public class ScheduleShipmentWindow implements Window {
         super();
     }
     public Window run(Controller controller){
-        DayOfTheWeek dayOfTheWeek = selectDayOfWeek(controller.scanner);
-        PartOfDay partOfDay = selectPartOfDay(controller.scanner);
+        DayOfTheWeek day = selectDayOfWeek(controller.scanner);
+        PartOfDay part = selectPartOfDay(controller.scanner);
 
         SiteToSend origin = chooseOrigin(controller.areaService.getSites(), controller.scanner);
         AreaToSend area = chooseArea(controller.areaService.getAreas(), controller.scanner);
 
         List<DestinationToSend> destination = chooseDestinations(area.getSites(), controller.scanner, origin);
-        Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination);
+        Response<Integer> response = controller.shipmentSchedulerService.scheduleShipment(origin, destination, day, part);
         System.out.print("Scheduling shipment: " + origin.getAddress());
         destination.forEach(d -> {
             try {
