@@ -34,7 +34,7 @@ public class AddEmpWindow extends Window {
         boolean flag = true;
         List<Role> list = new ArrayList<>();
         int counter = 0;
-        Integer weight = null;
+        Float weight = null;
 
         while(flag){
             System.out.println("Choose a role to add:");
@@ -74,7 +74,7 @@ public class AddEmpWindow extends Window {
                     System.out.println("Enter the weight for the driver:");
                     while (weight == null) {
                         try {
-                            weight = Integer.parseInt(scanner.nextLine());
+                            weight = Float.parseFloat(scanner.nextLine());
                         } catch (NumberFormatException e) {
                             System.out.println("Please enter a valid number for the weight.");
                         }

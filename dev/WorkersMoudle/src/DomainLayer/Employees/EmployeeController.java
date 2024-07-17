@@ -5,9 +5,12 @@ import DataLayer.EmployeeDataManager;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Pair;
+import ServiceLayer.Driver;
+import ServiceLayer.License;
 import ServiceLayer.Response;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class EmployeeController {
 
@@ -246,7 +249,20 @@ public class EmployeeController {
 
     }
 
-    public void setDriver(Integer id, Integer weight) throws Exception {
+    public Driver assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, Integer bId){
+        for(Employee employee : employees.values()){
+            if(employee.getBranchId()==bId && employee.getRoles().contains(Role.Driver)){
+                Driver driver = new Driver(employee.getId(),employee.getName(),new License(employee.getWeight()));
+                if(driverPred.test(driver)){
+                    return driver;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public void setDriver(Integer id, Float weight) throws Exception {
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }

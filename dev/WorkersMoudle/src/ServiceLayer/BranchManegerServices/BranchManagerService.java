@@ -23,7 +23,7 @@ public class BranchManagerService {
     }
 
     // Method to register an employee with given ID and employee data
-    public Response empRegister(String name, int bankAccountNum, double salary, int branchId, List<Role> qualification, Integer weight) {
+    public Response empRegister(String name, int bankAccountNum, double salary, int branchId, List<Role> qualification, Float weight) {
         Integer id;
         try{
             id = employeeController.addEmployee(name, qualification, bankAccountNum, salary, branchId);

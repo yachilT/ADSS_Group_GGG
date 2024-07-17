@@ -36,7 +36,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     }
 
     @Override
-    public boolean insertDTO(EmployeeDTO dto){
+    public boolean insertDTO(EmployeeDTO dto) {
         int result = -1;
         String query = "INSERT INTO " + this.tableName +
                 " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED, MANAGER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -53,9 +53,9 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setDate(7, new java.sql.Date(dto.getDateJoined().getTime()));
             statement.setInt(8, dto.getManager());
             if (dto.getWeight() != null) {
-                statement.setInt(9, dto.getWeight());
+                statement.setFloat(9, dto.getWeight());
             } else {
-                statement.setNull(9, java.sql.Types.INTEGER);
+                statement.setNull(9, java.sql.Types.REAL);
             }
 
             result = statement.executeUpdate();
@@ -70,6 +70,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return result > 0;
     }
+
 
 
     private boolean insertRoles(EmployeeDTO employeeDTO, Connection connection) {
@@ -149,9 +150,9 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setDate(6, new java.sql.Date(dto.getDateJoined().getTime()));
             statement.setInt(7, dto.getManager());
             if (dto.getWeight() != null) {
-                statement.setInt(8, dto.getWeight());
+                statement.setFloat(8, dto.getWeight());
             } else {
-                statement.setNull(8, java.sql.Types.INTEGER);
+                statement.setNull(8, java.sql.Types.REAL);
             }
             statement.setInt(9, dto.getId());
 
@@ -167,6 +168,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return result > 0;
     }
+
 
 
     private boolean updateRoles(EmployeeDTO dto, Connection connection) {
@@ -262,7 +264,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
         Date dateJoined = new Date(resultSet.getDate(DATEJOINED_COLUMN).getTime());
         int branchId = resultSet.getInt(BRANCHID_COLUMN);
         Integer manager = resultSet.getInt(MANAGER_COLUMN);
-        Integer weight = resultSet.getObject(WEIGHT_COLUMN) != null ? resultSet.getInt(WEIGHT_COLUMN) : null;
+        Float weight = resultSet.getObject(WEIGHT_COLUMN) != null ? resultSet.getFloat(WEIGHT_COLUMN) : null;
 
         List<Role> roles = fetchRoles(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences = fetchShiftPreferences(id);

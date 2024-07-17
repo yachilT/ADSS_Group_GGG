@@ -8,11 +8,12 @@ import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
+import ServiceLayer.Driver;
 import ServiceLayer.Response;
 
 
 import java.util.List;
-
+import java.util.function.Predicate;
 
 
 public class EmployeeService {
@@ -160,6 +161,15 @@ public class EmployeeService {
         try {
             return new Response(employeeController.getBranchId(id));
         } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address){
+        try{
+            Integer bId = branchController.getBranchId(address);
+            return new Response(employeeController.assignDriver(driverPred, day, part, bId));
+        }catch (Exception e){
             return new Response(e.getMessage());
         }
     }

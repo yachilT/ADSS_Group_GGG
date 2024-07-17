@@ -20,7 +20,7 @@ public class EmployeeDTO {
     private Date dateJoined;
     private int branchId;
     private Date dateLeft;
-    private Integer weight;
+    private Float weight;
 
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
@@ -53,7 +53,7 @@ public class EmployeeDTO {
         employeeDataManager.insertDTO(this);
     }
 
-    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager, Integer weight) {
+    public EmployeeDTO(Integer id, String name, String password, List<Role> roles, int bankAccountNumber, double salary, Date dateJoined, int branchId, Date dateLeft, List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences, List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork, Integer manager, Float weight) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -78,11 +78,11 @@ public class EmployeeDTO {
             throw new Exception("Failed to update");
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) throws Exception{
+    public void setWeight(Float weight) throws Exception{
         this.weight = weight;
         try {
             update();

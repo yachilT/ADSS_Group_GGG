@@ -20,7 +20,7 @@ public class Employee {
     private Date dateJoined;
     private int branchId;
     private Date dateLeft;
-    private Integer weight;
+    private Float weight;
 
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
@@ -63,6 +63,7 @@ public class Employee {
         this.dateLeft = employeeDTO.getDateLeft();
         this.shiftPreferences = employeeDTO.getShiftPreferences();
         this.shiftCantWork = employeeDTO.getShiftCantWork();
+        this.weight = employeeDTO.getWeight();
     }
 
     public boolean isNew(){
@@ -82,11 +83,11 @@ public class Employee {
         return roles.contains(Role.Driver);
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) throws Exception{
+    public void setWeight(Float weight) throws Exception{
         this.weight = weight;
         employeeDTO.setWeight(weight);
     }

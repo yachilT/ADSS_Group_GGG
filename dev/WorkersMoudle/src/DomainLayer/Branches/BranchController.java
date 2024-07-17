@@ -80,6 +80,14 @@ public class BranchController {
         branches.get(branchId).addNeededRoles(day, part, list);
     }
 
+    public Integer getBranchId(String address) throws Exception{
+        for(Branch branch : branches.values()){
+            if(branch.getAddress().equals(address))
+                return branch.getId();
+        }
+        throw new Exception("Branch not found");
+    }
+
     public void loadDatabase() {
 
         BranchDataManager branchDataManager = new BranchDataManager();
