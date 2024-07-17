@@ -25,8 +25,8 @@ public class AreaFacade {
             throw new Exception("Area not found.");
         return areaRepository.getAllAreas().stream().filter((a) -> a.getAreaName().equals(areaName)).toList().get(0);
     }
-    public void addSite(Site site, Area area) throws Exception {
-        areaRepository.addSite(site, area);
+    public void addSite(String address, String contactName, String contactNumber, String areaName) throws Exception {
+        areaRepository.addSite(address, contactName, contactNumber, areaName);
     }
     public List<Area> getAreas(){
         return areaRepository.getAllAreas().stream().toList();

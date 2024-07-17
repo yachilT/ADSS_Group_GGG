@@ -5,7 +5,6 @@ import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
 import ServiceLayer.BranchManegerServices.BranchManagerService;
-import ServiceLayer.Driver;
 import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 import UI.EmployeeUI.EmpMainWindow;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
+import presentation_layer.Controller;
 
 public class LoginWindow extends Window{
     private final String deliveryDB = "persisted_layer.db";
@@ -29,6 +29,13 @@ public class LoginWindow extends Window{
 
     public LoginWindow(ServiceManager serviceManager) {
         super(serviceManager);
+        deliveryController = new Controller(new Controller(deliveryDB,
+                (Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) -> {
+                    Response res = serviceManager.getBranchManagerService().assignDriver(driverPred, day, part, address);
+                    return res.ErrorOccured() ? null : (Driver)res.GetReturnValue();
+                },
+                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
+                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper)));
     }
 
     @Override

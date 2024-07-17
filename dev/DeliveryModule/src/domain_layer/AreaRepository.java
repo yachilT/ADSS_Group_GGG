@@ -5,6 +5,7 @@ import dataAccess_layer.SiteDAO;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,11 +35,12 @@ public class AreaRepository {
         List<Area> names = areaDAO.readAll();
         return names.stream().map(this::getArea).toList();
     }
-    public void addSite(Site site, Area area) throws Exception{
+    public void addSite(String address, String contactName, String contactNumber, String areaName) throws Exception {
         loadAll();
-        if(areas.stream().anyMatch((a) -> a.contains(site)))
-            throw new Exception("site already found in an area.");
-
+        Area area = areas.stream().filter(a -> a.getAreaName().equals(areaName)).findFirst().orElseThrow(() -> new NoSuchElementException("Area not found."));
+        Site site = new Site(address, contactName, contactNumber);
+        if (area.contains(site))
+            throw new Exception("The site is already in the area.");
         siteDAO.create(site, area.getAreaName());
         area.addSite(site);
         areas.add(area);
