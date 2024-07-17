@@ -22,6 +22,10 @@ public class SiteToSend {
         return address;
     }
 
+    public Site toSite() {
+        return new Site(address, contactName, contactNumber);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof SiteToSend other) {

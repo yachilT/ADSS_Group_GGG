@@ -23,12 +23,20 @@ public class LoginWindow extends Window{
     private int id;
 
     private Window nextWindow;
+    private Controller deliveryController;
 
     private boolean exit = false;
 
 
     public LoginWindow(ServiceManager serviceManager) {
         super(serviceManager);
+        deliveryController = new Controller(new Controller(deliveryDB,
+                (Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) -> {
+                    Response res = serviceManager.getBranchManagerService().assignDriver(driverPred, day, part, address);
+                    return res.ErrorOccured() ? null : (Driver)res.GetReturnValue();
+                },
+                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
+                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper)));
     }
 
     @Override
@@ -111,14 +119,10 @@ public class LoginWindow extends Window{
         if(!this.serviceManager.getEmployeeService().isManager(id).ErrorOccured()){
             if(!this.serviceManager.getEmployeeService().isHR(id).ErrorOccured())
                 this.nextWindow = new HRMainWindow(this.serviceManager, id);
-            else if(!this.serviceManager.getEmployeeService().isDeliveryManager(id).ErrorOccured())
-                this.nextWindow = new Controller(deliveryDB,
-                (Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) -> {
-                    Response res = serviceManager.getBranchManagerService().assignDriver(driverPred, day, part, address);
-                    return res.ErrorOccured() ? null : (Driver)res.GetReturnValue();
-                },
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper)).run();
+            else if(!this.serviceManager.getEmployeeService().isDeliveryManager(id).ErrorOccured()) {
+                deliveryController.run();
+                this.nextWindow = null; // TODO: needs to decide which window to go to after end of deliveries
+            }
             else
                 this.nextWindow = new ManagerMainWindow(this.serviceManager, id, branchId);
         }else
