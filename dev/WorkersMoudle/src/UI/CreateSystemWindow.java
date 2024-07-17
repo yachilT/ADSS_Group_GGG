@@ -54,7 +54,24 @@ public class CreateSystemWindow extends Window {
         System.out.print("Password:");
         password = scanner.nextLine();
 
-        return serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
+        Response response = serviceManager.getHRManagerService().hrRegister(name,bankAccountNum,salary, password);
+
+        System.out.println("Enter Delivery Manager details");
+        System.out.print("Name:");
+        name = scanner.nextLine();
+        System.out.print("Bank Account Number:");
+        bankAccountNum = Integer.parseInt(scanner.nextLine());
+        System.out.print("Salary:");
+        salary = Double.parseDouble(scanner.nextLine());
+        System.out.print("Password:");
+        password = scanner.nextLine();
+
+        Response response2 = serviceManager.getHRManagerService().deliveryRegister(name,bankAccountNum,salary, password);
+
+        if(response.ErrorOccured() || response2.ErrorOccured())
+            return new Response(response.GetErrorMessage() + response2.GetErrorMessage());
+
+        return new Response();
 
     }
 
