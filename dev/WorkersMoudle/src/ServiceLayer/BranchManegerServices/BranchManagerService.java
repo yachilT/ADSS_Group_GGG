@@ -7,10 +7,13 @@ import DomainLayer.Branches.Shift;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
+import ServiceLayer.Driver;
 import ServiceLayer.Response;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class BranchManagerService {
 
@@ -87,6 +90,16 @@ public class BranchManagerService {
         return new Response();
     }
 
+    public Response addNeededRoles(String address,DayOfTheWeek day,PartOfDay part,List<Role> list){
+        try {
+            int bId= branchController.findBranchByAdress(address);
+            this.branchController.addNeededRoles(bId, day, part, list);
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+        return new Response();
+    }
+
     public Response getShift(Integer branchId, Integer week,DayOfTheWeek day, PartOfDay partOfDay) {
         String shift = null;
         try {
@@ -115,4 +128,15 @@ public class BranchManagerService {
         employeeController.deleteData();
 
     }
+
+
+    public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) {
+        throw new UnsupportedOperationException();
+    } //TODO
+
+    public Response isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) {
+
+    }
 }
+
+

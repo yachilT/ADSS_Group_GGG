@@ -190,4 +190,14 @@ public class EmployeeService {
         branchController.testMode();
         return new Response();
     }
+
+    public Response isDeliveryManager(int id) {
+        try {
+            if(employeeController.isDeliveryManager(id))
+                return new Response(true);
+            return new Response("Employee is not a delivery manager");
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
 }

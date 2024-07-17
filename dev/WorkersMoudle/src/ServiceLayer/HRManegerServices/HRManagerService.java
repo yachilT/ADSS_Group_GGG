@@ -37,5 +37,17 @@ public class HRManagerService {
         }
     }
 
+    public Response deliveryRegister(String name, int bankAccountNum, double salary, String password) {
+        Integer id;
+        try {
+            id = employeeController.setDeliveryManager(name,password , bankAccountNum, salary, 0);
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+        return new Response(id);
+    }
+
+
+
 
 }

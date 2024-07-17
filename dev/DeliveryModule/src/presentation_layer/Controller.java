@@ -63,8 +63,7 @@ public class Controller {
 //        truckFacade.addTruck(0, "Toyota", 100, 1000);
 //        truckFacade.addTruck(1, "Mitsubishi", 200, 2000);
 
-        DriverFacade driverFacade = new DriverFacade(true, dbPath);
-        driverFacade.loadAll();
+
 //        driverFacade.addDriver(new Driver(0, "Rami Hen", new License(2100)));
 //        driverFacade.addDriver(new Driver(1, "Yossi Cohen", new License(1100)));
 
@@ -80,7 +79,7 @@ public class Controller {
         ShipmentHistory shipmentHistory = new ShipmentHistory(true, dbPath);
         int startingIndex = shipmentHistory.loadAll();
 
-        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,
+        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(
                 truckFacade,
                 startingIndex,
                 driverGetter,

@@ -1,6 +1,7 @@
 package domain_layer;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
+import ServiceLayer.Driver;
 import interfaces.DriverGetter;
 import interfaces.StorekeeperAssigner;
 
@@ -17,12 +18,12 @@ public class ShipmentScheduler {
     int shipmentIds;
     private List<Shipment> shipments;
     private AreaFacade areaFacade;
-    private final DriverFacade driverFacade;
+   ;
     private final TruckFacade truckFacade;
     private final DriverGetter driverGetter;
     private final StorekeeperAssigner storekeeperAssigner;
-    public ShipmentScheduler(DriverFacade driverFacade, TruckFacade truckFacade, int shipmentIds, DriverGetter driverGetter, StorekeeperAssigner storekeeperAssigner) {
-        this.driverFacade = driverFacade;
+    public ShipmentScheduler(TruckFacade truckFacade, int shipmentIds, DriverGetter driverGetter, StorekeeperAssigner storekeeperAssigner) {
+
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
         this.shipmentIds = shipmentIds;

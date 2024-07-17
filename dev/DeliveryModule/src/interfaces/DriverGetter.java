@@ -2,7 +2,7 @@ package interfaces;
 
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
-import domain_layer.Driver;
+import ServiceLayer.Driver;
 
 import java.util.function.Predicate;
 
