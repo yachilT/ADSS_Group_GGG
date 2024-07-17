@@ -3,6 +3,9 @@ package UI.HRManegerUI;
 import ServiceLayer.Response;
 import ServiceLayer.ServiceManager;
 import UI.Window;
+import domain_layer.Area;
+
+import java.util.List;
 
 public class AddBranchesWindow extends Window {
     public AddBranchesWindow(ServiceManager serviceManager) {
@@ -29,6 +32,14 @@ public class AddBranchesWindow extends Window {
         bankAccountNum = scanner.nextInt();
         System.out.println("Manager salary");
         salary = scanner.nextDouble();
+        List<Area> areas = serviceManager.getHRManagerService().getAreas();
+        System.out.println("Choose area:");
+        for (int i = 0; i < areas.size(); i++) {
+            System.out.println(i + ". " + areas.get(i).toString());
+        }
+        int areaIndex = scanner.nextInt();
+
+        serviceManager.addBranch(branchName, address, name, bankAccountNum, salary, areas.get(areaIndex));
 
         // Consume the newline character left by nextDouble()
         scanner.nextLine();
