@@ -7,6 +7,7 @@ import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import ServiceLayer.Response;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +54,13 @@ public class BranchController {
         }catch (Exception e){
             throw e;
         }
+    }
+
+    public boolean isThereADriver(Integer branchId, Date date, PartOfDay partOfDay) throws Exception{
+        if(!branches.containsKey(branchId))
+            throw new Exception("Branch not found");
+
+        return branches.get(branchId).isThereADriver(date, partOfDay);
     }
 
     public void isWeekExists(Integer branchId,Integer week) throws Exception {

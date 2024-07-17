@@ -35,7 +35,7 @@ public class EmployeeDataManagerTest {
         List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences = Arrays.asList(new Pair<>(DayOfTheWeek.Monday, PartOfDay.Morning));
         List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork = Arrays.asList(new Pair<>(DayOfTheWeek.Tuesday, PartOfDay.Evening));
 
-        testDTO = new EmployeeDTO(1, "Test Name", "password", roles, 12345, 50000, new Date(), 1, null, shiftPreferences, shiftCantWork, 2);
+        testDTO = new EmployeeDTO(1, "Test Name", "password", roles, 12345, 50000, new Date(), 1, null, shiftPreferences, shiftCantWork, 2, null);
     }
 
     @Test
