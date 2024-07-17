@@ -20,6 +20,7 @@ public class Employee {
     private Date dateJoined;
     private int branchId;
     private Date dateLeft;
+    private Integer weight;
 
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences;
     private List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork;
@@ -44,6 +45,7 @@ public class Employee {
         shiftPreferences = new ArrayList<>();
         shiftCantWork = new ArrayList<>();
         employeeDTO = new EmployeeDTO(this, manager);
+        this.weight = null;
     }
 
 
@@ -76,6 +78,19 @@ public class Employee {
     }
 
     //getters and setters
+    public boolean isDriver(){
+        return roles.contains(Role.Driver);
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) throws Exception{
+        this.weight = weight;
+        employeeDTO.setWeight(weight);
+    }
+
     public int getId() {
         return id;
     }
@@ -261,4 +276,3 @@ public class Employee {
     }
 
 }
-

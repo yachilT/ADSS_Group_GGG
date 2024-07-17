@@ -26,6 +26,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     public static final String DATEJOINED_COLUMN = "DATEJOINED";
     public static final String BRANCHID_COLUMN = "BID";
     public static final String MANAGER_COLUMN = "MANAGER";
+    public static final String WEIGHT_COLUMN = "WEIGHT";
 
     // More columns needed
     public static final int ID_COLUMN_ORDINAL = 1;
@@ -37,12 +38,8 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     @Override
     public boolean insertDTO(EmployeeDTO dto){
         int result = -1;
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        String query = "INSERT INTO " + this.tableName + " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED, MANAGER) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO " + this.tableName +
+                " (EID, BID, NAME, PASSWORD, BANKACCOUNT, SALARY, DATEJOINED, MANAGER, WEIGHT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -50,21 +47,22 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setInt(1, dto.getId());
             statement.setInt(2, dto.getBranchId());
             statement.setString(3, dto.getName());
-            if (dto.getPassword() != null) {
-                statement.setString(4, dto.getPassword());
-            } else {
-                statement.setNull(4, java.sql.Types.VARCHAR);
-            }
+            statement.setString(4, dto.getPassword() != null ? dto.getPassword() : null);
             statement.setInt(5, dto.getBankAccountNumber());
             statement.setDouble(6, dto.getSalary());
-            statement.setString(7, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
-            statement.setInt(8, dto.getManager());  // Set manager
+            statement.setDate(7, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setInt(8, dto.getManager());
+            if (dto.getWeight() != null) {
+                statement.setInt(9, dto.getWeight());
+            } else {
+                statement.setNull(9, java.sql.Types.INTEGER);
+            }
 
             result = statement.executeUpdate();
 
             if (result > 0) {
                 insertRoles(dto, connection);
-                insertPref(dto, connection); // Insert preferences and can't work times
+                insertPref(dto, connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,6 +70,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return result > 0;
     }
+
 
     private boolean insertRoles(EmployeeDTO employeeDTO, Connection connection) {
         boolean result = true;
@@ -136,37 +135,25 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     }
 
     public boolean updateDTO(EmployeeDTO dto) {
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         int result = -1;
-        String query = "UPDATE " + this.tableName + " SET " +
-                "BID = ?, " +
-                "NAME = ?, " +
-                "PASSWORD = ?, " +
-                "BANKACCOUNT = ?, " +
-                "SALARY = ?, " +
-                "DATEJOINED = ?, " +
-                "MANAGER = ? " +  // Update manager
-                "WHERE EID = ?";
+        String query = "UPDATE " + this.tableName + " SET BID = ?, NAME = ?, PASSWORD = ?, BANKACCOUNT = ?, SALARY = ?, DATEJOINED = ?, MANAGER = ?, WEIGHT = ? WHERE EID = ?";
 
         try (Connection connection = DriverManager.getConnection(this.connectionString);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, dto.getBranchId());
             statement.setString(2, dto.getName());
-            if (dto.getPassword() != null) {
-                statement.setString(3, dto.getPassword());
-            } else {
-                statement.setNull(3, java.sql.Types.VARCHAR);
-            }
+            statement.setString(3, dto.getPassword() != null ? dto.getPassword() : null);
             statement.setInt(4, dto.getBankAccountNumber());
             statement.setDouble(5, dto.getSalary());
-            statement.setString(6, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
-            statement.setInt(7, dto.getManager());  // Set manager
-            statement.setInt(8, dto.getId());
+            statement.setDate(6, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setInt(7, dto.getManager());
+            if (dto.getWeight() != null) {
+                statement.setInt(8, dto.getWeight());
+            } else {
+                statement.setNull(8, java.sql.Types.INTEGER);
+            }
+            statement.setInt(9, dto.getId());
 
             result = statement.executeUpdate();
 
@@ -180,6 +167,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
 
         return result > 0;
     }
+
 
     private boolean updateRoles(EmployeeDTO dto, Connection connection) {
         try {
@@ -265,24 +253,24 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
     }
 
     @Override
-    protected EmployeeDTO convertReaderToDTO(ResultSet reader) throws SQLException {
-        int id = reader.getInt(ID_COLUMN);
-        int branchId = reader.getInt(BRANCHID_COLUMN);
-        String name = reader.getString(NAME_COLUMN);
-        String password = reader.getString(PASSWORD_COLUMN);
-        int bankAccountNumber = reader.getInt(BANKACCOUNT_COLUMN);
-        double salary = reader.getDouble(SALARY_COLUMN);
-        Date dateJoined = DateEncryptDecrypt.decryptDate(reader.getString(DATEJOINED_COLUMN));
-        Integer manager = reader.getObject(MANAGER_COLUMN) != null ? reader.getInt(MANAGER_COLUMN) : null;  // Read manager
+    protected EmployeeDTO convertReaderToDTO(ResultSet resultSet) throws SQLException {
+        Integer id = resultSet.getInt(ID_COLUMN);
+        String name = resultSet.getString(NAME_COLUMN);
+        String password = resultSet.getString(PASSWORD_COLUMN);
+        int bankAccountNumber = resultSet.getInt(BANKACCOUNT_COLUMN);
+        double salary = resultSet.getDouble(SALARY_COLUMN);
+        Date dateJoined = new Date(resultSet.getDate(DATEJOINED_COLUMN).getTime());
+        int branchId = resultSet.getInt(BRANCHID_COLUMN);
+        Integer manager = resultSet.getInt(MANAGER_COLUMN);
+        Integer weight = resultSet.getObject(WEIGHT_COLUMN) != null ? resultSet.getInt(WEIGHT_COLUMN) : null;
 
-        // Fetch roles, shift preferences, and shift can't work times
         List<Role> roles = fetchRoles(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftPreferences = fetchShiftPreferences(id);
         List<Pair<DayOfTheWeek, PartOfDay>> shiftCantWork = fetchShiftCantWork(id);
 
-        EmployeeDTO output = new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, null, shiftPreferences, shiftCantWork, manager);
-        return output;
+        return new EmployeeDTO(id, name, password, roles, bankAccountNumber, salary, dateJoined, branchId, null, shiftPreferences, shiftCantWork, manager, weight);
     }
+
 
     private List<Role> fetchRoles(int employeeId) throws SQLException {
         List<Role> roles = new ArrayList<>();
@@ -438,7 +426,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
         }
     }
 
-        public int getNumOfRoles(Integer id) {
+    public int getNumOfRoles(Integer id) {
         String query = "SELECT COUNT(*) FROM RolesTable WHERE EID = ?";
         int result = 0;
         try {

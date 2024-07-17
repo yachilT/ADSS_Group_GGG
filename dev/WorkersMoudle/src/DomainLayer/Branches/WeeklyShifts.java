@@ -67,8 +67,8 @@ public class WeeklyShifts {
                 shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), firstDayOfWeek, BID, PartOfDay.Morning),
                         new Shift(new Pair<>(day, PartOfDay.Evening), firstDayOfWeek, 0, PartOfDay.Evening)));
             else if(shifts.get(day).getKey() == null)
-                    shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), firstDayOfWeek, BID, PartOfDay.Morning),
-                            shifts.get(day).getValue()));
+                shifts.put(day, new Pair<>(new Shift(new Pair<>(day, PartOfDay.Morning), firstDayOfWeek, BID, PartOfDay.Morning),
+                        shifts.get(day).getValue()));
             else if (shifts.get(day).getValue() == null)
                 shifts.put(day, new Pair<>(shifts.get(day).getKey(),
                         new Shift(new Pair<>(day, PartOfDay.Evening), firstDayOfWeek, BID, PartOfDay.Evening)));
@@ -96,6 +96,7 @@ public class WeeklyShifts {
         return shifts.get(day).getValue();
     }
 
+
     public String toString(DayOfTheWeek day, PartOfDay part){
         if(part == PartOfDay.Morning)
             return shifts.get(day).getKey().toString();
@@ -117,4 +118,3 @@ public class WeeklyShifts {
         return lastDayOfWeek;
     }
 }
-

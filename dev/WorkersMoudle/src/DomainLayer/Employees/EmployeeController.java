@@ -26,7 +26,7 @@ public class EmployeeController {
     }
 
     public Integer setHrManager(String hrManagerName, String hrManagerPassword, int hrManagerBankAccountNumber,
-    double hrManagerSalary, int hrManagerBranchId) throws Exception{
+                                double hrManagerSalary, int hrManagerBranchId) throws Exception{
         hrManager = new HRManager(idCounter++, hrManagerName, hrManagerPassword, new LinkedList<Role>(),
                 hrManagerBankAccountNumber, hrManagerSalary, hrManagerBranchId);
         employees.put(hrManager.getId(), hrManager);
@@ -34,7 +34,7 @@ public class EmployeeController {
     }
 
     public Integer addEmployee(String name, List<Role> roles,
-                            int bankAccountNumber, double salary, int branchId) throws Exception {
+                               int bankAccountNumber, double salary, int branchId) throws Exception {
 
         if(!branchManagers.containsKey(branchId))
             throw new Exception("Branch doesn't exist");
@@ -244,6 +244,13 @@ public class EmployeeController {
             throw new Exception("Employee can't work at this time");
         }
 
+    }
+
+    public void setDriver(Integer id, Integer weight) throws Exception {
+        if(employees.get(id) == null){
+            throw new Exception("Employee not found");
+        }
+        employees.get(id).setWeight(weight);
     }
 
     public void loadDatabase() throws Exception{
