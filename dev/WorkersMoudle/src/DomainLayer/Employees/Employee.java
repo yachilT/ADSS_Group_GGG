@@ -276,4 +276,7 @@ public class Employee {
         this.employeeDTO.testMode();
     }
 
+    public boolean isFree(Pair<DayOfTheWeek, PartOfDay> shift) {
+        return !shiftCantWork.contains(shift) && shiftPreferences.contains(shift);
+    }
 }

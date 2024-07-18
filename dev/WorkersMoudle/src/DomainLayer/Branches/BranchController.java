@@ -3,13 +3,16 @@ package DomainLayer.Branches;
 import DataLayer.BranchData.BranchDTO;
 import DataLayer.BranchData.BranchDataManager;
 import DataLayer.BranchData.ShiftsDataManager;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
+import ServiceLayer.Driver;
 import ServiceLayer.Response;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class BranchController {
 
@@ -120,5 +123,25 @@ public class BranchController {
         }
         throw new Exception("Branch not found");
     }
+
+
+    public boolean isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) throws Exception{
+        for (Branch branch : branches.values()) {
+            if (branch.getAddress().equals(address))
+                return branch.isAssigned(day, part, role);
+        }
+        throw new Exception("Branch not found");
+    }
+
+
+    public boolean assignDriver(Employee driver, DayOfTheWeek day, PartOfDay part, String address) {
+        for (Branch branch : branches.values()){
+            if(branch.getAddress().equals(address)){
+                return branch.assignDriver(day, part, driver);
+            }
+        }
+        return false;
+    }
 }
+
 

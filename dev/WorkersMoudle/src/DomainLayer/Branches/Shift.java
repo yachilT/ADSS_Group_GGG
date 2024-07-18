@@ -190,4 +190,13 @@ public class Shift {
 
     }
 
+    public boolean isAssigned(Role role) {
+        return neededRoles.contains(role);
+    }
+
+    public boolean assignDriver(Employee driver) {
+        employees.put(driver.getId(), Role.Driver);
+        shiftsDTO.addEmployee(driver.getId(), Role.Driver);
+        return employees.containsValue(Role.Driver);
+    }
 }
