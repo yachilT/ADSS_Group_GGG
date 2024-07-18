@@ -124,6 +124,7 @@ public class BranchController {
         throw new Exception("Branch not found");
     }
 
+
     public boolean isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) throws Exception{
         for (Branch branch : branches.values()) {
             if (branch.getAddress().equals(address))
@@ -142,4 +143,5 @@ public class BranchController {
         return false;
     }
 }
+
 

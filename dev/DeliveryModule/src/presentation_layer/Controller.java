@@ -79,7 +79,7 @@ public class Controller {
         ShipmentHistory shipmentHistory = new ShipmentHistory(true, dbPath);
         int startingIndex = shipmentHistory.loadAll();
 
-        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(driverFacade,
+        ShipmentScheduler shipmentScheduler = new ShipmentScheduler(
                 truckFacade,
                 startingIndex,
                 driverGetter,

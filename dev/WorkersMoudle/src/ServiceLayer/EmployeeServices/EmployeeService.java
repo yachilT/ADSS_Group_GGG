@@ -168,7 +168,9 @@ public class EmployeeService {
     public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address){
         try{
             Integer bId = branchController.getBranchId(address);
-            return new Response(employeeController.assignDriver(driverPred, day, part, bId));
+            Driver driver = employeeController.assignDriver(driverPred, day, part, bId);
+            branchController.addEmployeeToShift(driver.getId(),bId,Role.Driver,day,part);
+            return new Response();
         }catch (Exception e){
             return new Response(e.getMessage());
         }

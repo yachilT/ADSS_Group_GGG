@@ -138,6 +138,7 @@ public class BranchManagerService {
             if(driver.isEmpty())
                 throw new Exception("No suitable driver found");
 
+
             return new Response(branchController.assignDriver(driver.getFirst(), day, part, address));
         }catch (Exception e){
             return new Response(e.getMessage());

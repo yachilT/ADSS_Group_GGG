@@ -22,7 +22,7 @@ public class ShipmentScheduler {
     private final TruckFacade truckFacade;
     private final DriverGetter driverGetter;
     private final StorekeeperAssigner storekeeperAssigner;
-    public ShipmentScheduler(  TruckFacade truckFacade, int shipmentIds, DriverGetter driverGetter, StorekeeperAssigner storekeeperAssigner) {
+    public ShipmentScheduler(TruckFacade truckFacade, int shipmentIds, DriverGetter driverGetter, StorekeeperAssigner storekeeperAssigner) {
 
         this.truckFacade = truckFacade;
         this.shipments = new ArrayList<>();
