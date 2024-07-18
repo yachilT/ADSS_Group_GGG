@@ -1,6 +1,7 @@
 package service_layer;
 
-import domain_layer.Driver;
+
+import ServiceLayer.Driver;
 
 public class DriverToSend {
     private final String driverName;

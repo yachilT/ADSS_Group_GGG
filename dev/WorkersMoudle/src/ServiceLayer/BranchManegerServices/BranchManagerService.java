@@ -135,7 +135,8 @@ public class BranchManagerService {
     } //TODO
 
     public Response isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) {
-
+        throw new UnsupportedOperationException();
+        //TODO
     }
 }
 
