@@ -18,7 +18,7 @@ public class ShipmentScheduler {
     int shipmentIds;
     private List<Shipment> shipments;
     private AreaFacade areaFacade;
-   ;
+
     private final TruckFacade truckFacade;
     private final DriverGetter driverGetter;
     private final StorekeeperAssigner storekeeperAssigner;
