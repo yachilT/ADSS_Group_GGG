@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="release">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/release/ jar02.v_2024a.jar!/" />
+      <root url="jar://$PROJECT_DIR$/release/adss2024_v01.jar!/" />
+      <root url="jar://$PROJECT_DIR$/release/adss2024_v02.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
