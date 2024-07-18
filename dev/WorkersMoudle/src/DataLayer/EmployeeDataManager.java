@@ -50,7 +50,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setString(4, dto.getPassword() != null ? dto.getPassword() : null);
             statement.setInt(5, dto.getBankAccountNumber());
             statement.setDouble(6, dto.getSalary());
-            statement.setDate(7, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setString(7, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
             statement.setInt(8, dto.getManager());
             if (dto.getWeight() != null) {
                 statement.setFloat(9, dto.getWeight());
@@ -147,7 +147,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
             statement.setString(3, dto.getPassword() != null ? dto.getPassword() : null);
             statement.setInt(4, dto.getBankAccountNumber());
             statement.setDouble(5, dto.getSalary());
-            statement.setDate(6, new java.sql.Date(dto.getDateJoined().getTime()));
+            statement.setString(6, DateEncryptDecrypt.encryptDate(dto.getDateJoined()));
             statement.setInt(7, dto.getManager());
             if (dto.getWeight() != null) {
                 statement.setFloat(8, dto.getWeight());
@@ -261,7 +261,7 @@ public class EmployeeDataManager extends AbstractDataManager<EmployeeDTO> {
         String password = resultSet.getString(PASSWORD_COLUMN);
         int bankAccountNumber = resultSet.getInt(BANKACCOUNT_COLUMN);
         double salary = resultSet.getDouble(SALARY_COLUMN);
-        Date dateJoined = new Date(resultSet.getDate(DATEJOINED_COLUMN).getTime());
+        Date dateJoined = DateEncryptDecrypt.decryptDate(resultSet.getString(DATEJOINED_COLUMN));
         int branchId = resultSet.getInt(BRANCHID_COLUMN);
         Integer manager = resultSet.getInt(MANAGER_COLUMN);
         Float weight = resultSet.getObject(WEIGHT_COLUMN) != null ? resultSet.getFloat(WEIGHT_COLUMN) : null;

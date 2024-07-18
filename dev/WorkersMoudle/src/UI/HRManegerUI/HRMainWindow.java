@@ -2,13 +2,16 @@ package UI.HRManegerUI;
 
 import ServiceLayer.ServiceManager;
 import UI.Window;
+import presentation_layer.Controller;
 
 public class HRMainWindow extends Window {
     private Integer id;
     private Window nextWindow;
-    public HRMainWindow(ServiceManager serviceManager, Integer id) {
+    private Controller deliveryController;
+    public HRMainWindow(ServiceManager serviceManager, Integer id, Controller deliveryController) {
         super(serviceManager);
         this.id = id;
+        this.deliveryController = deliveryController;
     }
 
     @Override
@@ -17,7 +20,7 @@ public class HRMainWindow extends Window {
         while (exit) {
             chooseOptions();
             switch (scanner.nextLine()) {
-                case "1" -> new AddBranchesWindow(serviceManager).run();
+                case "1" -> new AddBranchesWindow(serviceManager, deliveryController).run();
                 case "2" -> {
                     serviceManager.getEmployeeService().logout(id);
                     exit = false;

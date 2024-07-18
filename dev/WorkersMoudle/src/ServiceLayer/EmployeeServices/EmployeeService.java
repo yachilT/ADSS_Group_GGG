@@ -170,7 +170,7 @@ public class EmployeeService {
             Integer bId = branchController.getBranchId(address);
             Driver driver = employeeController.assignDriver(driverPred, day, part, bId);
             branchController.addEmployeeToShift(driver.getId(),bId,Role.Driver,day,part);
-            return new Response();
+            return new Response(driver);
         }catch (Exception e){
             return new Response(e.getMessage());
         }

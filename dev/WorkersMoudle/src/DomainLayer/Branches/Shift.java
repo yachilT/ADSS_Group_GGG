@@ -190,4 +190,7 @@ public class Shift {
 
     }
 
+    public boolean isRoleInShift(Role role) {
+        return employees.containsValue(role);
+    }
 }

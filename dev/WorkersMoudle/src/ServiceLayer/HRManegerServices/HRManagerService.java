@@ -19,9 +19,11 @@ public class HRManagerService {
         this.branchController = branchController;
     }
     public Response createBranch(String branchName, String address, String name, int bankAccountNum, double salary) {
-        Integer id;
+        Integer id; //TODO
+
         try {
             id = employeeController.addBranchManager(name,bankAccountNum,salary,branchController.addBranch(branchName, address));
+
         }catch (Exception e){
             return new Response(e.getMessage());
         }

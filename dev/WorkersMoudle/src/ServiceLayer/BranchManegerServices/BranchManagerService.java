@@ -4,6 +4,7 @@ import DomainLayer.Branches.BranchController;
 import DomainLayer.Branches.DayOfTheWeek;
 import DomainLayer.Branches.PartOfDay;
 import DomainLayer.Branches.Shift;
+import DomainLayer.Employees.Employee;
 import DomainLayer.Employees.EmployeeController;
 import DomainLayer.Employees.Role;
 import DomainLayer.Pair;
@@ -130,14 +131,31 @@ public class BranchManagerService {
     }
 
 
-    public Response assignDriver(Predicate<Driver> driverPred, DayOfTheWeek day, PartOfDay part, String address) {
-        throw new UnsupportedOperationException();
-    } //TODO
+
 
     public Response isAssigned(String address, DayOfTheWeek day, PartOfDay part, Role role) {
-        throw new UnsupportedOperationException();
-        //TODO
+        try {
+            int bId = branchController.findBranchByAdress(address);
+            return new Response(branchController.isAssigned(bId, day, part, role));
+        } catch (Exception e) {
+            if (e.getMessage().equals("Branch not found")){
+                return new Response(true); // branch is a site not in the employee system
+            }
+            return new Response(e.getMessage());
+        }
     }
+
+    public Response assignStoreKeeper(String address, DayOfTheWeek day, PartOfDay part) {
+        try{
+            Integer bId = branchController.getBranchId(address);
+            Employee employee = employeeController.assignStoreKeeper(day, part, bId);
+            branchController.addEmployeeToShift(employee.getId(),bId,Role.StoreKeeper,day,part);
+            return new Response();
+        }catch (Exception e){
+            return new Response(e.getMessage());
+        }
+    }
+
 }
 
 

@@ -120,5 +120,9 @@ public class BranchController {
         }
         throw new Exception("Branch not found");
     }
+
+    public Boolean isAssigned(int bId, DayOfTheWeek day, PartOfDay part, Role role) {
+        return branches.get(bId).isAssigned(day, part, role);
+    }
 }
 

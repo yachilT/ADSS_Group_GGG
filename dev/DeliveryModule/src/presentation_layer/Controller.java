@@ -99,5 +99,9 @@ public class Controller {
         System.out.println("End system, goodbye!");
     }
 
+    public AreaService getAreaService() {
+        return areaService;
+    }
+
 
 }

@@ -85,21 +85,21 @@ public class EmployeeController {
         if(!employees.get(id).checkPassword(password)) {
             throw new Exception("Wrong password");
         }
-        if (employeesLoggedInIds.contains(id)){
-            throw new Exception("Employee is already logged in");
-        }
-        employeesLoggedInIds.add(id);
+//        if (employeesLoggedInIds.contains(id)){
+//            throw new Exception("Employee is already logged in");
+//        }
+//        employeesLoggedInIds.add(id);
     }
 
     public void logout(Integer id) throws Exception {
         if(employees.get(id) == null){
             throw new Exception("Employee not found");
         }
-        if (!employeesLoggedInIds.contains(id)){
-            throw new Exception("Employee is not logged in");
-        }
-
-        employeesLoggedInIds.remove(id);
+//        if (!employeesLoggedInIds.contains(id)){
+//            throw new Exception("Employee is not logged in");
+//        }
+//
+//        employeesLoggedInIds.remove(id);
     }
 
     public List<Integer> getBranchEmployeesIDs(int branchId) {
@@ -304,7 +304,7 @@ public class EmployeeController {
                 branchManagers.put(employee.getBranchId(), new BranchManager(employee));
                 this.employees.put(employee.getId(), new BranchManager(employee));
             }
-            else if(employee.getManager().equals(DeliveryManager.DELIVERY_MANAGER_ID)) {
+            else if(employee.getManager().equals(DeliveryManager.MANGER_OF_DELIVERY)) {
                 deliveryManager = new DeliveryManager(employee);
                 this.employees.put(deliveryManager.getId(), deliveryManager);
             }
@@ -329,5 +329,14 @@ public class EmployeeController {
     public void deleteData() {
         EmployeeDataManager employeeDataManager = new EmployeeDataManager();
         employeeDataManager.deleteData();
+    }
+
+    public Employee assignStoreKeeper(DayOfTheWeek day, PartOfDay part, Integer bId) {
+        for(Employee employee : employees.values()){
+            if(employee.getBranchId()==bId && employee.getRoles().contains(Role.StoreKeeper)){
+                return employee;
+            }
+        }
+        return null;
     }
 }

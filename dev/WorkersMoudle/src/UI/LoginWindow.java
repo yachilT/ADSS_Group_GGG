@@ -36,7 +36,7 @@ public class LoginWindow extends Window{
                     Response res = serviceManager.getEmployeeService().assignDriver(driverPred, day, part, address);
                     return res.ErrorOccured() ? null : (Driver) res.GetReturnValue();
                 },
-                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().addNeededRoles(address, day, part, List.of(Role.StoreKeeper)),
+                (String address, DayOfTheWeek day, PartOfDay part) -> serviceManager.getBranchManagerService().assignStoreKeeper(address, day, part),
                 (String address, DayOfTheWeek day, PartOfDay part) -> (Boolean) serviceManager.getBranchManagerService().isAssigned(address, day, part, Role.StoreKeeper).ReturnValue);
     }
 
@@ -119,7 +119,7 @@ public class LoginWindow extends Window{
         System.out.println("Forwarding to next window");
         if(!this.serviceManager.getEmployeeService().isManager(id).ErrorOccured()){
             if(!this.serviceManager.getEmployeeService().isHR(id).ErrorOccured())
-                this.nextWindow = new HRMainWindow(this.serviceManager, id);
+                this.nextWindow = new HRMainWindow(this.serviceManager, id, deliveryController);
             else if(!this.serviceManager.getEmployeeService().isDeliveryManager(id).ErrorOccured()) {
                 deliveryController.run();
                 this.nextWindow = this;

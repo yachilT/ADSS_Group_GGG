@@ -289,4 +289,8 @@ public class Branch {
 
         return groupedShifts;
     }
+
+    public boolean isAssigned(DayOfTheWeek day, PartOfDay part, Role role) {
+        return upcomingweeks.getFirst().getShift(day, part).isRoleInShift(role);
+    }
 }
